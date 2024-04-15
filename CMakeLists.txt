@@ -3,4 +3,6 @@ project(CyLethouleCompany C)
 
 set(CMAKE_C_STANDARD 11)
 
-add_executable(CyLethouleCompany main.c)
+add_executable(CyLethouleCompany src/main.c
+        include/world.h
+)
