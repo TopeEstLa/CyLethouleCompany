@@ -8,28 +8,31 @@
 
 
 int main() {
-    Game_World *world = create_world(1234);
+    Game_World world = create_world(1234);
 
+    Room room = create_room(5, 5, 5, 5);
+    //append_room(&world, room);
 
-    world->chunk[0][0].type = WALL;
-    world->chunk[8][9].type = WALL;
-    world->chunk[9][9].type = WALL;
+    for (int i = 0; i < 10; ++i) {
+        printf("Appending world\n");
+        append_world(&world, 10, 10);
 
-    print_all_map(world);
+        printf("width: %d\n", world.width);
+        printf("height: %d\n", world.height);
+        printf("world->chunk %p\n", world.chunk);
 
-    append_world(world, 1, 1);
-
-    for (int i = 0; i < 50; ++i) {
-        printf("\n");
+        //print_all_map(&world);
     }
-    print_all_map(world);
 
+    print_all_map(&world);
+
+    /**
     prepend_world(world, 1, 1);
 
     for (int i = 0; i < 50; ++i) {
         printf("\n");
     }
-    print_all_map(world);
+    print_all_map(world); */
 
 
     return 0;

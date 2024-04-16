@@ -19,8 +19,7 @@ typedef struct chunk {
  * Struct representing a room.
  */
 typedef struct room {
-    int width;
-    int height;
+    int width, height, x, y;
 } Room;
 
 /**
@@ -50,7 +49,7 @@ typedef struct game_world {
  * @param seed The seed to use for the random number generator.
  * @return A pointer to the newly created game world.
  */
-Game_World* create_world(int seed);
+Game_World create_world(int seed);
 
 /**
  * Add new chunks to the world. (append to the right and the bottom)
@@ -68,16 +67,20 @@ void append_world(Game_World* world, int width_to_add, int height_to_add);
  */
 void prepend_world(Game_World* world, int width_to_add, int height_to_add);
 
-void append_room(Game_World* world, Room* room, int x, int y);
+int can_append_room(Game_World* world, Room* room);
+
+int append_room(Game_World* world, Room room);
 
 /**
  * Create a new room with the given width and height.
  *
  * @param width The width of the room.
- * @param height The height of the room.
- * @return A pointer to the newly created room.
+ * @param height The height of the room.                Example:   x = 0, y = 0 width = 3, height = 3
+ * @param x the start x of the room.                        WALL WALL WALL  The room will be created in the world like this:
+ * @param y the start y of the room.                        WALL EMPTY WALL
+ * @return A pointer to the newly created room.             WALL DOOR WALL
  */
-Room* create_room(int width, int height);
+Room create_room(int width, int height, int x, int y);
 
 
 #endif //WORLD_H
