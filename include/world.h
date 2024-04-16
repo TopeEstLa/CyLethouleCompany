@@ -49,7 +49,7 @@ typedef struct game_world {
  * @param seed The seed to use for the random number generator.
  * @return A pointer to the newly created game world.
  */
-Game_World create_world(int seed);
+Game_World* create_world(int seed);
 
 /**
  * Add new chunks to the world. (append to the right and the bottom)
@@ -67,8 +67,14 @@ void append_world(Game_World* world, int width_to_add, int height_to_add);
  */
 void prepend_world(Game_World* world, int width_to_add, int height_to_add);
 
-int can_append_room(Game_World* world, Room* room);
+int can_append_room(Game_World* world, Room room);
 
+/**
+ * Append a room to the world.
+ * @param world The world to append the room to.
+ * @param room The room to append.
+ * @return 1 if error 0 if ok.
+ */
 int append_room(Game_World* world, Room room);
 
 /**
