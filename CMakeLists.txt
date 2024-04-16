@@ -10,4 +10,6 @@ include_directories(
 add_executable(CyLethouleCompany src/main.c
         include/world.h
         src/world.c
+        include/terminal_display.h
+        src/terminal_display.c
 )

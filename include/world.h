@@ -5,14 +5,15 @@
 #define WORLD_HEIGHT 10
 
 typedef enum chunk_type {
+    VOID,
     EMPTY,
     DOOR,
     WALL
 } Chunk_Type;
 
-typedef struct room_chunk { //TODO: View if Room_Chunk is necessary because it just contains the room chunk type
+typedef struct chunk {
     Chunk_Type type;
-} Room_Chunk;
+} Chunk;
 
 /**
  * Struct representing a room.
@@ -20,20 +21,28 @@ typedef struct room_chunk { //TODO: View if Room_Chunk is necessary because it j
 typedef struct room {
     int width;
     int height;
-    Room_Chunk** chunks; // 2D array of Room_Chunks[width][height]
 } Room;
 
 /**
  * Struct representing the game world.
+ * @param seed The seed used to generate the world.
+ * @param width The current width of the world.
+ * @param height The current height of the world.
+ * @param chunk A 2D array of chunks representing the world (in terminal 1 chunk = 1 char | in SquidEngine 1 chunk = 4 pixel).
  */
 typedef struct game_world {
     int seed;
-    Room*** rooms; // 2D array of Rooms[width][height] example:
-    // <-     width    ->  ^
-    // [0][0][1][0][2][0]   |
-    // [0][1][1][1][2][1]   height
-    // [0][2][1][2][2][2]   |
-    // [0][3][1][3][2][3]   v
+    int width;
+    int height;
+    Chunk** chunk; // 2D array of Chunk[width][height] example:
+    // <-         width       ->    ^
+    // [ [0, [0, [1, [0, [2, [0, ]  |
+    //    0,  1,  1,  1,  2,  1,   height
+    //    0,  2,  1,  2,  2,  2,    |
+    //    0], 3], 1], 3], 2], 3],   v
+    Room* rooms;
+    int room_capacity;
+    int room_count;
 } Game_World;
 
 /**
@@ -44,11 +53,22 @@ typedef struct game_world {
 Game_World* create_world(int seed);
 
 /**
- * Generate a new room.
- * @param seed The seed to use for the random number generator.
- * @return A pointer to the newly created room.
+ * Add new chunks to the world. (append to the right and the bottom)
+ * @param world The world to append to.
+ * @param width_to_add The number of chunks to add to the width.
+ * @param height_to_add  The number of chunks to add to the height.
  */
-Room* generate_room(int seed);
+void append_world(Game_World* world, int width_to_add, int height_to_add);
+
+/**
+ * Add new chunks to the world. (append to the left and the top)
+ * @param world The world to prepend to.
+ * @param width_to_add The number of chunks to add to the width.
+ * @param height_to_add The number of chunks to add to the height.
+ */
+void prepend_world(Game_World* world, int width_to_add, int height_to_add);
+
+void append_room(Game_World* world, Room* room, int x, int y);
 
 /**
  * Create a new room with the given width and height.
