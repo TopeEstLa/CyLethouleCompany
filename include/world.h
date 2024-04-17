@@ -1,6 +1,8 @@
 #ifndef WORLD_H
 #define WORLD_H
 
+#include <math.h>
+
 #define DEFAULT_WORLD_WIDTH 10
 #define DEFAULT_WORLD_HEIGHT 10
 
@@ -15,15 +17,18 @@ typedef struct chunk {
     Chunk_Type type;
 } Chunk;
 
+
 /**
  * Struct representing a room.
  * @param width The width of the room.
  * @param height The height of the room.
  * @param x The x position of the room.
  * @param y The y position of the room.
+ * @param cuboid The cuboid representing the room.
  */
 typedef struct room {
     int width, height, x, y;
+    Cuboid cuboid;
 } Room;
 
 /**

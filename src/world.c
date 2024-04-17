@@ -1,15 +1,17 @@
-#include <world.h>
 #include <stdlib.h>
 #include <stdio.h>
 
-Game_World* create_world(int seed) {
-    Game_World* world = malloc(sizeof(Game_World));
+#include <world.h>
+#include <math.h>
+
+Game_World *create_world(int seed) {
+    Game_World *world = malloc(sizeof(Game_World));
     world->seed = seed;
 
     world->width = DEFAULT_WORLD_WIDTH;
     world->height = DEFAULT_WORLD_HEIGHT;
 
-    world->chunk = malloc(sizeof(Chunk*) * DEFAULT_WORLD_WIDTH);
+    world->chunk = malloc(sizeof(Chunk *) * DEFAULT_WORLD_WIDTH);
     if (world->chunk == NULL) {
         return world;
     }
@@ -26,7 +28,7 @@ Game_World* create_world(int seed) {
         }
     }
 
-    for (int i = 0; i < DEFAULT_WORLD_WIDTH; i++) { //void world
+    for (int i = 0; i < DEFAULT_WORLD_WIDTH; i++) {
         for (int j = 0; j < DEFAULT_WORLD_HEIGHT; j++) {
             world->chunk[i][j].type = VOID;
         }
@@ -49,7 +51,7 @@ Game_World* create_world(int seed) {
 }
 
 
-void append_world(Game_World* world, int width_to_add, int height_to_add) {
+void append_world(Game_World *world, int width_to_add, int height_to_add) {
     if (world == NULL || world->chunk == NULL || width_to_add <= 0 || height_to_add <= 0) {
         return;
     }
@@ -57,14 +59,14 @@ void append_world(Game_World* world, int width_to_add, int height_to_add) {
     int new_width = world->width + width_to_add;
     int new_height = world->height + height_to_add;
 
-    Chunk** new_chunk = (Chunk**) realloc(world->chunk, sizeof(Chunk*) * new_width);
+    Chunk **new_chunk = (Chunk **) realloc(world->chunk, sizeof(Chunk *) * new_width);
     if (new_chunk == NULL) {
         printf("Failed to allocate memory for new chunk\n");
         return;
     }
 
     for (int i = 0; i < world->width; i++) {
-        Chunk* new_sub_chunk = realloc(new_chunk[i], sizeof(Chunk) * new_height);
+        Chunk *new_sub_chunk = realloc(new_chunk[i], sizeof(Chunk) * new_height);
         if (new_sub_chunk == NULL) {
             printf("Failed to allocate memory for new sub chunk\n");
             for (int j = 0; j < i; j++) {
@@ -99,7 +101,7 @@ void append_world(Game_World* world, int width_to_add, int height_to_add) {
     world->chunk = new_chunk;
 }
 
-void prepend_world(Game_World* world, int width_to_add, int height_to_add) {
+void prepend_world(Game_World *world, int width_to_add, int height_to_add) {
     if (world == NULL || world->chunk == NULL || width_to_add <= 0 || height_to_add <= 0) {
         return;
     }
@@ -107,7 +109,7 @@ void prepend_world(Game_World* world, int width_to_add, int height_to_add) {
     int new_width = world->width + width_to_add;
     int new_height = world->height + height_to_add;
 
-    Chunk** new_chunk = (Chunk**) malloc(sizeof(Chunk*) * new_width);
+    Chunk **new_chunk = (Chunk **) malloc(sizeof(Chunk *) * new_width);
     if (new_chunk == NULL) {
         printf("Failed to allocate memory for new chunk\n");
         return;
@@ -150,11 +152,20 @@ void prepend_world(Game_World* world, int width_to_add, int height_to_add) {
     world->chunk = new_chunk;
 }
 
-int can_append_room(Game_World* world, Room room) {
-    for (int i = 0; i < world->width; ++i) {
-        for (int j = 0; j < world->height; ++j) {
-            if (world->chunk[i][j].type == EMPTY) {
-                if (i >= room.x && i < room.x + room.width && j >= room.y && j < room.y + room.height) {
+int can_append_room(Game_World *world, Room room) {
+    if (world == NULL) {
+        return 1;
+    }
+
+    if (room.x < 0 || room.y < 0 || room.width <= 0 || room.height <= 0) {
+        return 1;
+    }
+
+    for (int i = room.x; i < room.x + room.width; i++) {
+        for (int j = room.y; j < room.y + room.height; j++) {
+            for (int k = 0; k < world->room_count; k++) {
+                Room current_room = world->rooms[k];
+                if (in_cuboid(current_room.cuboid, i, j)) {
                     return 1;
                 }
             }
@@ -164,18 +175,14 @@ int can_append_room(Game_World* world, Room room) {
     return 0;
 }
 
-int append_room(Game_World* world, Room room) {
+int append_room(Game_World *world, Room room) {
     if (world == NULL) {
-        return 1;
-    }
-
-    if (can_append_room(world, room)) {
         return 1;
     }
 
     if (world->room_count >= world->room_capacity) {
         world->room_capacity *= 2;
-        Room* new_rooms = realloc(world->rooms, sizeof(Room) * world->room_capacity);
+        Room *new_rooms = realloc(world->rooms, sizeof(Room) * world->room_capacity);
         if (!new_rooms) {
             return 1;
         }
@@ -187,6 +194,10 @@ int append_room(Game_World* world, Room room) {
     int height_to_add = room.y + room.height; //I think it to much to add
     if (width_to_add >= world->width || height_to_add >= world->height) {
         append_world(world, width_to_add, height_to_add);
+    }
+
+    if (can_append_room(world, room)) {
+        return 1;
     }
 
     //Set chunks to room
@@ -220,6 +231,10 @@ Room create_room(int width, int height, int x, int y) {
     room.height = height;
     room.x = x;
     room.y = y;
+
+    Cuboid cuboid = {x, y, x + width, y + height};
+
+    room.cuboid = cuboid;
 
     return room;
 }
