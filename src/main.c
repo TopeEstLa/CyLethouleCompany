@@ -18,6 +18,8 @@ int main() {
     Room room2 = create_room(5, 5, 9, 5);
     printf("%d\n", append_room(world, room2));
 
+    print_all_map(world);
+
     Room room3 = create_room(5, 5, 15, 5);
     printf("%d\n", append_room(world, room3));
 

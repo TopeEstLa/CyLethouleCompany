@@ -161,8 +161,11 @@ int can_append_room(Game_World *world, Room room) {
         return 1;
     }
 
-    for (int i = room.x; i < room.x + room.width; i++) {
-        for (int j = room.y; j < room.y + room.height; j++) {
+    int width_to_check = room.x + room.width >= world->width ? world->width : room.x + room.width;
+    int height_to_check = room.y + room.height >= world->height ? world->height : room.y + room.height;
+
+    for (int i = room.x; i < width_to_check; i++) {
+        for (int j = room.y; j < height_to_check; j++) {
             for (int k = 0; k < world->room_count; k++) {
                 Room current_room = world->rooms[k];
                 if (in_cuboid(current_room.cuboid, i, j)) {
@@ -180,6 +183,10 @@ int append_room(Game_World *world, Room room) {
         return 1;
     }
 
+    if (can_append_room(world, room)) {
+        return 1;
+    }
+
     if (world->room_count >= world->room_capacity) {
         world->room_capacity *= 2;
         Room *new_rooms = realloc(world->rooms, sizeof(Room) * world->room_capacity);
@@ -194,10 +201,6 @@ int append_room(Game_World *world, Room room) {
     int height_to_add = room.y + room.height; //I think it to much to add
     if (width_to_add >= world->width || height_to_add >= world->height) {
         append_world(world, width_to_add, height_to_add);
-    }
-
-    if (can_append_room(world, room)) {
-        return 1;
     }
 
     //Set chunks to room
