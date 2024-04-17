@@ -1,8 +1,8 @@
 #ifndef WORLD_H
 #define WORLD_H
 
-#define WORLD_WIDTH 10
-#define WORLD_HEIGHT 10
+#define DEFAULT_WORLD_WIDTH 10
+#define DEFAULT_WORLD_HEIGHT 10
 
 typedef enum chunk_type {
     VOID,
@@ -17,6 +17,10 @@ typedef struct chunk {
 
 /**
  * Struct representing a room.
+ * @param width The width of the room.
+ * @param height The height of the room.
+ * @param x The x position of the room.
+ * @param y The y position of the room.
  */
 typedef struct room {
     int width, height, x, y;
@@ -28,6 +32,9 @@ typedef struct room {
  * @param width The current width of the world.
  * @param height The current height of the world.
  * @param chunk A 2D array of chunks representing the world (in terminal 1 chunk = 1 char | in SquidEngine 1 chunk = 4 pixel).
+ * @param rooms An ArrayList like of rooms in the world.
+ * @param room_capacity The current capacity of the rooms array.
+ * @param room_count The current number of rooms in the world.
  */
 typedef struct game_world {
     int seed;

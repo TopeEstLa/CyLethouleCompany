@@ -6,16 +6,16 @@ Game_World* create_world(int seed) {
     Game_World* world = malloc(sizeof(Game_World));
     world->seed = seed;
 
-    world->width = WORLD_WIDTH;
-    world->height = WORLD_HEIGHT;
+    world->width = DEFAULT_WORLD_WIDTH;
+    world->height = DEFAULT_WORLD_HEIGHT;
 
-    world->chunk = malloc(sizeof(Chunk*) * WORLD_WIDTH);
+    world->chunk = malloc(sizeof(Chunk*) * DEFAULT_WORLD_WIDTH);
     if (world->chunk == NULL) {
         return world;
     }
 
-    for (int i = 0; i < WORLD_WIDTH; i++) {
-        world->chunk[i] = calloc(WORLD_HEIGHT, sizeof(Chunk));
+    for (int i = 0; i < DEFAULT_WORLD_WIDTH; i++) {
+        world->chunk[i] = calloc(DEFAULT_WORLD_HEIGHT, sizeof(Chunk));
         if (world->chunk[i] == NULL) {
             for (int j = 0; j < i; j++) {
                 free(world->chunk[j]);
@@ -26,15 +26,15 @@ Game_World* create_world(int seed) {
         }
     }
 
-    for (int i = 0; i < WORLD_WIDTH; i++) { //void world
-        for (int j = 0; j < WORLD_HEIGHT; j++) {
+    for (int i = 0; i < DEFAULT_WORLD_WIDTH; i++) { //void world
+        for (int j = 0; j < DEFAULT_WORLD_HEIGHT; j++) {
             world->chunk[i][j].type = VOID;
         }
     }
 
     world->rooms = calloc(10, sizeof(Room));
     if (world->rooms == NULL) {
-        for (int i = 0; i < WORLD_WIDTH; i++) {
+        for (int i = 0; i < DEFAULT_WORLD_WIDTH; i++) {
             free(world->chunk[i]);
         }
         free(world->chunk);
