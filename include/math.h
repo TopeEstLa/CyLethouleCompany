@@ -14,6 +14,15 @@ typedef struct cuboid {
 } Cuboid;
 
 /**
+ * Struct representing a pair of integers.
+ * @param x The x value of the pair.
+ * @param y The y value of the pair.
+ */
+typedef struct pair {
+    int x, y;
+} Pair;
+
+/**
  * Check if a point is in a cuboid.
  * @param cuboid The cuboid to check.
  * @param x The x position of the point.

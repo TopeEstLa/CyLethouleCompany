@@ -4,7 +4,7 @@
 #include <world.h>
 #include <math.h>
 
-Game_World *create_world(int seed) {
+Game_World* create_world(int seed) {
     Game_World *world = malloc(sizeof(Game_World));
     world->seed = seed;
 

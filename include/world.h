@@ -25,10 +25,12 @@ typedef struct chunk {
  * @param x The x position of the room.
  * @param y The y position of the room.
  * @param cuboid The cuboid representing the room.
+ * @param doors An array of pairs representing the doors locations.
  */
 typedef struct room {
     int width, height, x, y;
     Cuboid cuboid;
+    Pair doors[4]; //Max 4 door by room (N, E, S, W)
 } Room;
 
 /**
@@ -79,6 +81,12 @@ void append_world(Game_World* world, int width_to_add, int height_to_add);
  */
 void prepend_world(Game_World* world, int width_to_add, int height_to_add);
 
+/**
+ * Check if a room can be appended to the world (not crossing another room).
+ * @param world The world to check.
+ * @param room The room to check.
+ * @return 1 if the room can be appended, 0 otherwise.
+ */
 int can_append_room(Game_World* world, Room room);
 
 /**
