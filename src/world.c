@@ -109,7 +109,7 @@ void prepend_world(Game_World *world, int width_to_add, int height_to_add) {
     int new_width = world->width + width_to_add;
     int new_height = world->height + height_to_add;
 
-    Chunk **new_chunk = (Chunk **) malloc(sizeof(Chunk *) * new_width);
+    Chunk** new_chunk = (Chunk **) malloc(sizeof(Chunk *) * new_width);
     if (new_chunk == NULL) {
         printf("Failed to allocate memory for new chunk\n");
         return;
@@ -134,6 +134,27 @@ void prepend_world(Game_World *world, int width_to_add, int height_to_add) {
             Chunk chunk = world->chunk[i][j];
             new_chunk[new_x_index][new_y_index] = chunk;
         }
+    }
+
+    for (int i = 0; i < world->room_count; i++) {
+        Room room = world->rooms[i];
+        room.x += width_to_add;
+        room.y += height_to_add;
+        world->rooms[i] = room;
+    }
+
+    for (int i = 0; i < world->room_count; i++) {
+        Room room = world->rooms[i];
+        for (int j = 0; j < 4; j++) {
+            Pair door = room.doors[j];
+            if (door.x == -1 && door.y == -1) {
+                continue;
+            }
+            door.x += width_to_add;
+            door.y += height_to_add;
+            room.doors[j] = door;
+        }
+        world->rooms[i] = room;
     }
 
     for (int i = 0; i < width_to_add; i++) {
