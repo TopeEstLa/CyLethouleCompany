@@ -31,4 +31,14 @@ typedef struct pair {
  */
 int in_cuboid(Cuboid cuboid, int x, int y);
 
+/**
+ * Generate a random integer between min and max.
+ * @param seed
+ * @param min
+ * @param max
+ * @return A random integer between min and max.
+ */
+int random_int(int seed, int min, int max);
+
+
 #endif //MATH_H
