@@ -224,7 +224,7 @@ int append_room(Game_World *world, Room room) {
     world->rooms[world->room_count] = room;
     world->room_count++;
 
-    return 0;
+    return world->room_count - 1;
 }
 
 Room create_room(int width, int height, int x, int y) {

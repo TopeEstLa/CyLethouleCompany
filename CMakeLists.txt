@@ -14,4 +14,5 @@ add_executable(CyLethouleCompany src/main.c
         src/terminal_display.c
         include/math.h
         src/math.c
+        include/world_generator.h
 )

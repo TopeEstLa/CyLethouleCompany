@@ -93,7 +93,7 @@ int can_append_room(Game_World* world, Room room);
  * Append a room to the world.
  * @param world The world to append the room to.
  * @param room The room to append.
- * @return 1 if error 0 if ok.
+ * @return room if the room was appended, 1 otherwise.
  */
 int append_room(Game_World* world, Room room);
 
