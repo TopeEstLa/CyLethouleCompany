@@ -101,7 +101,7 @@ void append_world(Game_World *world, int width_to_add, int height_to_add) {
     world->chunk = new_chunk;
 }
 
-void prepend_world(Game_World *world, int width_to_add, int height_to_add) {
+void prepend_world(Game_World* world, int width_to_add, int height_to_add) {
     if (world == NULL || world->chunk == NULL || width_to_add <= 0 || height_to_add <= 0) {
         return;
     }
@@ -140,18 +140,21 @@ void prepend_world(Game_World *world, int width_to_add, int height_to_add) {
         Room room = world->rooms[i];
         room.x += width_to_add;
         room.y += height_to_add;
+        room.cuboid.x1 += width_to_add;
+        room.cuboid.y1 += height_to_add;
+        room.cuboid.x2 += width_to_add;
         world->rooms[i] = room;
     }
 
     for (int i = 0; i < world->room_count; i++) {
         Room room = world->rooms[i];
         for (int j = 0; j < 4; j++) {
-            Pair door = room.doors[j];
-            if (door.x == -1 && door.y == -1) {
+            Pair* door = room.doors[j];
+            if (door->x == -1 && door->y == -1) {
                 continue;
             }
-            door.x += width_to_add;
-            door.y += height_to_add;
+            door->x += width_to_add;
+            door->y += height_to_add;
             room.doors[j] = door;
         }
         world->rooms[i] = room;
@@ -190,7 +193,7 @@ int can_append_room(Game_World *world, Room room) {
             for (int k = 0; k < world->room_count; k++) {
                 Room current_room = world->rooms[k];
                 if (in_cuboid(current_room.cuboid, i, j)) {
-                    return 1;
+                    return k;
                 }
             }
         }
@@ -204,9 +207,11 @@ int append_room(Game_World *world, Room room) {
         return -1;
     }
 
-    if (can_append_room(world, room)) {
+
+    /**
+    if (can_append_room(world, room) != 0) {
         return -1;
-    }
+    } */
 
     if (world->room_count >= world->room_capacity) {
         world->room_capacity *= 2;
@@ -244,12 +249,12 @@ int append_room(Game_World *world, Room room) {
 
     //Set doors
     for (int i = 0; i < 4; i++) {
-        Pair door = room.doors[i];
-        if (door.x == -1 && door.y == -1) {
+        Pair* door = room.doors[i];
+        if (door->x == -1 && door->y == -1) {
             continue;
         }
 
-        world->chunk[door.x][door.y].type = DOOR;
+        world->chunk[door->x][door->y].type = DOOR;
     }
 
     world->rooms[world->room_count] = room;
@@ -270,8 +275,23 @@ Room create_room(int width, int height, int x, int y) {
 
     room.cuboid = cuboid;
 
+    room.doors = calloc(4, sizeof(Pair*));
+    if (room.doors == NULL) {
+        return room;
+    }
+
     for (int i = 0; i < 4; i++) {
-        Pair door = {-1, -1};
+        Pair* door = malloc(sizeof(Pair));
+        if (door == NULL) {
+            for (int j = 0; j < i; j++) {
+                free(room.doors[j]);
+            }
+            free(room.doors);
+            return room;
+        }
+
+        door->x = -1;
+        door->y = -1;
         room.doors[i] = door;
     }
 

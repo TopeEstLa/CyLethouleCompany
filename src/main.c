@@ -6,7 +6,7 @@
 #include <terminal_display.h>
 
 int main() {
-    Game_World* world = create_world(1234);
+    Game_World* world = create_world(34584545);
 
     base_generation(world);
 

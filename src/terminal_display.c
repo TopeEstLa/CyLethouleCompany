@@ -11,23 +11,23 @@ void print_all_map(Game_World *world) {
             switch (world->chunk[j][i].type) {
                 case WALL:
                     printf("~");
-                    printf(" ");
+                    printf("  ");
                     break;
                 case VOID:
                     printf("#");
-                    printf(" ");
+                    printf("  ");
                     break;
                 case EMPTY:
                     printf(".");
-                    printf(" ");
+                    printf("  ");
                     break;
                 case DOOR:
                     printf("D");
-                    printf(" ");
+                    printf("  ");
                     break;
                 default:
                     printf("?");
-                    printf(" ");
+                    printf("  ");
                     break;
             }
         }
