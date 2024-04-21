@@ -1,12 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 #include <world.h>
 #include <world_generator.h>
 #include <terminal_display.h>
 
 int main() {
-    Game_World* world = create_world(34584545);
+    srand(time(NULL));
+    Game_World* world = create_world(rand() % 1000);
 
     base_generation(world);
 

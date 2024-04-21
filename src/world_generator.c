@@ -169,6 +169,8 @@ void generate_room(Game_World *world, Room starting_room, int door_face, int rec
                     new_room.y = blocking_room.y + blocking_room.height;
                 }
                 break;
+            default:
+                printf("Invalid door face\n");
         }
 
         new_room.width -= 1;

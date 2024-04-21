@@ -169,6 +169,7 @@ void prepend_world(Game_World* world, int width_to_add, int height_to_add) {
     for (int i = 0; i < world->width; i++) {
         free(world->chunk[i]);
     }
+
     free(world->chunk);
 
     world->width = new_width;
@@ -229,14 +230,12 @@ int append_room(Game_World *world, Room room) {
         append_world(world, width_to_add, height_to_add);
     }
 
-    //Set chunks to room
     for (int i = room.x; i < room.x + room.width; i++) {
         for (int j = room.y; j < room.y + room.height; j++) {
             world->chunk[i][j].type = EMPTY;
         }
     }
 
-    //Set walls
     for (int i = room.x; i < room.x + room.width; ++i) {
         world->chunk[i][room.y].type = WALL;
         world->chunk[i][room.y + room.height - 1].type = WALL;
@@ -247,7 +246,6 @@ int append_room(Game_World *world, Room room) {
         world->chunk[room.x + room.width - 1][i].type = WALL;
     }
 
-    //Set doors
     for (int i = 0; i < 4; i++) {
         Pair* door = room.doors[i];
         if (door->x == -1 && door->y == -1) {
