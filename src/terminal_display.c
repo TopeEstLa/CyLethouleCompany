@@ -6,11 +6,17 @@ void print_all_map(Game_World *world) {
         return;
     }
 
+    for (int i = 0; i < world->width; ++i) {
+        printf("%d ", i);
+        printf(" ");
+    }
+    printf("\n");
+
     for (int i = 0; i < world->height; i++) {
         for (int j = 0; j < world->width; j++) {
             switch (world->chunk[j][i].type) {
                 case WALL:
-                    printf("~");
+                    printf("|");
                     printf("  ");
                     break;
                 case VOID:

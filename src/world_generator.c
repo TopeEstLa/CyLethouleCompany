@@ -71,8 +71,8 @@ void generate_room(Game_World *world, Room starting_room, int door_face, int rec
 
     int roomSeed = (world->seed + door_face + world->room_count) * world->room_capacity;
 
-    int width = random_int(roomSeed, MIN_ROOM_WIDTH, MAX_ROOM_WIDTH);
-    int height = random_int(roomSeed, MIN_ROOM_HEIGHT, MAX_ROOM_HEIGHT);
+    int width = random_int((roomSeed + looked_door->x), MIN_ROOM_WIDTH, MAX_ROOM_WIDTH);
+    int height = random_int((roomSeed + looked_door->y), MIN_ROOM_HEIGHT, MAX_ROOM_HEIGHT);
 
     int doorNumber = random_int(roomSeed, 1, 4);
 
@@ -92,12 +92,12 @@ void generate_room(Game_World *world, Room starting_room, int door_face, int rec
             startY = looked_door->y + 1;
             break;
         case LEFT:
-            printf("Left door\n");
-            printf("Looked door: %d, %d\n", looked_door->x, looked_door->y);
-            printf("Width: %d\n", width);
-            printf("Height: %d\n", height);
             startX = looked_door->x - width; //+1; //+ 3; Depend of the seed wtf ?
             startY = looked_door->y - height / 2;
+
+            printf("StartX: %d\n", startX);
+            printf("Looked door x: %d\n", looked_door->x);
+            printf("Width: %d\n", width);
             break;
         case RIGHT:
             startX = looked_door->x + 1;
@@ -105,6 +105,7 @@ void generate_room(Game_World *world, Room starting_room, int door_face, int rec
             break;
         default:
             printf("Invalid door face\n");
+            return;
     }
 
 //    int* doors = random_door(door_face, doorNumber, roomSeed);
@@ -173,8 +174,15 @@ void generate_room(Game_World *world, Room starting_room, int door_face, int rec
                 printf("Invalid door face\n");
         }
 
-        new_room.width -= 1;
-        new_room.height -= 1;
+        if (door_face == LEFT) {
+            new_room.height -= 1;
+        } else {
+            new_room.width -= 1;
+            new_room.height -= 1;
+        }
+
+        //new_room.width -= 1;
+        //new_room.height -= 1;
 
         can_append = can_append_room(world, new_room);
     }

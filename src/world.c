@@ -186,17 +186,23 @@ int can_append_room(Game_World *world, Room room) {
         return 1;
     }
 
-    int width_to_check = room.x + room.width >= world->width ? world->width : room.x + room.width;
-    int height_to_check = room.y + room.height >= world->height ? world->height : room.y + room.height;
+    int width_to_check = room.x + room.width; //>= world->width ? world->width : room.x + room.width;
+    int height_to_check = room.y + room.height;// >= world->height ? world->height : room.y + room.height;
+
+    if (width_to_check >= world->width) {
+        width_to_check = world->width;
+    }
+
+    if (height_to_check >= world->height) {
+        height_to_check = world->height;
+    }
 
     for (int i = room.x; i < width_to_check; i++) {
         for (int j = room.y; j < height_to_check; j++) {
-            for (int k = 0; k < world->room_count; k++) {
-                Room current_room = world->rooms[k];
-                if (in_cuboid(current_room.cuboid, i, j)) {
-                    return k;
-                }
-            }
+           Chunk chunk = world->chunk[i][j];
+           if (chunk.type != VOID) {
+               return 1;
+           }
         }
     }
 
