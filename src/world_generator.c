@@ -112,6 +112,8 @@ void generate_room(Game_World *world, Room starting_room, int door_face, int rec
 
     Room new_room = create_room(width, height, startX, startY);
 
+
+
     /**
     for (int j = 0; j < doorNumber; ++j) {
         printf("Generating door %d for room %d\n", j, door_face);
@@ -150,7 +152,8 @@ void generate_room(Game_World *world, Room starting_room, int door_face, int rec
 //    free(doors);
 
     int can_append = can_append_room(world, new_room);
-    while (can_append != 0) {
+    int fail = 0;
+    while (can_append != 0 && fail < 300) {
         Room blocking_room = world->rooms[can_append];
 
         switch (door_face) {
@@ -175,15 +178,25 @@ void generate_room(Game_World *world, Room starting_room, int door_face, int rec
         }
 
         if (door_face == LEFT) {
-            new_room.height -= 1;
+            if (new_room.height > MIN_ROOM_HEIGHT) {
+                new_room.height -= 1;
+            }
+        } else if (door_face == RIGHT) {
+            if (new_room.width > MIN_ROOM_WIDTH) {
+                new_room.width -= 1;
+            }
         } else {
-            new_room.width -= 1;
-            new_room.height -= 1;
+
+            if (new_room.width > MIN_ROOM_WIDTH) {
+                new_room.width -= 1;
+            }
+
+            if (new_room.height > MIN_ROOM_HEIGHT) {
+                new_room.height -= 1;
+            }
         }
 
-        //new_room.width -= 1;
-        //new_room.height -= 1;
-
+        fail++;
         can_append = can_append_room(world, new_room);
     }
 
