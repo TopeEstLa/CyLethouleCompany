@@ -200,6 +200,10 @@ void generate_room(Game_World *world, Room starting_room, int door_face, int rec
         can_append = can_append_room(world, new_room);
     }
 
+    Pair* door = malloc(sizeof(Pair) * 4);
+
+    
+
     if (append_room(world, new_room) != -1) {
         printf("Room appended\n");
     } else {
