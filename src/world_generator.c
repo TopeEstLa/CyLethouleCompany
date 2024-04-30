@@ -218,8 +218,12 @@ void generate_room(Game_World *world, Room starting_room, int door_face, int rec
             return;
     }
 
-    Pair connectedDoor = {connectedDoorX, connectedDoorY};
-    new_room.doors[door_face] = &connectedDoor;
+    Pair* connectedDoor = malloc(sizeof(Pair));
+
+    connectedDoor->x = connectedDoorX;
+    connectedDoor->y = connectedDoorY;
+
+    new_room.doors[door_face] = connectedDoor;
 
     if (append_room(world, new_room) != -1) {
         printf("Room appended\n");
