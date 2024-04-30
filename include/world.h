@@ -47,7 +47,7 @@ typedef struct game_world {
     int seed;
     int width;
     int height;
-    Chunk** chunk; // 2D array of Chunk[width][height] example:
+    Chunk*** chunk; // 2D array of Chunk*[width][height] example:
     // <-         width       ->    ^
     // [ [0, [0, [1, [0, [2, [0, ]  |
     //    0,  1,  1,  1,  2,  1,   height

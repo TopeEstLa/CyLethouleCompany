@@ -4,33 +4,48 @@
 #include <world.h>
 #include <math.h>
 
+Chunk* create_empty_chunk() {
+    Chunk* chunk = malloc(sizeof(Chunk));
+    if (chunk == NULL) {
+        return NULL;
+    }
+
+    chunk->type = VOID;
+
+    return chunk;
+}
+
+
 Game_World* create_world(int seed) {
-    Game_World* world = malloc(sizeof(Game_World));
+    Game_World *world = malloc(sizeof(Game_World));
     world->seed = seed;
 
     world->width = DEFAULT_WORLD_WIDTH;
     world->height = DEFAULT_WORLD_HEIGHT;
 
-    world->chunk = malloc(sizeof(Chunk *) * DEFAULT_WORLD_WIDTH);
+    world->chunk = malloc(sizeof(Chunk **) * DEFAULT_WORLD_WIDTH);
     if (world->chunk == NULL) {
+        //TODO clean ram
         return world;
     }
 
     for (int i = 0; i < DEFAULT_WORLD_WIDTH; i++) {
-        world->chunk[i] = calloc(DEFAULT_WORLD_HEIGHT, sizeof(Chunk));
+        world->chunk[i] = calloc(DEFAULT_WORLD_HEIGHT, sizeof(Chunk *));
         if (world->chunk[i] == NULL) {
-            for (int j = 0; j < i; j++) {
-                free(world->chunk[j]);
-            }
-            free(world->chunk);
             printf("Failed to allocate memory for chunk\n");
+            //TODO clean ram
             return world;
         }
     }
 
     for (int i = 0; i < DEFAULT_WORLD_WIDTH; i++) {
         for (int j = 0; j < DEFAULT_WORLD_HEIGHT; j++) {
-            world->chunk[i][j].type = VOID;
+            world->chunk[i][j] = create_empty_chunk();
+            if (world->chunk[i][j] == NULL) {
+                printf("Failed to allocate memory for chunk\n");
+                //TODO clean ram
+                return world;
+            }
         }
     }
 
@@ -51,6 +66,7 @@ Game_World* create_world(int seed) {
 }
 
 
+
 void append_world(Game_World *world, int width_to_add, int height_to_add) {
     if (world == NULL || world->chunk == NULL || width_to_add <= 0 || height_to_add <= 0) {
         return;
@@ -59,40 +75,49 @@ void append_world(Game_World *world, int width_to_add, int height_to_add) {
     int new_width = world->width + width_to_add;
     int new_height = world->height + height_to_add;
 
-    Chunk** new_chunk = (Chunk **) realloc(world->chunk, sizeof(Chunk *) * new_width);
+    Chunk*** new_chunk = (Chunk ***) realloc(world->chunk, sizeof(Chunk**) * new_width);
     if (new_chunk == NULL) {
         printf("Failed to allocate memory for new chunk\n");
         return;
     }
 
     for (int i = 0; i < world->width; i++) {
-        Chunk* new_sub_chunk = realloc(new_chunk[i], sizeof(Chunk) * new_height);
+        Chunk** new_sub_chunk = realloc(new_chunk[i], sizeof(Chunk*) * new_height);
         if (new_sub_chunk == NULL) {
             printf("Failed to allocate memory for new sub chunk\n");
-            for (int j = 0; j < i; j++) {
-                free(new_chunk[j]);
-            }
-            free(new_chunk);
+            //TODO clean ram
+
             return;
         }
         for (int j = world->height; j < new_height; j++) {
-            new_sub_chunk[j].type = VOID;
+            new_sub_chunk[j] = create_empty_chunk();
+
+            if (new_sub_chunk[j] == NULL) {
+                printf("Failed to allocate memory for new sub chunk\n");
+                //TODO clean ram
+                return;
+            }
+
         }
         new_chunk[i] = new_sub_chunk;
     }
 
     for (int i = world->width; i < new_width; i++) {
-        new_chunk[i] = calloc(new_height, sizeof(Chunk));
+        new_chunk[i] = calloc(new_height, sizeof(Chunk*));
         if (new_chunk[i] == NULL) {
             printf("Failed to allocate memory for new chunk\n");
-            for (int j = world->width; j < i; j++) {
-                free(new_chunk[j]);
-            }
-            free(new_chunk);
+            //TODO clean ram
             return;
         }
+
         for (int j = 0; j < new_height; j++) {
-            new_chunk[i][j].type = VOID;
+            new_chunk[i][j] = create_empty_chunk();
+
+            if (new_chunk[i][j] == NULL) {
+                printf("Failed to allocate memory for new sub chunk\n");
+                //TODO clean ram
+                return;
+            }
         }
     }
 
@@ -101,7 +126,7 @@ void append_world(Game_World *world, int width_to_add, int height_to_add) {
     world->chunk = new_chunk;
 }
 
-void prepend_world(Game_World* world, int width_to_add, int height_to_add) {
+void prepend_world(Game_World *world, int width_to_add, int height_to_add) {
     if (world == NULL || world->chunk == NULL || width_to_add <= 0 || height_to_add <= 0) {
         return;
     }
@@ -109,21 +134,29 @@ void prepend_world(Game_World* world, int width_to_add, int height_to_add) {
     int new_width = world->width + width_to_add;
     int new_height = world->height + height_to_add;
 
-    Chunk** new_chunk = (Chunk **) malloc(sizeof(Chunk *) * new_width);
+    Chunk*** new_chunk = (Chunk ***) malloc(sizeof(Chunk**) * new_width);
     if (new_chunk == NULL) {
         printf("Failed to allocate memory for new chunk\n");
         return;
     }
 
     for (int i = 0; i < new_width; i++) {
-        new_chunk[i] = calloc(new_height, sizeof(Chunk));
+        new_chunk[i] = calloc(new_height, sizeof(Chunk*));
         if (new_chunk[i] == NULL) {
             printf("Failed to allocate memory for new sub chunk\n");
-            for (int j = 0; j < i; j++) {
-                free(new_chunk[j]);
-            }
-            free(new_chunk);
+            //TODO clean ram
             return;
+        }
+    }
+
+    for (int i = 0; i < new_width; i++) {
+        for (int j = 0; j < new_height; j++) {
+            new_chunk[i][j] = create_empty_chunk();
+            if (new_chunk[i][j] == NULL) {
+                printf("Failed to allocate memory for new sub chunk\n");
+                //TODO clean ram
+                return;
+            }
         }
     }
 
@@ -131,7 +164,7 @@ void prepend_world(Game_World* world, int width_to_add, int height_to_add) {
         for (int j = 0; j < world->height; ++j) {
             int new_x_index = i + width_to_add;
             int new_y_index = j + height_to_add;
-            Chunk chunk = world->chunk[i][j];
+            Chunk* chunk = world->chunk[i][j];
             new_chunk[new_x_index][new_y_index] = chunk;
         }
     }
@@ -149,7 +182,7 @@ void prepend_world(Game_World* world, int width_to_add, int height_to_add) {
     for (int i = 0; i < world->room_count; i++) {
         Room room = world->rooms[i];
         for (int j = 0; j < 4; j++) {
-            Pair* door = room.doors[j];
+            Pair *door = room.doors[j];
             if (door->x == -1 && door->y == -1) {
                 continue;
             }
@@ -160,11 +193,6 @@ void prepend_world(Game_World* world, int width_to_add, int height_to_add) {
         world->rooms[i] = room;
     }
 
-    for (int i = 0; i < width_to_add; i++) {
-        for (int j = 0; j < height_to_add; j++) {
-            new_chunk[i][j].type = VOID;
-        }
-    }
 
     for (int i = 0; i < world->width; i++) {
         free(world->chunk[i]);
@@ -177,7 +205,7 @@ void prepend_world(Game_World* world, int width_to_add, int height_to_add) {
     world->chunk = new_chunk;
 }
 
-int can_append_room(Game_World* world, Room room) {
+int can_append_room(Game_World *world, Room room) {
     if (world == NULL) {
         return 1;
     }
@@ -199,8 +227,8 @@ int can_append_room(Game_World* world, Room room) {
 
     for (int i = room.x; i < width_to_check; i++) {
         for (int j = room.y; j < height_to_check; j++) {
-            Chunk chunk = world->chunk[i][j];
-            if (chunk.type != VOID) {
+            Chunk* chunk = world->chunk[i][j];
+            if (chunk->type != VOID) {
                 return 1;
             }
         }
@@ -209,11 +237,10 @@ int can_append_room(Game_World* world, Room room) {
     return 0;
 }
 
-int append_room(Game_World* world, Room room) {
+int append_room(Game_World *world, Room room) {
     if (world == NULL) {
         return -1;
     }
-
 
     /**
     if (can_append_room(world, room) != 0) {
@@ -238,18 +265,18 @@ int append_room(Game_World* world, Room room) {
 
     for (int i = room.x; i < room.x + room.width; i++) {
         for (int j = room.y; j < room.y + room.height; j++) {
-            world->chunk[i][j].type = EMPTY;
+            world->chunk[i][j]->type = EMPTY;
         }
     }
 
     for (int i = room.x; i < room.x + room.width; ++i) {
-        world->chunk[i][room.y].type = WALL;
-        world->chunk[i][room.y + room.height - 1].type = WALL;
+        world->chunk[i][room.y]->type = WALL;
+        world->chunk[i][room.y + room.height - 1]->type = WALL;
     }
 
     for (int i = room.y; i < room.y + room.height; ++i) {
-        world->chunk[room.x][i].type = WALL;
-        world->chunk[room.x + room.width - 1][i].type = WALL;
+        world->chunk[room.x][i]->type = WALL;
+        world->chunk[room.x + room.width - 1][i]->type = WALL;
     }
 
     for (int i = 0; i < 4; i++) {
@@ -258,7 +285,7 @@ int append_room(Game_World* world, Room room) {
             continue;
         }
 
-        world->chunk[door->x][door->y].type = DOOR;
+        world->chunk[door->x][door->y]->type = DOOR;
     }
 
     world->rooms[world->room_count] = room;
@@ -280,18 +307,15 @@ Room create_room(int width, int height, int x, int y) {
 
     room.cuboid = cuboid;
 
-    room.doors = calloc(4, sizeof(Pair*));
+    room.doors = calloc(4, sizeof(Pair *));
     if (room.doors == NULL) {
         return room;
     }
 
     for (int i = 0; i < 4; i++) {
-        Pair* door = malloc(sizeof(Pair));
+        Pair *door = malloc(sizeof(Pair));
         if (door == NULL) {
-            for (int j = 0; j < i; j++) {
-                free(room.doors[j]);
-            }
-            free(room.doors);
+            //TODO clean ram
             return room;
         }
 
