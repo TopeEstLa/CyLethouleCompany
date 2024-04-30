@@ -5,6 +5,7 @@
 
 #include <math.h>
 #include <world.h>
+#include <terminal_display.h>
 
 void base_generation(Game_World *world) {
     if (world == NULL) {
@@ -94,10 +95,6 @@ void generate_room(Game_World *world, Room starting_room, int door_face, int rec
         case LEFT:
             startX = looked_door->x - width; //+1; //+ 3; Depend of the seed wtf ?
             startY = looked_door->y - height / 2;
-
-            printf("StartX: %d\n", startX);
-            printf("Looked door x: %d\n", looked_door->x);
-            printf("Width: %d\n", width);
             break;
         case RIGHT:
             startX = looked_door->x + 1;
@@ -200,9 +197,29 @@ void generate_room(Game_World *world, Room starting_room, int door_face, int rec
         can_append = can_append_room(world, new_room);
     }
 
-    Pair* door = malloc(sizeof(Pair) * 4);
+    int connectedDoorX = looked_door->x;
+    int connectedDoorY = looked_door->y;
 
-    
+    switch (door_face) {
+        case TOP:
+            connectedDoorY = new_room.y + new_room.height;
+            break;
+        case BOTTOM:
+            connectedDoorY = new_room.y - 1;
+            break;
+        case LEFT:
+            connectedDoorX = new_room.x + new_room.width;
+            break;
+        case RIGHT:
+            connectedDoorX = new_room.x - 1;
+            break;
+        default:
+            printf("Invalid door face\n");
+            return;
+    }
+
+    Pair connectedDoor = {connectedDoorX, connectedDoorY};
+    new_room.doors[door_face] = &connectedDoor;
 
     if (append_room(world, new_room) != -1) {
         printf("Room appended\n");

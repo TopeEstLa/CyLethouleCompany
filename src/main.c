@@ -8,7 +8,8 @@
 
 int main() {
     srand(time(NULL));
-    Game_World* world = create_world(rand() % 1000);
+    //Game_World* world = create_world(rand() % 1000);
+    Game_World* world = create_world(1000);
 
     base_generation(world);
 

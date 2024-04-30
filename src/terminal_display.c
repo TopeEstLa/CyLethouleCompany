@@ -1,7 +1,7 @@
 #include <terminal_display.h>
 #include <stdio.h>
 
-void print_all_map(Game_World *world) {
+void print_all_map(Game_World* world) {
     if (world == NULL) {
         return;
     }
@@ -10,11 +10,16 @@ void print_all_map(Game_World *world) {
         printf("%d ", i);
         printf(" ");
     }
+
     printf("\n");
 
     for (int i = 0; i < world->height; i++) {
         for (int j = 0; j < world->width; j++) {
             switch (world->chunk[j][i].type) {
+                case DOOR:
+                    printf("D");
+                    printf("  ");
+                    break;
                 case WALL:
                     printf("|");
                     printf("  ");
@@ -25,10 +30,6 @@ void print_all_map(Game_World *world) {
                     break;
                 case EMPTY:
                     printf(".");
-                    printf("  ");
-                    break;
-                case DOOR:
-                    printf("D");
                     printf("  ");
                     break;
                 default:
