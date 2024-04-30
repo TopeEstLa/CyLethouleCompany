@@ -242,10 +242,9 @@ int append_room(Game_World *world, Room room) {
         return -1;
     }
 
-    /**
     if (can_append_room(world, room) != 0) {
         return -1;
-    } */
+    }
 
     if (world->room_count >= world->room_capacity) {
         world->room_capacity *= 2;
@@ -281,9 +280,7 @@ int append_room(Game_World *world, Room room) {
 
     for (int i = 0; i < 4; i++) {
         Pair* door = room.doors[i];
-        if (door->x == -1 && door->y == -1) {
-            continue;
-        }
+        if (door->x == -1 && door->y == -1) continue;
 
         world->chunk[door->x][door->y]->type = DOOR;
     }

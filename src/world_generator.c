@@ -202,16 +202,16 @@ void generate_room(Game_World *world, Room starting_room, int door_face, int rec
 
     switch (door_face) {
         case TOP:
-            connectedDoorY = new_room.y + new_room.height;
+            connectedDoorY = looked_door->y - 1;
             break;
         case BOTTOM:
-            connectedDoorY = new_room.y - 1;
+            connectedDoorY = looked_door->y + 1;
             break;
         case LEFT:
-            connectedDoorX = new_room.x + new_room.width;
+            connectedDoorX = looked_door->x - 1;
             break;
         case RIGHT:
-            connectedDoorX = new_room.x - 1;
+            connectedDoorX = looked_door->x + 1;
             break;
         default:
             printf("Invalid door face\n");
