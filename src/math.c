@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 
 #include <math.h>
 
@@ -7,6 +8,11 @@ int in_cuboid(Cuboid cuboid, int x, int y) {
 }
 
 int random_int(int seed, int min, int max) {
+    if (min > max) {
+        printf("Error: min is greater than max\n");
+        return min;
+    }
+
     srand(seed);
     return min + rand() % (max - min + 1);
 }

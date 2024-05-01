@@ -62,197 +62,19 @@ void base_generation(Game_World *world) {
     }
 }
 
-Room resize_room(Room room, Room conflictRoom, int door_face, Pair* door) {
-
-    int xRightC = conflictRoom.x + conflictRoom.width;
-    int yBottomC = conflictRoom.y + conflictRoom.height;
-
-    int xRightR = room.x + room.width;
-    int yBottomR = room.y + room.height;
-
-    if ((conflictRoom.x < xRightR && xRightC > room.x) && (conflictRoom.y < yBottomR && yBottomC > room.y)) {
-        int left_overlap = max(conflictRoom.x, room.x);
-        int right_overlap = min(xRightC, xRightR);
-        int top_overlap = max(conflictRoom.y, room.y);
-        int bottom_overlap = min(yBottomC, yBottomR);
-
-        int overlap_width = right_overlap - left_overlap;
-        int overlap_height = bottom_overlap - top_overlap;
-
-        int new_width = room.width - overlap_width;
-        int new_height = room.height - overlap_height;
-
-        int new_x, new_y;
-
-        switch (door_face) {
-            case TOP:
-                new_x = door->x - new_width / 2;
-                new_y = door->y - new_height;
-                break;
-            case BOTTOM:
-                new_x = door->x - new_width / 2;
-                new_y = door->y + 1;
-                break;
-            case LEFT:
-                new_x = door->x - new_width;
-                new_y = door->y - new_height / 2;
-                break;
-            case RIGHT:
-                new_x = door->x + 1;
-                new_y = door->y - new_height / 2 - 1;
-                break;
-            default:
-                printf("Invalid door face\n");
-        }
-
-        return create_room(new_width, new_height, new_x, new_y);
-    }
-
-    return room;
-}
-
 void generate_rooms(Game_World *world, Room starting_room, int recursion_depth) {
     if (world == NULL || recursion_depth <= 0) {
         return;
     }
 
     for (int i = 0; i < 4; ++i) {
+        Pair* door = starting_room.doors[i];
+
+        if (door->x == -1 && door->y == -1) continue;
+
         generate_room(world, starting_room, i, recursion_depth);
     }
 }
-
-/**
-void generate_room(Game_World *world, Room starting_room, int door_face, int recursion_depth) {
-    Pair *looked_door = starting_room.doors[door_face];
-
-    if (looked_door->x == -1 && looked_door->y == -1) {
-        printf("Door not initialized\n");
-        return;
-    }
-
-    int roomSeed = (world->seed + door_face + world->room_count) * world->room_capacity;
-
-    int width = random_int((roomSeed + looked_door->x), MIN_ROOM_WIDTH, MAX_ROOM_WIDTH);
-    int height = random_int((roomSeed + looked_door->y), MIN_ROOM_HEIGHT, MAX_ROOM_HEIGHT);
-
-    int doorNumber = random_int(roomSeed, 1, 4);
-
-    int startX = starting_room.x;
-    int startY = starting_room.y;
-
-    if ((door_face == 0 || door_face == 2) && ((looked_door->y - height) < 0 || (looked_door->x - width) < 0)) {
-        prepend_world(world, abs(looked_door->x - width) + 1, abs(looked_door->y - height) + 1);
-    }
-
-    switch (door_face) {
-        case TOP:
-            startX += looked_door->x;
-            startY -= height;
-            break;
-        case BOTTOM:
-            startX += looked_door->x;
-            startY += starting_room.height;
-            break;
-        case LEFT:
-            startX += width; //+1; //+ 3; Depend of the seed wtf ?
-            startY += looked_door->y;
-            break;
-        case RIGHT:
-            startX = starting_room.width;
-            startY = looked_door->y;
-            break;
-        default:
-            printf("Invalid door face\n");
-            return;
-    }
-
-//    int* doors = random_door(door_face, doorNumber, roomSeed);
-
-    Room new_room = create_room(width, height, startX, startY);
-
-
-
-    /**
-    for (int j = 0; j < doorNumber; ++j) {
-        printf("Generating door %d for room %d\n", j, door_face);
-        Pair new_door = {0, 0};
-
-        int changingX = random_int(roomSeed, startX + 1, startX + width - 2);
-        int changingY = random_int(roomSeed, startY + 1, startY + height - 2);
-
-        if (doors[j] == door_face) {
-            changingX = looked_door->x;
-            changingY = looked_door->y;
-        }
-
-        switch (doors[j]) {
-            case 0:
-                new_door.x = changingX;
-                new_door.y = startY;
-                break;
-            case 1:
-                new_door.x = changingX;
-                new_door.y = startY + height - 1;
-                break;
-            case 2:
-                new_door.x = startX;
-                new_door.y = changingY;
-                break;
-            case 3:
-                new_door.x = startX + width - 1;
-                new_door.y = changingY;
-                break;
-        }
-        new_room.doors[j] = &new_door;
-    }
-
-
-//    free(doors);
-
-    int can_append = 0;
-    int fail = 0;
-    while (can_append != 0 && fail < 300) {
-
-
-        fail++;
-        can_append = can_append_room(world, new_room);
-    }
-
-    /**
-    int connectedDoorX = looked_door->x;
-    int connectedDoorY = looked_door->y;
-
-    switch (door_face) {
-        case TOP:
-            connectedDoorY -= 1;
-            break;
-        case BOTTOM:
-            connectedDoorY += 1;
-            break;
-        case LEFT:
-            connectedDoorX -= 1;
-            break;
-        case RIGHT:
-            connectedDoorX += 1;
-            break;
-        default:
-            printf("Invalid door face\n");
-            return;
-    }
-
-    Pair* connectedDoor = malloc(sizeof(Pair));
-
-    connectedDoor->x = connectedDoorX;
-    connectedDoor->y = connectedDoorY;
-
-    new_room.doors[door_face] = connectedDoor;
-
-    if (append_room(world, new_room) != -1) {
-        printf("Room appended\n");
-    } else {
-        printf("Room not appended\n");
-    }
-} */
 
 void generate_room(Game_World *world, Room starting_room, int door_face, int recursion_depth) {
     if (world == NULL || recursion_depth <= 0) {
@@ -262,7 +84,6 @@ void generate_room(Game_World *world, Room starting_room, int door_face, int rec
     Pair *looked_door = starting_room.doors[door_face];
 
     if (looked_door->x == -1 && looked_door->y == -1) {
-        printf("Door not initialized\n");
         return;
     }
 
@@ -299,7 +120,6 @@ void generate_room(Game_World *world, Room starting_room, int door_face, int rec
             startY = looked_door->y - height / 2 - 1;
             break;
         default:
-            printf("Invalid door face\n");
             return;
     }
 
@@ -333,9 +153,6 @@ void generate_room(Game_World *world, Room starting_room, int door_face, int rec
         case RIGHT:
             connectedDoorX += 1;
             break;
-        default:
-            printf("Invalid door face\n");
-            return;
     }
 
     Pair *connectedDoor = malloc(sizeof(Pair));
@@ -400,12 +217,19 @@ void generate_room(Game_World *world, Room starting_room, int door_face, int rec
         new_room.doors[i] = door;
     }
 
-    printf("Door Face: %d\n", door_face);
-    printf("Fail: %d\n", fail);
+    if (is_room_valid(new_room)) {
+        if (append_room(world, new_room) != -1) {
+            printf("Room appended\n");
+            generate_rooms(world, new_room, recursion_depth - 1);
+        } else {
+            printf("Room not appended\n");
+            printf("Removing doors lol\n");
 
-    if (append_room(world, new_room) != -1) {
-        printf("Room appended\n");
-        generate_rooms(world, new_room, recursion_depth - 1);
+            world->chunk[looked_door->x][looked_door->y]->type = WALL;
+
+            Pair door = {-1, -1};
+            starting_room.doors[door_face] = &door;
+        }
     } else {
         printf("Room not appended\n");
         printf("Removing doors lol\n");
@@ -415,5 +239,57 @@ void generate_room(Game_World *world, Room starting_room, int door_face, int rec
         Pair door = {-1, -1};
         starting_room.doors[door_face] = &door;
     }
+}
 
+Room resize_room(Room room, Room conflictRoom, int door_face, Pair* door) {
+
+    int xRightC = conflictRoom.x + conflictRoom.width;
+    int yBottomC = conflictRoom.y + conflictRoom.height;
+
+    int xRightR = room.x + room.width;
+    int yBottomR = room.y + room.height;
+
+    if ((conflictRoom.x < xRightR && xRightC > room.x) && (conflictRoom.y < yBottomR && yBottomC > room.y)) {
+        int left_overlap = max(conflictRoom.x, room.x);
+        int right_overlap = min(xRightC, xRightR);
+        int top_overlap = max(conflictRoom.y, room.y);
+        int bottom_overlap = min(yBottomC, yBottomR);
+
+        int overlap_width = right_overlap - left_overlap;
+        int overlap_height = bottom_overlap - top_overlap;
+
+        int new_width = room.width - overlap_width;
+        int new_height = room.height - overlap_height;
+
+        int new_x, new_y;
+
+        switch (door_face) {
+            case TOP:
+                new_x = door->x - new_width / 2;
+                new_y = door->y - new_height;
+                break;
+            case BOTTOM:
+                new_x = door->x - new_width / 2;
+                new_y = door->y + 1;
+                break;
+            case LEFT:
+                new_x = door->x - new_width;
+                new_y = door->y - new_height / 2;
+                break;
+            case RIGHT:
+                new_x = door->x + 1;
+                new_y = door->y - new_height / 2 - 1;
+                break;
+            default:
+                printf("Invalid door face\n");
+        }
+
+        return create_room(new_width, new_height, new_x, new_y);
+    }
+
+    return room;
+}
+
+int is_room_valid(Room room) {
+    return room.width >= MIN_ROOM_WIDTH && room.height >= MIN_ROOM_HEIGHT;
 }

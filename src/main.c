@@ -15,7 +15,7 @@ int main() {
 
     print_all_map(world);
 
-    /*
+    /**
     int try = 0;
     int last_seed = 0;
     while (1) {

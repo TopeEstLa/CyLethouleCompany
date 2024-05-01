@@ -29,7 +29,7 @@ void print_all_map(Game_World* world) {
                     printf("  ");
                     break;
                 case EMPTY:
-                    printf(".");
+                    printf(" ");
                     printf("  ");
                     break;
                 default:
