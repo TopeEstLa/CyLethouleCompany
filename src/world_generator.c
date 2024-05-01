@@ -5,7 +5,6 @@
 #include <math.h>
 
 #include <world.h>
-#include <terminal_display.h>
 
 void base_generation(Game_World *world) {
     if (world == NULL) {
@@ -67,8 +66,6 @@ Room resize_room(Room room, Room conflictRoom, int door_face, Pair* door) {
     int yBottomR = room.y + room.height;
 
     if ((conflictRoom.x < xRightR && xRightC > room.x) && (conflictRoom.y < yBottomR && yBottomC > room.y)) {
-        printf("Conflict\n");
-
         int left_overlap = max(conflictRoom.x, room.x);
         int right_overlap = min(xRightC, xRightR);
         int top_overlap = max(conflictRoom.y, room.y);
@@ -264,6 +261,10 @@ void generate_room(Game_World *world, Room starting_room, int door_face, int rec
         return;
     }
 
+    if (starting_room.start_door==door_face) {
+        return;
+    }
+
     int roomSeed = (world->seed + door_face + world->room_count) * world->room_capacity;
 
     int width = random_int((roomSeed + looked_door->x), MIN_ROOM_WIDTH, MAX_ROOM_WIDTH);
@@ -428,6 +429,7 @@ void generate_room(Game_World *world, Room starting_room, int door_face, int rec
     }
 
     new_room.doors[putted_door_face] = connectedDoor;
+    new_room.start_door = putted_door_face;
 
     for (int i = 0; i < 4; i++) {
         if (i == putted_door_face) continue;
@@ -480,24 +482,6 @@ void generate_room(Game_World *world, Room starting_room, int door_face, int rec
 
         Pair door = {-1, -1};
         starting_room.doors[door_face] = &door;
-
-        //exit(1);
     }
 
-}
-
-int *random_door(int forced_face, int max_door, int seed) {
-    int *door = malloc(sizeof(int) * max_door);
-    door[0] = forced_face;
-    for (int i = 1; i < max_door; ++i) {
-        int face_index;
-        int max = 0;
-        do {
-            face_index = random_int(seed, 0, 3);
-            max++;
-        } while (face_index == forced_face && max++ < 10);
-        door[i] = face_index;
-    }
-
-    return door;
 }

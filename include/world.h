@@ -30,6 +30,7 @@ typedef struct chunk {
 typedef struct room {
     int width, height, x, y;
     Cuboid cuboid;
+    int start_door;
     Pair** doors; //Max 4 door by room (N, E, S, W)
 } Room;
 

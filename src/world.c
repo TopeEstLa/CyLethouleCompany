@@ -321,5 +321,7 @@ Room create_room(int width, int height, int x, int y) {
         room.doors[i] = door;
     }
 
+    room.start_door = -1;
+
     return room;
 }
