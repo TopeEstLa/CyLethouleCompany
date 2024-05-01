@@ -23,7 +23,7 @@ void generate_rooms(Game_World *world, Room starting_room, int recursion_depth);
 
 void generate_room(Game_World *world, Room starting_room, int door, int recursion_depth);
 
-Room resize_room(Room room);
+//Room resize_room(Room room);
 
 int *random_door(int forced_face, int max_door, int seed);
 

@@ -242,7 +242,6 @@ int append_room(Game_World *world, Room room) {
         return -1;
     }
 
-
     if (can_append_room(world, room) != -1) {
         return -1;
     }

@@ -40,5 +40,21 @@ int in_cuboid(Cuboid cuboid, int x, int y);
  */
 int random_int(int seed, int min, int max);
 
+/**
+ * Get the maximum of two integers.
+ * @param a
+ * @param b
+ * @return the maximum of a and b.
+ */
+int max(int a, int b);
+
+/**
+ * Get the minimum of two integers.
+ * @param a
+ * @param b
+ * @return  the minimum of a and b.
+ */
+int min(int a, int b);
+
 
 #endif //MATH_H

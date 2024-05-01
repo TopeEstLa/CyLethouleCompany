@@ -15,7 +15,7 @@ int main() {
 
     print_all_map(world);
 
-    /**
+    /*
     int try = 0;
     int last_seed = 0;
     while (1) {
@@ -37,11 +37,6 @@ int main() {
 
         base_generation(world);
 
-        if (world->room_count != 5) {
-            print_all_map(world);
-        }
-
-        assert(world->room_count == 5);
 
         free(world->chunk);
         free(world->rooms);

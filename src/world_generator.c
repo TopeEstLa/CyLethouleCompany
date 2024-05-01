@@ -2,8 +2,8 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-
 #include <math.h>
+
 #include <world.h>
 #include <terminal_display.h>
 
@@ -49,7 +49,64 @@ void base_generation(Game_World *world) {
     starting_room.doors[RIGHT] = &rightDoor;
 
     append_room(world, starting_room);
-    generate_rooms(world, starting_room, 3);
+
+    int roomCenterX = baseX + width / 2;
+    int roomCenterY = baseY + height / 2;
+
+    world->chunk[roomCenterX][roomCenterY]->type = WALL;
+
+    generate_rooms(world, starting_room, 5);
+}
+
+Room resize_room(Room room, Room conflictRoom, int door_face, Pair* door) {
+
+    int xRightC = conflictRoom.x + conflictRoom.width;
+    int yBottomC = conflictRoom.y + conflictRoom.height;
+
+    int xRightR = room.x + room.width;
+    int yBottomR = room.y + room.height;
+
+    if ((conflictRoom.x < xRightR && xRightC > room.x) && (conflictRoom.y < yBottomR && yBottomC > room.y)) {
+        printf("Conflict\n");
+
+        int left_overlap = max(conflictRoom.x, room.x);
+        int right_overlap = min(xRightC, xRightR);
+        int top_overlap = max(conflictRoom.y, room.y);
+        int bottom_overlap = min(yBottomC, yBottomR);
+
+        int overlap_width = right_overlap - left_overlap;
+        int overlap_height = bottom_overlap - top_overlap;
+
+        int new_width = room.width - overlap_width;
+        int new_height = room.height - overlap_height;
+
+        int new_x, new_y;
+
+        switch (door_face) {
+            case TOP:
+                new_x = door->x - new_width / 2;
+                new_y = door->y - new_height;
+                break;
+            case BOTTOM:
+                new_x = door->x - new_width / 2;
+                new_y = door->y + 1;
+                break;
+            case LEFT:
+                new_x = door->x - new_width;
+                new_y = door->y - new_height / 2;
+                break;
+            case RIGHT:
+                new_x = door->x + 1;
+                new_y = door->y - new_height / 2 - 1;
+                break;
+            default:
+                printf("Invalid door face\n");
+        }
+
+        return create_room(new_width, new_height, new_x, new_y);
+    }
+
+    return room;
 }
 
 void generate_rooms(Game_World *world, Room starting_room, int recursion_depth) {
@@ -196,6 +253,10 @@ void generate_room(Game_World *world, Room starting_room, int door_face, int rec
 } */
 
 void generate_room(Game_World *world, Room starting_room, int door_face, int recursion_depth) {
+    if (world == NULL || recursion_depth <= 0) {
+        return;
+    }
+
     Pair *looked_door = starting_room.doors[door_face];
 
     if (looked_door->x == -1 && looked_door->y == -1) {
@@ -284,7 +345,7 @@ void generate_room(Game_World *world, Room starting_room, int door_face, int rec
             new_room.y + new_room.height < conflict_room.y + conflict_room.height) {
             printf("Conflict on the y axis with endY\n");
             resize_height = conflict_room.y - new_room.y - 1;
-        } */
+        }
 
 
         int resize_width = random_int((roomSeed + looked_door->x + conflict_id), MIN_ROOM_WIDTH - 1,
@@ -314,9 +375,10 @@ void generate_room(Game_World *world, Room starting_room, int door_face, int rec
             default:
                 printf("Invalid door face\n");
                 return;
-        }
+        } */
 
-        new_room = create_room(resize_width, resize_height, resize_startX, resize_startY);
+        //new_room = create_room(resize_width, resize_height, resize_startX, resize_startY);
+        new_room = resize_room(new_room, conflict_room, door_face, looked_door);
         conflict_id = can_append_room(world, new_room);
         fail++;
     }
@@ -370,7 +432,7 @@ void generate_room(Game_World *world, Room starting_room, int door_face, int rec
     for (int i = 0; i < 4; i++) {
         if (i == putted_door_face) continue;
 
-        int doorSeed = roomSeed+i+putted_door_face+looked_door->x+looked_door->y;
+        int doorSeed = roomSeed + i + putted_door_face + looked_door->x + looked_door->y;
 
         int chance = random_int(doorSeed, 0, 1);
         if (chance == 0) continue;
@@ -398,7 +460,7 @@ void generate_room(Game_World *world, Room starting_room, int door_face, int rec
                 return;
         }
 
-        Pair* door = malloc(sizeof(Pair));
+        Pair *door = malloc(sizeof(Pair));
         door->x = doorX;
         door->y = doorY;
         new_room.doors[i] = door;
@@ -409,14 +471,19 @@ void generate_room(Game_World *world, Room starting_room, int door_face, int rec
 
     if (append_room(world, new_room) != -1) {
         printf("Room appended\n");
+        generate_rooms(world, new_room, recursion_depth - 1);
     } else {
         printf("Room not appended\n");
-        printf("Room INFO:\n");
-        printf("Width: %d\n", new_room.width);
-        printf("Height: %d\n", new_room.height);
-        printf("X: %d\n", new_room.x);
-        printf("Y: %d\n", new_room.y);
+        printf("Removing doors lol");
+
+        world->chunk[looked_door->x][looked_door->y]->type = WALL;
+
+        Pair door = {-1, -1};
+        starting_room.doors[door_face] = &door;
+
+        //exit(1);
     }
+
 }
 
 int *random_door(int forced_face, int max_door, int seed) {
