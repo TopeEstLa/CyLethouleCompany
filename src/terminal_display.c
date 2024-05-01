@@ -25,7 +25,7 @@ void print_all_map(Game_World* world) {
                     printf("  ");
                     break;
                 case VOID:
-                    printf("#");
+                    printf(" ");
                     printf("  ");
                     break;
                 case EMPTY:

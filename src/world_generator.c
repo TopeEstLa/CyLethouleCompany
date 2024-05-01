@@ -54,7 +54,12 @@ void base_generation(Game_World *world) {
 
     world->chunk[roomCenterX][roomCenterY]->type = WALL;
 
-    generate_rooms(world, starting_room, 5);
+    generate_rooms(world, starting_room, 1);
+
+    for (int i = 1; i < 5; i++) {
+        Room room = world->rooms[i];
+        generate_rooms(world, room, 3);
+    }
 }
 
 Room resize_room(Room room, Room conflictRoom, int door_face, Pair* door) {
@@ -271,7 +276,7 @@ void generate_room(Game_World *world, Room starting_room, int door_face, int rec
     int height = random_int((roomSeed + looked_door->y), MIN_ROOM_HEIGHT, MAX_ROOM_HEIGHT);
 
     if ((door_face == TOP || door_face == LEFT) && ((looked_door->y - height) < 0 || (looked_door->x - width) < 0)) {
-        prepend_world(world, abs(looked_door->x - width), abs(looked_door->y - height));
+        prepend_world(world, width + (width/2), height + (height/2));
     }
 
     int startX, startY;
@@ -306,79 +311,6 @@ void generate_room(Game_World *world, Room starting_room, int door_face, int rec
     while (conflict_id != -1 && fail < 300) {
         Room conflict_room = world->rooms[conflict_id];
 
-        /** TODO: Resize the room to avoid conflict
-        int resize_startX = startX;
-        int resize_startY = startY;
-
-        int resize_width = width;
-        int resize_height = height;
-
-
-        if (new_room.x < conflict_room.x + conflict_room.width && new_room.x + new_room.width > conflict_room.x) {
-            printf("Conflict on the x axis\n");
-            resize_startX = conflict_room.x + conflict_room.width + 1;
-        }
-
-        if (new_room.y < conflict_room.y + conflict_room.height && new_room.y + new_room.height > conflict_room.y) {
-            printf("Conflict on the y axis\n");
-            resize_startY = conflict_room.y + conflict_room.height + 1;
-        }
-
-
-
-        /*
-        if (new_room.x > conflict_room.x && new_room.x < conflict_room.x + conflict_room.width) {
-            printf("Conflict on the x axis with startX\n");
-            resize_startX = conflict_room.x + conflict_room.width + 1;
-        }
-        if (new_room.x + new_room.width > conflict_room.x &&
-            new_room.x + new_room.width < conflict_room.x + conflict_room.width) {
-            printf("Conflict on the x axis with endX\n");
-            resize_width = conflict_room.x - new_room.x - 1;
-        }
-
-        if (new_room.y > conflict_room.y && new_room.y < conflict_room.y + conflict_room.height) {
-            printf("Conflict on the y axis with startY\n");
-            resize_startY = conflict_room.y + conflict_room.height + 1;
-        }
-
-        if (new_room.y + new_room.height > conflict_room.y &&
-            new_room.y + new_room.height < conflict_room.y + conflict_room.height) {
-            printf("Conflict on the y axis with endY\n");
-            resize_height = conflict_room.y - new_room.y - 1;
-        }
-
-
-        int resize_width = random_int((roomSeed + looked_door->x + conflict_id), MIN_ROOM_WIDTH - 1,
-                                      MAX_ROOM_WIDTH - 1);
-        int resize_height = random_int((roomSeed + looked_door->y + conflict_id), MIN_ROOM_HEIGHT - 1,
-                                       MAX_ROOM_HEIGHT - 1);
-
-        int resize_startX, resize_startY;
-
-        switch (door_face) {
-            case TOP:
-                resize_startX = looked_door->x - width / 2;
-                resize_startY = looked_door->y - height - fail; // Move the room up
-                break;
-            case BOTTOM:
-                resize_startX = looked_door->x - width / 2;
-                resize_startY = looked_door->y + 1 + fail; // Move the room down
-                break;
-            case LEFT:
-                resize_startX = looked_door->x - width - fail; // Move the room to the left
-                resize_startY = looked_door->y - height / 2;
-                break;
-            case RIGHT:
-                resize_startX = looked_door->x + 1 + fail; // Move the room to the right
-                resize_startY = looked_door->y - height / 2 - 1;
-                break;
-            default:
-                printf("Invalid door face\n");
-                return;
-        } */
-
-        //new_room = create_room(resize_width, resize_height, resize_startX, resize_startY);
         new_room = resize_room(new_room, conflict_room, door_face, looked_door);
         conflict_id = can_append_room(world, new_room);
         fail++;
@@ -476,7 +408,7 @@ void generate_room(Game_World *world, Room starting_room, int door_face, int rec
         generate_rooms(world, new_room, recursion_depth - 1);
     } else {
         printf("Room not appended\n");
-        printf("Removing doors lol");
+        printf("Removing doors lol\n");
 
         world->chunk[looked_door->x][looked_door->y]->type = WALL;
 
