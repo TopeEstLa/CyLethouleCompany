@@ -3,8 +3,8 @@
 
 #include <math.h>
 
-#define DEFAULT_WORLD_WIDTH 10
-#define DEFAULT_WORLD_HEIGHT 10
+#define DEFAULT_WORLD_WIDTH 30
+#define DEFAULT_WORLD_HEIGHT 30
 
 typedef enum chunk_type {
     VOID,
@@ -85,7 +85,7 @@ void prepend_world(Game_World* world, int width_to_add, int height_to_add);
  * Check if a room can be appended to the world (not crossing another room).
  * @param world The world to check.
  * @param room The room to check.
- * @return if conflicting return room_id, 0 otherwise.
+ * @return if conflicting return room_id, -1 otherwise.
  */
 int can_append_room(Game_World* world, Room room);
 

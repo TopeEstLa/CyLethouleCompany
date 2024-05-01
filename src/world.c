@@ -234,7 +234,7 @@ int can_append_room(Game_World *world, Room room) {
         }
     }
 
-    return 0;
+    return -1;
 }
 
 int append_room(Game_World *world, Room room) {
@@ -242,7 +242,8 @@ int append_room(Game_World *world, Room room) {
         return -1;
     }
 
-    if (can_append_room(world, room) != 0) {
+
+    if (can_append_room(world, room) != -1) {
         return -1;
     }
 
@@ -256,10 +257,10 @@ int append_room(Game_World *world, Room room) {
         world->rooms = new_rooms;
     }
 
-    int width_to_add = room.x + room.width;
-    int height_to_add = room.y + room.height; //I think it to much to add
-    if (width_to_add >= world->width || height_to_add >= world->height) {
-        append_world(world, width_to_add, height_to_add);
+    int width_need =  room.x + room.width; //room.x + room.width;
+    int height_need = room.y + room.height; //room.y + room.height; //I think it to much to add
+    if (width_need >= world->width || height_need >= world->height) {
+        append_world(world, room.width + (room.width/2), room.height + (room.height/2));
     }
 
     for (int i = room.x; i < room.x + room.width; i++) {
