@@ -5,6 +5,11 @@ set(CMAKE_C_STANDARD 11)
 
 include_directories(
         include/
+        deps/include/ncurses
+)
+
+link_directories(
+        deps/lib
 )
 
 add_executable(CyLethouleCompany src/main.c
@@ -16,4 +21,8 @@ add_executable(CyLethouleCompany src/main.c
         src/math.c
         include/world_generator.h
         src/world_generator.c
+)
+
+target_link_libraries(CyLethouleCompany PUBLIC
+        ncurses
 )
