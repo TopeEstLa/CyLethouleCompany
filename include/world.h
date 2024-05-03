@@ -116,5 +116,14 @@ int append_room(Game_World *world, Room room);
  */
 Room create_room(int width, int height, int x, int y);
 
+/**
+ * Get the room at the given position.
+ * @param world
+ * @param x
+ * @param y
+ * @return
+ */
+Room get_room(Game_World *world, int x, int y);
+
 
 #endif //WORLD_H

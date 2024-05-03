@@ -327,3 +327,28 @@ Room create_room(int width, int height, int x, int y) {
 
     return room;
 }
+
+bool in_room(Room room, int x, int y) {
+    return x >= room.x && x < room.x + room.width && y >= room.y && y < room.y + room.height;
+}
+
+Room get_room(Game_World *world, int x, int y) {
+    Room default_room = {-1, -1, -1, -1};
+
+    if (world == NULL) {
+        return default_room;
+    }
+
+    if (world->chunk[x][y]->type == VOID) {
+        return default_room;
+    }
+
+    for (int i = 0; i < world->room_count; i++) {
+        Room room = world->rooms[i];
+        if (in_room(room, x, y)) {
+            return room;
+        }
+    }
+
+    return default_room;
+}

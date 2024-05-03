@@ -47,6 +47,8 @@ void base_generation(Game_World *world) {
     starting_room.doors[LEFT] = &leftDoor;
     starting_room.doors[RIGHT] = &rightDoor;
 
+    starting_room.is_visited = true;
+
     append_room(world, starting_room);
 
     int roomCenterX = baseX + width / 2;
@@ -54,7 +56,6 @@ void base_generation(Game_World *world) {
 
     world->chunk[roomCenterX][roomCenterY]->type = WALL;
 
-    starting_room.is_visited = true;
 
     generate_rooms(world, starting_room, 1);
 

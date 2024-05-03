@@ -15,6 +15,12 @@ int main() {
 
     print_all_map(world);
 
+    for (int i = 0; i < 50; ++i) {
+        printf("\n");
+    }
+
+    print_visited_map(world);
+
     /**
     int try = 0;
     int last_seed = 0;
