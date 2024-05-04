@@ -65,6 +65,56 @@ Game_World *create_world(int seed) {
     return world;
 }
 
+Game_World *create_world_sized(int seed, int width, int height) {
+    Game_World *world = malloc(sizeof(Game_World));
+    world->seed = seed;
+
+    world->width = width;
+    world->height = height;
+
+    world->chunk = malloc(sizeof(Chunk **) * width);
+    if (world->chunk == NULL) {
+        //TODO clean ram
+        return world;
+    }
+
+    for (int i = 0; i < width; i++) {
+        world->chunk[i] = calloc(height, sizeof(Chunk *));
+        if (world->chunk[i] == NULL) {
+            printf("Failed to allocate memory for chunk\n");
+            //TODO clean ram
+            return world;
+        }
+    }
+
+    for (int i = 0; i < width; i++) {
+        for (int j = 0; j < height; j++) {
+            world->chunk[i][j] = create_empty_chunk();
+            if (world->chunk[i][j] == NULL) {
+                printf("Failed to allocate memory for chunk\n");
+                //TODO clean ram
+                return world;
+            }
+        }
+    }
+
+    world->rooms = calloc(10, sizeof(Room));
+    if (world->rooms == NULL) {
+        for (int i = 0; i < width; i++) {
+            free(world->chunk[i]);
+        }
+        free(world->chunk);
+        printf("Failed to allocate memory for rooms\n");
+        return world;
+    }
+
+    world->room_capacity = 10;
+    world->room_count = 0;
+
+    return world;
+}
+
+
 
 void append_world(Game_World *world, int width_to_add, int height_to_add) {
     if (world == NULL || world->chunk == NULL || width_to_add <= 0 || height_to_add <= 0) {

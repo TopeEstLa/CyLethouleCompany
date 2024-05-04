@@ -73,6 +73,8 @@ typedef struct game_world {
  */
 Game_World *create_world(int seed);
 
+Game_World *create_world_sized(int seed, int width, int height);
+
 /**
  * Add new chunks to the world. (append to the right and the bottom)
  * @param world The world to append to.
