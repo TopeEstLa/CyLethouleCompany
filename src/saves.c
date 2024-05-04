@@ -24,8 +24,6 @@ bool save_world(Game_World *world, char *filename) {
 
         Room room = world->rooms[i];
 
-        printf("Saving room %d\n", i);
-
         cJSON_AddNumberToObject(roomObj, "index", i);
         cJSON_AddNumberToObject(roomObj, "x", room.x);
         cJSON_AddNumberToObject(roomObj, "y", room.y);
@@ -38,15 +36,11 @@ bool save_world(Game_World *world, char *filename) {
         for (int j = 0; j < 4; j++) {
             Door *door = room.doors[j];
 
-            printf("Saving door %d\n", j);
-            printf("Door x: %d\n", door->x);
-            printf("Door y: %d\n", door->y);
-
             cJSON *doorObj = cJSON_CreateObject();
             cJSON_AddNumberToObject(doorObj, "index", j);
-            cJSON_AddNumberToObject(doorObj, "x", world->rooms[i].doors[j]->x);
-            cJSON_AddNumberToObject(doorObj, "y", world->rooms[i].doors[j]->y);
-            cJSON_AddBoolToObject(doorObj, "is_used", world->rooms[i].doors[j]->is_used);
+            cJSON_AddNumberToObject(doorObj, "x", door->x);
+            cJSON_AddNumberToObject(doorObj, "y", door->y);
+            cJSON_AddBoolToObject(doorObj, "is_used", door->is_used);
             cJSON_AddItemToArray(doorsArray, doorObj);
         }
 

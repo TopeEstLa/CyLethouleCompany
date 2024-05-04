@@ -38,19 +38,19 @@ void base_generation(Game_World *world) {
 
     Room starting_room = create_room(width, height, baseX, baseY);
 
-    Door* topDoor = starting_room.doors[TOP];
+    Door *topDoor = starting_room.doors[TOP];
     topDoor->x = topDoorX;
     topDoor->y = topDoorY;
 
-    Door* bottomDoor = starting_room.doors[BOTTOM];
+    Door *bottomDoor = starting_room.doors[BOTTOM];
     bottomDoor->x = bottomDoorX;
     bottomDoor->y = bottomDoorY;
 
-    Door* leftDoor = starting_room.doors[LEFT];
+    Door *leftDoor = starting_room.doors[LEFT];
     leftDoor->x = leftDoorX;
     leftDoor->y = leftDoorY;
 
-    Door* rightDoor = starting_room.doors[RIGHT];
+    Door *rightDoor = starting_room.doors[RIGHT];
     rightDoor->x = rightDoorX;
     rightDoor->y = rightDoorY;
 
@@ -167,12 +167,6 @@ void generate_room(Game_World *world, Room starting_room, int door_face, int rec
             break;
     }
 
-    Door* connectedDoor = new_room.doors[door_face];
-
-    connectedDoor->x = connectedDoorX;
-    connectedDoor->y = connectedDoorY;
-    connectedDoor->is_used = false;
-
     int putted_door_face;
 
     switch (door_face) {
@@ -190,7 +184,12 @@ void generate_room(Game_World *world, Room starting_room, int door_face, int rec
             break;
     }
 
-    new_room.doors[putted_door_face] = connectedDoor;
+    Door *connectedDoor = new_room.doors[putted_door_face];
+
+    connectedDoor->x = connectedDoorX;
+    connectedDoor->y = connectedDoorY;
+    connectedDoor->is_used = false;
+
     new_room.start_door = putted_door_face;
 
     for (int i = 0; i < 4; i++) {
@@ -238,18 +237,16 @@ void generate_room(Game_World *world, Room starting_room, int door_face, int rec
         } else {
             world->chunk[looked_door->x][looked_door->y]->type = WALL;
 
-            Door* door = starting_room.doors[door_face];
-            door->x = -1;
-            door->y = -1;
-            door->is_used = false;
+            looked_door->x = -1;
+            looked_door->y = -1;
+            looked_door->is_used = false;
         }
     } else {
         world->chunk[looked_door->x][looked_door->y]->type = WALL;
 
-        Door* door = starting_room.doors[door_face];
-        door->x = -1;
-        door->y = -1;
-        door->is_used = false;
+        looked_door->x = -1;
+        looked_door->y = -1;
+        looked_door->is_used = false;
     }
 }
 
