@@ -290,7 +290,7 @@ int append_room(Game_World *world, Room room) {
     return world->room_count - 1;
 }
 
-Room create_room(int width, int height, int x, int y) {
+Room create_room(int width, int height, int x, int y) { //TODO Switch to pointer
     Room room = {0};
 
     room.width = width;
