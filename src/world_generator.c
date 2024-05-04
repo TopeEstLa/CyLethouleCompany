@@ -26,26 +26,33 @@ void base_generation(Game_World *world) {
 
     topDoorX = random_int(roomSeed, baseX + 4, baseX + width - 4);
     topDoorY = baseY;
-    Door topDoor = {topDoorX, topDoorY, false};
 
     bottomDoorX = random_int(roomSeed, baseX + 4, baseX + width - 4);
     bottomDoorY = baseY + height - 1;
-    Door bottomDoor = {bottomDoorX, bottomDoorY, false};
 
     leftDoorX = baseX;
     leftDoorY = random_int(roomSeed, baseY + 4, baseY + height - 4);
-    Door leftDoor = {leftDoorX, leftDoorY, false};
 
     rightDoorX = baseX + width - 1;
     rightDoorY = random_int(roomSeed, baseY + 4, baseY + height - 4);
-    Door rightDoor = {rightDoorX, rightDoorY, false};
 
     Room starting_room = create_room(width, height, baseX, baseY);
 
-    starting_room.doors[TOP] = &topDoor;
-    starting_room.doors[BOTTOM] = &bottomDoor;
-    starting_room.doors[LEFT] = &leftDoor;
-    starting_room.doors[RIGHT] = &rightDoor;
+    Door* topDoor = starting_room.doors[TOP];
+    topDoor->x = topDoorX;
+    topDoor->y = topDoorY;
+
+    Door* bottomDoor = starting_room.doors[BOTTOM];
+    bottomDoor->x = bottomDoorX;
+    bottomDoor->y = bottomDoorY;
+
+    Door* leftDoor = starting_room.doors[LEFT];
+    leftDoor->x = leftDoorX;
+    leftDoor->y = leftDoorY;
+
+    Door* rightDoor = starting_room.doors[RIGHT];
+    rightDoor->x = rightDoorX;
+    rightDoor->y = rightDoorY;
 
     starting_room.is_visited = true;
 
@@ -160,7 +167,7 @@ void generate_room(Game_World *world, Room starting_room, int door_face, int rec
             break;
     }
 
-    Door *connectedDoor = malloc(sizeof(Door));
+    Door* connectedDoor = new_room.doors[door_face];
 
     connectedDoor->x = connectedDoorX;
     connectedDoor->y = connectedDoorY;
@@ -217,7 +224,7 @@ void generate_room(Game_World *world, Room starting_room, int door_face, int rec
                 return;
         }
 
-        Door *door = malloc(sizeof(Door));
+        Door *door = new_room.doors[i];
         door->x = doorX;
         door->y = doorY;
         door->is_used = false;
@@ -231,14 +238,18 @@ void generate_room(Game_World *world, Room starting_room, int door_face, int rec
         } else {
             world->chunk[looked_door->x][looked_door->y]->type = WALL;
 
-            Door door = {-1, -1, false};
-            starting_room.doors[door_face] = &door;
+            Door* door = starting_room.doors[door_face];
+            door->x = -1;
+            door->y = -1;
+            door->is_used = false;
         }
     } else {
         world->chunk[looked_door->x][looked_door->y]->type = WALL;
 
-        Door door = {-1, -1, false};
-        starting_room.doors[door_face] = &door;
+        Door* door = starting_room.doors[door_face];
+        door->x = -1;
+        door->y = -1;
+        door->is_used = false;
     }
 }
 

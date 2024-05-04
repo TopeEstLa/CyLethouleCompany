@@ -6,6 +6,7 @@
 #include <world.h>
 #include <terminal_display.h>
 #include <world_generator.h>
+#include <saves.h>
 
 int main() {
     srand(time(NULL));
@@ -13,13 +14,31 @@ int main() {
 
     base_generation(world);
 
-    print_all_map(world);
+    //print_all_map(world);
 
-    for (int i = 0; i < 50; ++i) {
+    //bool aaa = save_world(world, "test_save.squid");
+    //printf("Save: %d\n", aaa);
+
+
+    for (int i = 0; i < world->room_capacity; ++i) {
+        Room room = world->rooms[i];
+        printf("Room %d\n", i);
+        printf("X: %d\n", room.x);
+        printf("Y: %d\n", room.y);
+        printf("Width: %d\n", room.width);
+        printf("Height: %d\n", room.height);
+        printf("Visited: %d\n", room.is_visited);
+
+        for (int j = 0; j < 4; ++j) {
+            Door *door = room.doors[j];
+            printf("Door %d\n", j);
+            printf("X: %d\n", door->x);
+            printf("Y: %d\n", door->y);
+            printf("Used: %d\n", door->is_used);
+        }
+
         printf("\n");
     }
-
-    print_visited_map(world);
 
     /**
     int try = 0;

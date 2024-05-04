@@ -303,13 +303,13 @@ Room create_room(int width, int height, int x, int y) { //TODO Switch to pointer
 
     room.cuboid = cuboid;
 
-    room.doors = calloc(4, sizeof(Door *));
+    room.doors = malloc(4 * sizeof(Door *));
     if (room.doors == NULL) {
         return room;
     }
 
     for (int i = 0; i < 4; i++) {
-        Door *door = malloc(sizeof(Door));
+        Door* door = malloc(sizeof(Door));
         if (door == NULL) {
             //TODO clean ram
             return room;

@@ -9,7 +9,7 @@ include_directories(
 )
 
 link_directories(
-        deps/lib
+        deps/libs/
 )
 
 add_executable(CyLethouleCompany src/main.c
@@ -23,8 +23,10 @@ add_executable(CyLethouleCompany src/main.c
         src/world_generator.c
         include/file_utils.h
         src/file_utils.c
+        include/saves.h
+        src/saves.c
 )
 
-target_link_libraries(CyLethouleCompany PUBLIC
-        cJSON
+target_link_libraries(CyLethouleCompany PRIVATE
+        cjson
 )
