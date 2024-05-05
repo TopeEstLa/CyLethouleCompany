@@ -73,6 +73,13 @@ typedef struct game_world {
  */
 Game_World *create_world(int seed);
 
+/**
+ * Generate a new game world with the given width and height.
+ * @param seed
+ * @param width
+ * @param height
+ * @return
+ */
 Game_World *create_world_sized(int seed, int width, int height);
 
 /**
