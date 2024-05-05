@@ -2,6 +2,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <dirent.h>
 
 bool save_json(char *filename, cJSON *json) {
     FILE *file = fopen(filename, "w");
@@ -53,4 +54,48 @@ cJSON *load_json(char *filename) {
     free(buffer);
 
     return json;
+}
+
+char** list_files(char *directory, int *count) {
+    DIR *dir = opendir(directory);
+    if (dir == NULL) {
+        return NULL;
+    }
+
+    struct dirent *entry;
+    int files_count = 0;
+
+    while ((entry = readdir(dir)) != NULL) {
+        files_count++;
+    }
+
+    char** files = (char**) malloc(files_count * sizeof(char*));
+
+    if (files == NULL) {
+        closedir(dir);
+        return NULL;
+    }
+
+    while ((entry = readdir(dir)) != NULL) {
+        files[files_count] = (char*) malloc(strlen(entry->d_name) + 1);
+
+        if (files[files_count] == NULL) {
+            for (int i = 0; i < files_count; i++) {
+                free(files[i]);
+            }
+
+            free(files);
+            closedir(dir);
+            return NULL;
+        }
+
+        strcpy(files[files_count], entry->d_name);
+        files_count++;
+    }
+
+    closedir(dir);
+
+    *count = files_count;
+
+    return files;
 }
