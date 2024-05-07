@@ -4,12 +4,15 @@
 
 #define SIZE 50
 
+typedef enum class {
+    ARCHER,
+    SORCIER,
+    GUERRIER,
+} Class;
 
 typedef struct{
     char* nom[SIZE];
-    int attaque;
-    int defense;
-    int esquive;
+    Class current_class;
     int vie;
     int exp;
 } Joueur;
@@ -47,6 +50,19 @@ typedef struct{
     int nombre;
 } Info;
 
+
+typedef enum material {
+    SWORD,
+    PICKAXE,
+} Material;
+
+typedef struct item_stack {
+    char name[SIZE];
+    Material material;
+    int count;
+} Item_Stack;
+
+
 typedef struct{
     Info* item;
     int capacite;
@@ -72,9 +88,9 @@ Inventaire* initialiserInv(){
 
 // FOnction pour ajouter item
 
-void ajoutItem(Inventaire* p, char* nom){
+void ajoutItem(Inventaire* p, Info nom){
     if (p->quantite <= p->capacite){
-        p->item[p->quantite] = // item à prévoir 
+        p->item[p->quantite] = nom;
         p->quantite++;
     }
     else{
@@ -119,15 +135,30 @@ int resetSorcier(Joueur* a, Joueur* b){
     b->defense = rand()%4 + 5;
     b->esquive = rand()%14 + 3;
 }
-int resetGuerrier(Joueur* a, Joueur* b){
-    a->attaque = rand()%4 + 12;
-    a->defense = rand()%4 + 5;
-    a->esquive = rand()%14 + 3;
+void resetGuerrier(int attaque, int defense, int esquive){
+    attaque = rand()%4 + 12;
+    defense = rand()%4 + 5;
+    esquive = rand()%14 + 3;
 
-    b->attaque = rand()%4 + 12;
-    b->defense = rand()%4 + 5;
-    b->esquive = rand()%14 + 3;
+}
 
+void globalReset(Class cl, int attaque, int defense, int esquive) {
+    switch (cl) {
+        case GUERRIER:
+            resetGuerrier(attaque, defense, esquive);
+            break;
+    }
+}
+
+void enemyReset(int attaque, int defense, int esquive) {
+    resetGuerrier(attaque, defense, esquive);
+}
+
+int calculDegats(Joueur* a, Joueur* b){
+    int degats = a->attaque - b->defense;
+    if (degats < 0) degats = 0;
+    b->vie -= degats;
+    return degats;
 }
 
 // Creation Combat
@@ -154,11 +185,25 @@ void combat(Joueur* a, Joueur* b, int N){
        reset = resetGuerrier(a,b);
     }
 
+    Class cl = a->current_class;
+
+    int attaque = 0;
+    int defense = 0;
+    int esquive = 0;
+
+    int attaqueM = 0;
+    int defenseM = 0;
+    int esquiveM = 0;
+
+
     printf ("Debut du combat ! :\n");
 
 
 
-     while (a->vie > 0 && b->vie > 0) {
+    while (a->vie > 0 && b->vie > 0) {
+
+        globalReset(cl, attaque, defense, esquive);
+        enemyReset(attaqueM, defenseM, esquiveM);
 
     //soucis avec le reset 
 

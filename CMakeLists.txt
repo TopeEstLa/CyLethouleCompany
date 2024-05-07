@@ -9,7 +9,7 @@ include_directories(
 )
 
 link_directories(
-        deps/libs/
+        deps/libs
 )
 
 add_executable(CyLethouleCompany src/main.c
