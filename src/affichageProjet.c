@@ -5,7 +5,7 @@
 #define HAUTEUR 100
 #define LARGEUR 100
 
-
+// Camera of the Player
 void afficheCam(char tab[LARGEUR][HAUTEUR], int x, int y, int l, int h){
     for (int i = x-h; i < x+h; i++){
         for (int j = y-l; j < y+l; j++){
@@ -15,6 +15,7 @@ void afficheCam(char tab[LARGEUR][HAUTEUR], int x, int y, int l, int h){
             printf("%c", tab[i][j]);
         }
         printf("\n");
+        //printf sucemaqueueantonin by Ziyad
         printf("sucemaqueueantonin\n");
     }
 }    
