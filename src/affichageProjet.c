@@ -15,5 +15,6 @@ void afficheCam(char tab[LARGEUR][HAUTEUR], int x, int y, int l, int h){
             printf("%c", tab[i][j]);
         }
         printf("\n");
+        printf("sucemaqueueantonin\n);
     }
 }    
