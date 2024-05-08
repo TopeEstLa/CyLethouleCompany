@@ -7,6 +7,7 @@
 #include <terminal_display.h>
 #include <world_generator.h>
 #include <saves.h>
+#include <entities.h>
 
 int main() {
     srand(time(NULL));

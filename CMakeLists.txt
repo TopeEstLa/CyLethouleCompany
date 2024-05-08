@@ -26,6 +26,7 @@ add_executable(CyLethouleCompany src/main.c
         include/saves.h
         src/saves.c
         include/entities.h
+        src/entites.c
 )
 
 target_link_libraries(CyLethouleCompany PRIVATE
