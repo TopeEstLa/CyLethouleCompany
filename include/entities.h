@@ -2,6 +2,7 @@
 #define ENTITIES_H
 
 #include <stdbool.h>
+#include <world.h>
 
 typedef enum entity_type {
     PLAYER,
@@ -12,19 +13,25 @@ typedef enum entity_type {
 typedef struct entity {
     Entity_Type type;
     void* data;
+    char texture;
     int x, y;
 } Entity;
 
-void init_entities();
+typedef struct move_callback {
+    Entity* collided_entity;
+    bool move_made;
+} Move_Callback;
 
-Entity* create_entity(Entity_Type type, void* data);
+void init_entities(Game_World* world_ptr);
+
+Entity* create_entity(Entity_Type type, void* data, char texture);
 
 bool add_entity(Entity* entity, int x, int y);
 
-bool remove_entity(Entity* entity, int x, int y);
+bool remove_entity(int x, int y);
 
 Entity* get_entity(int x, int y);
 
-void move_entity(Entity* entity, int new_x, int new_y);
+Move_Callback move_entity(Entity* entity, int new_x, int new_y);
 
 #endif //ENTITIES_H

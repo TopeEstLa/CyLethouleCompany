@@ -13,22 +13,16 @@ int main() {
     srand(time(NULL));
     Game_World *world = create_world(rand() % 1000);
 
+    init_entities(world);
+
     base_generation(world);
+
+    Entity* player = create_entity(PLAYER, NULL, '@');
+
+    add_entity(player, world->rooms[0].x + 3, world->rooms[0].y + 3);
 
     print_all_map(world);
 
-    bool aaa = save_world(world, "test_save.squid");
-    printf("Save: %d\n", aaa);
-
-    free(world);
-
-    Game_World *world2 = load_world("test_save.squid");
-    if (world2 == NULL) {
-        printf("Failed to load world\n");
-        return 1;
-    }
-
-    print_all_map(world2);
 
     /**
     int try = 0;
