@@ -1,12 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include <ncurses.h>
+#include <curses.h>
 
 #include <world.h>
 #include <terminal_ncurses_display.h>
+#include <terminal_display.h>
 #include <world_generator.h>
 #include <entities.h>
+
 
 int main() {
     srand(time(NULL));
@@ -20,6 +22,7 @@ int main() {
 
     add_entity(player, world->rooms[0].x + 3, world->rooms[0].y + 3);
 
+
     initscr();
     cbreak();
     noecho();
@@ -30,7 +33,8 @@ int main() {
 
     }
 
-    //endwin();
+    endwin();
+
 
     /**
     int try = 0;

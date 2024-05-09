@@ -16,27 +16,34 @@ void curses_all_map(Game_World* world) {
 
             if (entity != NULL) {
                 printw("%c", entity->texture);
+                printw("  ");
                 continue;
             }
 
             switch (world->chunk[x][y]->type) {
                 case DOOR:
                     printw("D");
+                    printw("  ");
                     break;
                 case WALL:
-                    mvprintw(x, y, "|");
+                    printw("|");
+                    printw("  ");
                     break;
                 case VOID:
-                    mvprintw(x, y, " ");
+                    printw(" ");
+                    printw("  ");
                     break;
                 case EMPTY:
-                    mvprintw(x, y, " ");
+                    printw(" ");
+                    printw("  ");
                     break;
                 default:
-                    mvprintw(x, y, "?");
+                    printw("?");
+                    printw("  ");
                     break;
             }
         }
+        printw("\n");
     }
 
     refresh();
