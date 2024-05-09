@@ -1,9 +1,9 @@
 #include <terminal_display.h>
 #include <stdio.h>
 
-#include "entities.h"
+#include <entities.h>
 
-void print_all_map(Game_World* world) {
+void print_all_map(Game_World *world) {
     if (world == NULL) {
         return;
     }
@@ -17,7 +17,7 @@ void print_all_map(Game_World* world) {
 
     for (int y = 0; y < world->height; y++) {
         for (int x = 0; x < world->width; x++) {
-            Entity* entity = get_entity(x, y);
+            Entity *entity = get_entity(x, y);
 
             if (entity != NULL) {
                 printf("%c", entity->texture);
@@ -52,7 +52,7 @@ void print_all_map(Game_World* world) {
     }
 }
 
-void print_visited_map(Game_World* world) {
+void print_visited_map(Game_World *world) {
     if (world == NULL) {
         return;
     }
@@ -73,7 +73,7 @@ void print_visited_map(Game_World* world) {
                 continue;
             }
 
-            Entity* entity = get_entity(x, y);
+            Entity *entity = get_entity(x, y);
 
             if (entity != NULL) {
                 printf("%c", entity->texture);

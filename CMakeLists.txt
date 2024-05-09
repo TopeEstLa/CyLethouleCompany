@@ -27,8 +27,11 @@ add_executable(CyLethouleCompany src/main.c
         src/saves.c
         include/entities.h
         src/entites.c
+        include/ncurse_display.h
+        src/ncurses_display.c
 )
 
 target_link_libraries(CyLethouleCompany PRIVATE
         cjson
+        ncurses
 )
