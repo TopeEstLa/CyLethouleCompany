@@ -3,6 +3,8 @@
 
 #include <ncurses.h>
 
+#include "entities.h"
+
 void print_all_map(Game_World* world) {
     if (world == NULL) {
         return;
@@ -15,9 +17,17 @@ void print_all_map(Game_World* world) {
 
     printf("\n");
 
-    for (int i = 0; i < world->height; i++) {
-        for (int j = 0; j < world->width; j++) {
-            switch (world->chunk[j][i]->type) {
+    for (int y = 0; y < world->height; y++) {
+        for (int x = 0; x < world->width; x++) {
+            Entity* entity = get_entity(x, y);
+
+            if (entity != NULL) {
+                printf("%c", entity->texture);
+                printf("  ");
+                continue;
+            }
+
+            switch (world->chunk[x][y]->type) {
                 case DOOR:
                     printf("D");
                     printf("  ");
@@ -44,6 +54,61 @@ void print_all_map(Game_World* world) {
     }
 }
 
+void print_visited_map(Game_World* world) {
+    if (world == NULL) {
+        return;
+    }
+
+    for (int i = 0; i < world->width; ++i) {
+        printf("%d ", i);
+        printf(" ");
+    }
+
+    printf("\n");
+
+    for (int y = 0; y < world->height; y++) {
+        for (int x = 0; x < world->width; x++) {
+            Room room = get_room(world, x, y);
+            if ((room.x != -1 && room.y != -1) && !room.is_visited) {
+                printf(" ");
+                printf("  ");
+                continue;
+            }
+
+            Entity* entity = get_entity(x, y);
+
+            if (entity != NULL) {
+                printf("%c", entity->texture);
+                printf("  ");
+                continue;
+            }
+
+            switch (world->chunk[x][y]->type) {
+                case DOOR:
+                    printf("D");
+                    printf("  ");
+                    break;
+                case WALL:
+                    printf("|");
+                    printf("  ");
+                    break;
+                case VOID:
+                    printf(" ");
+                    printf("  ");
+                    break;
+                case EMPTY:
+                    printf(" ");
+                    printf("  ");
+                    break;
+                default:
+                    printf("?");
+                    printf("  ");
+                    break;
+            }
+        }
+        printf("\n");
+    }
+}
 void print_all_map_ncurses(Game_World* world) {
     if (world == NULL) {
         return;

@@ -2,6 +2,7 @@
 #define WORLD_H
 
 #include <math.h>
+#include <stdbool.h>
 
 #define DEFAULT_WORLD_WIDTH 30
 #define DEFAULT_WORLD_HEIGHT 30
@@ -17,6 +18,11 @@ typedef struct chunk {
     Chunk_Type type;
 } Chunk;
 
+typedef struct door {
+    int x, y;
+    bool is_used;
+} Door;
+
 
 /**
  * Struct representing a room.
@@ -31,7 +37,8 @@ typedef struct room {
     int width, height, x, y;
     Cuboid cuboid;
     int start_door;
-    Pair** doors; //Max 4 door by room (N, E, S, W)
+    bool is_visited;
+    Door** doors; //Max 4 door by room (N, E, S, W)
 } Room;
 
 /**
@@ -48,13 +55,13 @@ typedef struct game_world {
     int seed;
     int width;
     int height;
-    Chunk*** chunk; // 2D array of Chunk*[width][height] example:
+    Chunk ***chunk; // 2D array of Chunk*[width][height] example:
     // <-         width       ->    ^
     // [ [0, [0, [1, [0, [2, [0, ]  |
     //    0,  1,  1,  1,  2,  1,   height
     //    0,  2,  1,  2,  2,  2,    |
     //    0], 3], 1], 3], 2], 3],   v
-    Room* rooms;
+    Room *rooms;
     int room_capacity;
     int room_count;
 } Game_World;
@@ -64,7 +71,16 @@ typedef struct game_world {
  * @param seed The seed to use for the random number generator.
  * @return A pointer to the newly created game world.
  */
-Game_World* create_world(int seed);
+Game_World *create_world(int seed);
+
+/**
+ * Generate a new game world with the given width and height.
+ * @param seed
+ * @param width
+ * @param height
+ * @return
+ */
+Game_World *create_world_sized(int seed, int width, int height);
 
 /**
  * Add new chunks to the world. (append to the right and the bottom)
@@ -72,7 +88,7 @@ Game_World* create_world(int seed);
  * @param width_to_add The number of chunks to add to the width.
  * @param height_to_add  The number of chunks to add to the height.
  */
-void append_world(Game_World* world, int width_to_add, int height_to_add);
+void append_world(Game_World *world, int width_to_add, int height_to_add);
 
 /**
  * Add new chunks to the world. (append to the left and the top)
@@ -80,7 +96,7 @@ void append_world(Game_World* world, int width_to_add, int height_to_add);
  * @param width_to_add The number of chunks to add to the width.
  * @param height_to_add The number of chunks to add to the height.
  */
-void prepend_world(Game_World* world, int width_to_add, int height_to_add);
+void prepend_world(Game_World *world, int width_to_add, int height_to_add);
 
 /**
  * Check if a room can be appended to the world (not crossing another room).
@@ -88,7 +104,7 @@ void prepend_world(Game_World* world, int width_to_add, int height_to_add);
  * @param room The room to check.
  * @return if conflicting return room_id, -1 otherwise.
  */
-int can_append_room(Game_World* world, Room room);
+int can_append_room(Game_World *world, Room room);
 
 /**
  * Append a room to the world.
@@ -96,7 +112,7 @@ int can_append_room(Game_World* world, Room room);
  * @param room The room to append.
  * @return room if the room was appended, -1 otherwise.
  */
-int append_room(Game_World* world, Room room);
+int append_room(Game_World *world, Room room);
 
 /**
  * Create a new room with the given width and height.
@@ -108,6 +124,15 @@ int append_room(Game_World* world, Room room);
  * @return A pointer to the newly created room.             WALL DOOR WALL
  */
 Room create_room(int width, int height, int x, int y);
+
+/**
+ * Get the room at the given position.
+ * @param world
+ * @param x
+ * @param y
+ * @return
+ */
+Room get_room(Game_World *world, int x, int y);
 
 
 #endif //WORLD_H

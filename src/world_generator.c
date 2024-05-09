@@ -26,26 +26,35 @@ void base_generation(Game_World *world) {
 
     topDoorX = random_int(roomSeed, baseX + 4, baseX + width - 4);
     topDoorY = baseY;
-    Pair topDoor = {topDoorX, topDoorY};
 
     bottomDoorX = random_int(roomSeed, baseX + 4, baseX + width - 4);
     bottomDoorY = baseY + height - 1;
-    Pair bottomDoor = {bottomDoorX, bottomDoorY};
 
     leftDoorX = baseX;
     leftDoorY = random_int(roomSeed, baseY + 4, baseY + height - 4);
-    Pair leftDoor = {leftDoorX, leftDoorY};
 
     rightDoorX = baseX + width - 1;
     rightDoorY = random_int(roomSeed, baseY + 4, baseY + height - 4);
-    Pair rightDoor = {rightDoorX, rightDoorY};
 
     Room starting_room = create_room(width, height, baseX, baseY);
 
-    starting_room.doors[TOP] = &topDoor;
-    starting_room.doors[BOTTOM] = &bottomDoor;
-    starting_room.doors[LEFT] = &leftDoor;
-    starting_room.doors[RIGHT] = &rightDoor;
+    Door *topDoor = starting_room.doors[TOP];
+    topDoor->x = topDoorX;
+    topDoor->y = topDoorY;
+
+    Door *bottomDoor = starting_room.doors[BOTTOM];
+    bottomDoor->x = bottomDoorX;
+    bottomDoor->y = bottomDoorY;
+
+    Door *leftDoor = starting_room.doors[LEFT];
+    leftDoor->x = leftDoorX;
+    leftDoor->y = leftDoorY;
+
+    Door *rightDoor = starting_room.doors[RIGHT];
+    rightDoor->x = rightDoorX;
+    rightDoor->y = rightDoorY;
+
+    starting_room.is_visited = true;
 
     append_room(world, starting_room);
 
@@ -53,6 +62,7 @@ void base_generation(Game_World *world) {
     int roomCenterY = baseY + height / 2;
 
     world->chunk[roomCenterX][roomCenterY]->type = WALL;
+
 
     generate_rooms(world, starting_room, 1);
 
@@ -68,7 +78,7 @@ void generate_rooms(Game_World *world, Room starting_room, int recursion_depth) 
     }
 
     for (int i = 0; i < 4; ++i) {
-        Pair* door = starting_room.doors[i];
+        Door *door = starting_room.doors[i];
 
         if (door->x == -1 && door->y == -1) continue;
 
@@ -81,13 +91,15 @@ void generate_room(Game_World *world, Room starting_room, int door_face, int rec
         return;
     }
 
-    Pair *looked_door = starting_room.doors[door_face];
+    Door *looked_door = starting_room.doors[door_face];
 
     if (looked_door->x == -1 && looked_door->y == -1) {
         return;
     }
 
-    if (starting_room.start_door==door_face) {
+    if (looked_door->is_used) return;
+
+    if (starting_room.start_door == door_face) {
         return;
     }
 
@@ -97,7 +109,7 @@ void generate_room(Game_World *world, Room starting_room, int door_face, int rec
     int height = random_int((roomSeed + looked_door->y), MIN_ROOM_HEIGHT, MAX_ROOM_HEIGHT);
 
     if ((door_face == TOP || door_face == LEFT) && ((looked_door->y - height) < 0 || (looked_door->x - width) < 0)) {
-        prepend_world(world, width + (width/2), height + (height/2));
+        prepend_world(world, width + (width / 2), height + (height / 2));
     }
 
     int startX, startY;
@@ -155,11 +167,6 @@ void generate_room(Game_World *world, Room starting_room, int door_face, int rec
             break;
     }
 
-    Pair *connectedDoor = malloc(sizeof(Pair));
-
-    connectedDoor->x = connectedDoorX;
-    connectedDoor->y = connectedDoorY;
-
     int putted_door_face;
 
     switch (door_face) {
@@ -177,7 +184,12 @@ void generate_room(Game_World *world, Room starting_room, int door_face, int rec
             break;
     }
 
-    new_room.doors[putted_door_face] = connectedDoor;
+    Door *connectedDoor = new_room.doors[putted_door_face];
+
+    connectedDoor->x = connectedDoorX;
+    connectedDoor->y = connectedDoorY;
+    connectedDoor->is_used = false;
+
     new_room.start_door = putted_door_face;
 
     for (int i = 0; i < 4; i++) {
@@ -211,37 +223,34 @@ void generate_room(Game_World *world, Room starting_room, int door_face, int rec
                 return;
         }
 
-        Pair *door = malloc(sizeof(Pair));
+        Door *door = new_room.doors[i];
         door->x = doorX;
         door->y = doorY;
+        door->is_used = false;
         new_room.doors[i] = door;
     }
 
     if (is_room_valid(new_room)) {
         if (append_room(world, new_room) != -1) {
-            printf("Room appended\n");
             generate_rooms(world, new_room, recursion_depth - 1);
+            looked_door->is_used = true;
         } else {
-            printf("Room not appended\n");
-            printf("Removing doors lol\n");
-
             world->chunk[looked_door->x][looked_door->y]->type = WALL;
 
-            Pair door = {-1, -1};
-            starting_room.doors[door_face] = &door;
+            looked_door->x = -1;
+            looked_door->y = -1;
+            looked_door->is_used = false;
         }
     } else {
-        printf("Room not appended\n");
-        printf("Removing doors lol\n");
-
         world->chunk[looked_door->x][looked_door->y]->type = WALL;
 
-        Pair door = {-1, -1};
-        starting_room.doors[door_face] = &door;
+        looked_door->x = -1;
+        looked_door->y = -1;
+        looked_door->is_used = false;
     }
 }
 
-Room resize_room(Room room, Room conflictRoom, int door_face, Pair* door) {
+Room resize_room(Room room, Room conflictRoom, int door_face, Door *door) {
 
     int xRightC = conflictRoom.x + conflictRoom.width;
     int yBottomC = conflictRoom.y + conflictRoom.height;

@@ -48,7 +48,7 @@ void generate_room(Game_World *world, Room starting_room, int door, int recursio
  * @param door
  * @return The resized room.
  */
-Room resize_room(Room room, Room conflictRoom, int door_face, Pair* door);
+Room resize_room(Room room, Room conflictRoom, int door_face, Door* door);
 
 /**
  * Check if a room is valid.

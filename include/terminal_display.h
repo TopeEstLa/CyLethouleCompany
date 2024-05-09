@@ -5,6 +5,9 @@
 
 void print_all_map(Game_World* world);
 
+void print_visited_map(Game_World* world);
+
+
 void print_all_map_ncurses(Game_World* world);
 
 #endif //CYLETHOULECOMPANY_TERMINAL_DISPLAY_H

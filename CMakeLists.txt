@@ -5,11 +5,7 @@ set(CMAKE_C_STANDARD 11)
 
 include_directories(
         include/
-        deps/include/ncurses
-)
-
-link_directories(
-        deps/lib
+        deps/include/cJSON
 )
 
 add_executable(CyLethouleCompany src/main.c
@@ -21,8 +17,15 @@ add_executable(CyLethouleCompany src/main.c
         src/math.c
         include/world_generator.h
         src/world_generator.c
+        include/file_utils.h
+        src/file_utils.c
+        include/saves.h
+        src/saves.c
+        include/entities.h
+        src/entites.c
 )
 
-target_link_libraries(CyLethouleCompany PUBLIC
+target_link_libraries(CyLethouleCompany PRIVATE
+        cjson
         ncurses
 )

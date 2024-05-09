@@ -6,6 +6,8 @@
 #include <world.h>
 #include <terminal_display.h>
 #include <world_generator.h>
+#include <saves.h>
+#include <entities.h>
 
 #include <ncurses.h>
 
@@ -13,7 +15,13 @@ int main() {
     srand(time(NULL));
     Game_World *world = create_world(rand() % 1000);
 
+    init_entities(world);
+
     base_generation(world);
+
+    Entity* player = create_entity(PLAYER, NULL, '@');
+
+    add_entity(player, world->rooms[0].x + 3, world->rooms[0].y + 3);
 
     print_all_map(world);
 
