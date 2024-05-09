@@ -1,4 +1,4 @@
-#include <ncurse_display.h>
+#include <terminal_ncurses_display.h>
 
 void curses_all_map(Game_World* world) {
     if (world == NULL) {
@@ -13,8 +13,7 @@ void curses_all_map(Game_World* world) {
             Entity *entity = get_entity(x, y);
 
             if (entity != NULL) {
-                printf("%c", entity->texture);
-                printf("  ");
+                mvprintw(x, y, "%c", entity->texture);
                 continue;
             }
 

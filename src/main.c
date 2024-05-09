@@ -1,13 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include <assert.h>
-#include <ncurses.h>
 
 #include <world.h>
-#include <ncurse_display.h>
+#include <terminal_ncurses_display.h>
 #include <world_generator.h>
-#include <saves.h>
 #include <entities.h>
 
 int main() {
