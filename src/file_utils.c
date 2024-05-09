@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <dirent.h>
+#include <string.h>
 
 bool save_json(char *filename, cJSON *json) {
     FILE *file = fopen(filename, "w");
