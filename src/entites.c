@@ -90,9 +90,15 @@ Move_Callback move_entity(Entity *entity, int new_x, int new_y) {
 
     if (existing_entity != NULL) {
         callback.collided_entity = existing_entity;
+        callback.reason = ENTITY_COLLISION;
+        callback.move_made = false;
+    } else if (world->chunk[new_x][new_y]->type == WALL) {
+        callback.collided_entity = NULL;
+        callback.reason = WALL_COLLISION;
         callback.move_made = false;
     } else {
         callback.collided_entity = NULL;
+        callback.reason = NO_REASON;
         callback.move_made = true;
 
         entity->x = new_x;

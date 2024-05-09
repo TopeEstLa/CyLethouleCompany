@@ -17,8 +17,15 @@ typedef struct entity {
     int x, y;
 } Entity;
 
+typedef enum cancel_move_reason {
+    ENTITY_COLLISION,
+    WALL_COLLISION,
+    NO_REASON,
+} Cancel_Move_Reason;
+
 typedef struct move_callback {
     Entity* collided_entity;
+    Cancel_Move_Reason reason;
     bool move_made;
 } Move_Callback;
 
