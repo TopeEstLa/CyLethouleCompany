@@ -1,7 +1,7 @@
 #ifndef WORLD_H
 #define WORLD_H
 
-#include <math.h>
+#include <maths.h>
 #include <stdbool.h>
 
 #define DEFAULT_WORLD_WIDTH 30

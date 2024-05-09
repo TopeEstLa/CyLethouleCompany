@@ -1,5 +1,5 @@
-#ifndef MATH_H
-#define MATH_H
+#ifndef MATHS_H
+#define MATHS_H
 
 /**
  * Struct representing a cuboid.
@@ -57,4 +57,4 @@ int max(int a, int b);
 int min(int a, int b);
 
 
-#endif //MATH_H
+#endif //MATHS_H

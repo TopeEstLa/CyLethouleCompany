@@ -2,7 +2,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <math.h>
+#include <maths.h>
 
 #include <world.h>
 

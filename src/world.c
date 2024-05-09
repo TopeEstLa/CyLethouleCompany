@@ -2,7 +2,7 @@
 #include <stdio.h>
 
 #include <world.h>
-#include <math.h>
+#include <maths.h>
 
 Chunk *create_empty_chunk() {
     Chunk *chunk = malloc(sizeof(Chunk));

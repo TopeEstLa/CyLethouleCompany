@@ -18,8 +18,8 @@ add_executable(CyLethouleCompany
         src/world.c
         include/terminal_display.h
         src/terminal_display.c
-        include/math.h
-        src/math.c
+        include/maths.h
+        src/maths.c
         include/world_generator.h
         src/world_generator.c
         include/file_utils.h
