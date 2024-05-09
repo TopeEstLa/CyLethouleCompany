@@ -1,11 +1,13 @@
 #include <terminal_ncurses_display.h>
 
+#include <curses.h>
+
 void curses_all_map(Game_World* world) {
     if (world == NULL) {
         return;
     }
 
-    /**
+
     clear();
 
     for (int y = 0; y < world->height; y++) {
@@ -13,13 +15,13 @@ void curses_all_map(Game_World* world) {
             Entity *entity = get_entity(x, y);
 
             if (entity != NULL) {
-                mvprintw(x, y, "%c", entity->texture);
+                printw("%c", entity->texture);
                 continue;
             }
 
             switch (world->chunk[x][y]->type) {
                 case DOOR:
-                    mvprintw(x, y, "D");
+                    printw("D");
                     break;
                 case WALL:
                     mvprintw(x, y, "|");
@@ -37,5 +39,5 @@ void curses_all_map(Game_World* world) {
         }
     }
 
-    refresh(); */
+    refresh();
 }
