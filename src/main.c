@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include <curses.h>
+#include <ncurses.h>
 
 #include <world.h>
 #include <terminal_ncurses_display.h>
@@ -30,8 +30,7 @@ int main() {
 
     }
 
-    endwin();
-
+    //endwin();
 
     /**
     int try = 0;
