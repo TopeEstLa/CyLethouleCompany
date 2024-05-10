@@ -63,7 +63,6 @@ void base_generation(Game_World *world) {
 
     world->chunk[roomCenterX][roomCenterY]->type = WALL;
 
-
     generate_rooms(world, starting_room, 1);
 
     for (int i = 1; i < 5; i++) {
