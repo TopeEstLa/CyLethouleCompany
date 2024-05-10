@@ -2,7 +2,7 @@
 #define FILE_UTILS_H
 
 #include <stdbool.h>
-#include "../json/include/cJSON.h"
+#include "../libs/include/cJSON.h"
 
 /**
  * Save a cJSON object to a file

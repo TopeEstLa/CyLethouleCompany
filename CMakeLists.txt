@@ -5,13 +5,13 @@ set(CMAKE_C_STANDARD 11)
 
 include_directories(
         include/
-        json/include
+        libs/include
 )
 
 
 add_executable(CyLethouleCompany
-        json/include/cJSON.h
-        json/src/cJSON.c
+        libs/include/cJSON.h
+        libs/src/cJSON.c
 
         src/main.c
         include/world.h
