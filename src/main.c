@@ -23,12 +23,13 @@ int main() {
     add_entity(player, world->rooms[0].x + 3, world->rooms[0].y + 3);
 
 
+
+
     print_all_map(world);
 
+    while (1) {
 
-
-
-
+    }
 
     endwin();
 
