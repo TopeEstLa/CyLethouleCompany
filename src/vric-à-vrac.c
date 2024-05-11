@@ -13,6 +13,9 @@ typedef enum class {
 typedef struct{
     char* nom[SIZE];
     Class current_class;
+    int attaque;
+    int defense;
+    int esquive;
     int vie;
     int exp;
 } Joueur;
@@ -29,17 +32,11 @@ Joueur* creerJoueur(){
     // Create first name
     printf("Saissisez le nom du joueur\n");
     scanf("%s", j->nom);
-    // Attack (10 to 20)
-    j->attaque = rand()%11 + 10;
-    // Defense (2 to 4)  
-    j->defense = rand()%6 + 5;
-    // Esquive (5 to 14)
-    j->esquive = rand()%12 + 5;
-    // Vie      
+    // Vie
     j->vie = 150;
     // Exp
     j->exp = 0;
-    // Return result 
+    // Return result
     return j;
 }
 
@@ -112,54 +109,55 @@ void afficheInv(Inventaire* p){
 // Creation Abilité
 
 
-void resetData(Joueur* a, Joueur* b){
-    a->attaque = rand()%11 + 10;
-    a->defense = rand()%6 + 5;
-    a->esquive = rand()%12 + 5;
-}
-int resetArcher(Joueur* a, Joueur* b){
-    a->attaque = rand()%5 + 8;
-    a->defense = rand()%3 + 3;
-    a->esquive = rand()%12 + 5;
-
-    b->attaque = rand()%4 + 12;
-    b->defense = rand()%4 + 5;
-    b->esquive = rand()%14 + 3;
-}
-int resetSorcier(Joueur* a, Joueur* b){
-    a->attaque = rand()%7 + 4;
-    a->defense = rand()%5 + 8;
-    a->esquive = rand()%9 + 8;
-
-    b->attaque = rand()%4 + 12;
-    b->defense = rand()%4 + 5;
-    b->esquive = rand()%14 + 3;
-}
-void resetGuerrier(int attaque, int defense, int esquive){
-    attaque = rand()%4 + 12;
-    defense = rand()%4 + 5;
-    esquive = rand()%14 + 3;
-
-}
-
-void globalReset(Class cl, int attaque, int defense, int esquive) {
-    switch (cl) {
-        case GUERRIER:
-            resetGuerrier(attaque, defense, esquive);
+void resetData(Joueur* j){
+    switch(j->current_class){
+        case ARCHER:
+            j->attaque = rand()%5 + 8;
+            j->defense = rand()%3 + 3;
+            j->esquive = rand()%12 + 5;
             break;
+        case SORCIER:
+            j->attaque = rand()%7 + 4;
+            j->defense = rand()%5 + 8;
+            j->esquive = rand()%9 + 8;
+            break;
+        case GUERRIER:
+            j->attaque = rand()%4 + 12;
+            j->defense = rand()%4 + 5;
+            j->esquive = rand()%14 + 3;
+
     }
 }
 
-void enemyReset(int attaque, int defense, int esquive) {
-    resetGuerrier(attaque, defense, esquive);
+// Reset archer
+
+void resetArcher(Joueur* a, Joueur* b) {
+    a->current_class = ARCHER;
+    resetData(a);
+
+    b->current_class = GUERRIER;
+    resetData(b);
 }
 
-int calculDegats(Joueur* a, Joueur* b){
-    int degats = a->attaque - b->defense;
-    if (degats < 0) degats = 0;
-    b->vie -= degats;
-    return degats;
+// Reset wizard
+void resetSorcier(Joueur* a, Joueur* b) {
+    a->current_class = SORCIER;
+    resetData(a);
+
+    b->current_class = GUERRIER;
+    resetData(b);
 }
+
+// Reset Warrior
+void resetGuerrier(Joueur* a, Joueur* b) {
+    a->current_class = GUERRIER;
+    resetData(a);
+
+    b->current_class = ARCHER;
+    resetData(b);
+}
+
+
 
 // Creation Combat
 
@@ -173,43 +171,31 @@ void combat(Joueur* a, Joueur* b, int N){
     printf("Quelle classe voulait vous choisir ? : ");
     scanf("%d", &N);
 
-    int reset;
-
-    if(N == 1){
-        reset = resetArcher(a,b);
+   switch (N) {
+        case 1:
+            resetArcher(a, b);
+            break;
+        case 2:
+            resetSorcier(a, b);
+            break;
+        case 3:
+            resetGuerrier(a, b);
+            break;
+        default:
+            printf("Choix inexistant\n");
+            return;
     }
-    if(N == 2){
-        reset = resetSorcier(a,b);
-    }
-    if(N == 3){
-       reset = resetGuerrier(a,b);
-    }
-
-    Class cl = a->current_class;
-
-    int attaque = 0;
-    int defense = 0;
-    int esquive = 0;
-
-    int attaqueM = 0;
-    int defenseM = 0;
-    int esquiveM = 0;
 
 
-    printf ("Debut du combat ! :\n");
+    printf("Debut du combat ! :\n");
 
 
 
     while (a->vie > 0 && b->vie > 0) {
 
-        globalReset(cl, attaque, defense, esquive);
-        enemyReset(attaqueM, defenseM, esquiveM);
+        resetData(a);
+        resetData(b);
 
-    //soucis avec le reset 
-
-      resetData(a, b) = reset;
-
-        
         if (a->attaque < b->esquive) {
             printf("%s esquive l'attaque de %s!\n", b->nom, a->nom);
         } else {
