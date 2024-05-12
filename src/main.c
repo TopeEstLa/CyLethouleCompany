@@ -26,9 +26,13 @@ int main() {
 
 
     int shouldQuit = 0;
+    int index = 0;
     while (shouldQuit == 0) {
-        handle_input();
+        if (index != 0)
+            handle_input();
+
         curses_scene();
+        index++;
     }
 
     return 0;
