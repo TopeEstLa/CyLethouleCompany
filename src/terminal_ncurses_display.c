@@ -2,7 +2,13 @@
 
 #include <curses.h>
 
+#include <scene/main_menu_scene.h>
+
+Current_Scene current_scene = MAIN_MENU;
+
 void init_curses() {
+    current_scene = MAIN_MENU;
+
     initscr();
     cbreak();
     noecho();
@@ -11,7 +17,30 @@ void init_curses() {
     curs_set(0);
 }
 
-void curses_all_map(Game_World* world) {
+void handle_input() {
+    switch (current_scene) {
+        case MAIN_MENU:
+            main_handle_input();
+            break;
+        default:
+            break;
+    }
+}
+
+void curses_scene() {
+    clear();
+    switch (current_scene) {
+        case MAIN_MENU:
+            main_curses_scene();
+            break;
+        default:
+            break;
+    }
+
+    refresh();
+}
+
+void curses_all_map(Game_World *world) {
     if (world == NULL) {
         return;
     }

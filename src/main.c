@@ -24,11 +24,11 @@ int main() {
 
     init_curses();
 
-    //print_all_map(world);
 
-    //curses_all_map(world);
-
-    while (1) {
+    int shouldQuit = 0;
+    while (shouldQuit == 0) {
+        handle_input();
+        curses_scene();
     }
 
     return 0;

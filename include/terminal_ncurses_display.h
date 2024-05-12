@@ -12,8 +12,15 @@ typedef enum current_scene {
     GAME_OVER,
 } Current_Scene;
 
+void set_current_scene(Current_Scene scene);
+
+Current_Scene get_current_scene();
 
 void init_curses();
+
+void handle_input();
+
+void curses_scene();
 
 void curses_all_map(Game_World* world);
 
