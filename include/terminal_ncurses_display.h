@@ -6,6 +6,8 @@
 #include <world.h>
 #include <entities.h>
 
+void init_curses();
+
 void curses_all_map(Game_World* world);
 
 #endif //TERMINAL_NCURSES_DISPLAY_H

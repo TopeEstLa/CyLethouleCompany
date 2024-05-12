@@ -2,6 +2,13 @@
 
 #include <curses.h>
 
+void init_curses() {
+    initscr();
+    cbreak();
+    noecho();
+    keypad(stdscr, TRUE);
+}
+
 void curses_all_map(Game_World* world) {
     if (world == NULL) {
         return;

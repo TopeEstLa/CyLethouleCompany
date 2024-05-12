@@ -22,49 +22,15 @@ int main() {
 
     add_entity(player, world->rooms[0].x + 3, world->rooms[0].y + 3);
 
+    init_curses();
 
+    //print_all_map(world);
 
-
-    print_all_map(world);
+    //curses_all_map(world);
 
     while (1) {
-
+        render_title_screen();
     }
-
-    endwin();
-
-
-    /**
-    int try = 0;
-    int last_seed = 0;
-    while (1) {
-        srand(time(NULL));
-        int seed = rand() % 1000;
-        seed = try * 1000 + seed;
-
-
-        if (last_seed == seed) {
-            continue;
-        }
-
-        Game_World *world = create_world(seed);
-
-        printf("Try: %d\n", try);
-        printf("Seed: %d\n", seed);
-
-        //Game_World* world = create_world(1000);
-
-        base_generation(world);
-
-
-        free(world->chunk);
-        free(world->rooms);
-        free(world);
-
-        printf("Test passed for try: %d\n", try);
-        try++;
-        last_seed = seed;
-    } */
 
     return 0;
 }
