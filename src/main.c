@@ -29,7 +29,6 @@ int main() {
     //curses_all_map(world);
 
     while (1) {
-        render_title_screen();
     }
 
     return 0;

@@ -7,13 +7,14 @@ void init_curses() {
     cbreak();
     noecho();
     keypad(stdscr, TRUE);
+
+    curs_set(0);
 }
 
 void curses_all_map(Game_World* world) {
     if (world == NULL) {
         return;
     }
-
 
     clear();
 

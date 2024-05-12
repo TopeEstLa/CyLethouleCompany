@@ -6,6 +6,13 @@
 #include <world.h>
 #include <entities.h>
 
+typedef enum current_scene {
+    MAIN_MENU,
+    GAME,
+    GAME_OVER,
+} Current_Scene;
+
+
 void init_curses();
 
 void curses_all_map(Game_World* world);
