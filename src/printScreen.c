@@ -1,31 +1,22 @@
 #include <ncurses.h>
 #include <stdlib.h>
 #include <unistd.h>
-
-void flushStdIn(){
-    int  a;
-    char c;
-    do{
-        a = scanf("%c", &c);
-    } while(a==1 && c != '\n' );
-}
-
-WINDOW* printTimer(int* time){
+#include <sys/time.h>
 
 
-    WINDOW * win = newwin(1, 12, 1, 1);
+WINDOW* printTimer(struct timeval start_prg) {
+        WINDOW *win = newwin(1, 12, 1, 1);
 
+        struct timeval current;
+        gettimeofday(&current, NULL);
+        int difference = current.tv_sec - start_prg.tv_sec;
+        mvwprintw(win, 0, 0, "%3d", difference);
 
-    while (*time >= 0){
-        mvwprintw(win, 0, 0, "%3d", *time);
         wrefresh(win);
-        *time = *time - 1;
-        sleep(1);
-    }
 
-
-    return win;
+        return win;
 }
+
 WINDOW* printMap(char** tab, int x, int y, int dx, int dy, int height, int width){
 
 
