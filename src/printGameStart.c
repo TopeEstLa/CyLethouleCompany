@@ -1,69 +1,76 @@
 #include <ncurses.h>
-#include <string.h>
-#include <stdlib.h>
-void flushStdIn(){
-    int  a;
-    char c;
-    do{
-        a = scanf("%c", &c);
-    } while(a==1 && c != '\n' );
-}
-void printStart(){
-    initscr();
 
-    noecho(); // No print of the caracter selected
-    curs_set(0); // Mask the Cursor
-    clear(); // delete the terminal print
-    refresh(); // refresh the terminal
-
-    // tab of the game selector
-    char* Game_mode[]={
-            "1 - Facile",
-            "2 - Intermédiaire",
-            "3 - Difficile",
-            "4 - Charger une session",
-            "5 - Quitter",
-    };
-    // print the game selector
-    for (int i = 0; i < 4; i++){
-        printw("%s\n",Game_mode[i]);
-        refresh();
+int Choose_Option(int choice){
+    int choose = getch();
+    switch(choose){
+        case KEY_UP :
+            if (choice > 0){
+                choice--;
+            }
+            break;
+        case KEY_DOWN :
+            if (choice < 2){
+                choice++;
+            }
+            break;
+        case '\n' :
+            choice = 5;
+            break;
     }
-    int a = -1;
-    int res = 0;
-    // Choose a game mode
-    do{ res = 0;
-        printw("Tapez le numéro de votre choix\n");
-        refresh();
-        res = scanw("%d", &a);
-        a = a - 1;
-        //flushStdIn();
-    } while(a<0 || a > 4 || res != 1);
+    return choice;
+}
+void Terminal_Game_Start(){
+    printw(" _             _    _                    _         _____\n"
+           "| |           | |  | |                  | |       / ____|\n"
+           "| |       ___ | |_ | |__    ___   _   _ | |  ___ | |       ___   _ __ ___   _ __    __ _  _ __   _   _\n"
+           "| |      / _ \\| __|| '_ \\  / _ \\ | | | || | / _ \\| |      / _ \\ | '_ ` _ \\ | '_ \\  / _` || '_ \\ | | | |\n"
+           "| |____ |  __/| |_ | | | || (_) || |_| || ||  __/| |____ | (_) || | | | | || |_) || (_| || | | || |_| |\n"
+           "|______| \\___| \\__||_| |_| \\___/  \\__,_||_| \\___| \\_____| \\___/ |_| |_| |_|| .__/  \\__,_||_| |_| \\__, |\n"
+           "                                                                           | |                    __/ |\n"
+           "                                                                           |_|                   |___/\n");
 
-    // enter to the game world selected
-    switch (a) {
-        case 0:
-            printw("Game in mode EASY\n");
-            break;
-        case 1:
-            printw("Game in mode Intermédiare\n");
-            break;
-        case 2:
-            printw("Game in mode Difficile\n");
-            break;
-        case 3:
-            printw("Select a session\n");
-            break;
-        case 4:
-            printw("SEE YOU SOON\n");
-            endwin();
-            break;
+    printw("\n\n");
+    refresh();
+    char *tab[] ={
+            "New Game",
+            "Load a Game",
+            "Quit",
+    };
+    for (int i = 0; i < 3; i++){
+        printw("[%d] %s\n", i, tab[i]);
+    }
+    int choice = 0;
+
+    choice = Choose_Option(choice);
+    int selected_option = -1;
+
+    for (int i = 0; i < 3; i++){
+        if (i == choice) {
+            selected_option = i;
+            attron(A_REVERSE);
+            printw("[%d] ",i);
+            attroff(A_REVERSE);
+            printw(": %s\n", tab[i]);
+        } else {
+            printw("[%d] : %s\n",i, tab[i]);
+        }
+        if (i = selected_option && choice == 5){
+            switch (i) {
+                case 0 :
+                    break;
+                case1 :
+                    break;
+                case 2 :
+                    break;
+            }
+
+        }
     }
     refresh();
-    endwin();
 }
-int main() {
-    printStart();
-
+int main(){
+    cbreak();
+    initscr();
+    Terminal_Game_Start();
     return 0;
 }
