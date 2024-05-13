@@ -51,23 +51,6 @@ WINDOW* printInventary(){
 }
 int main() {
     initscr();
-    int timer = 12;
-    //printTimer(&timer);
-    char** tab;
-    tab = malloc(20 * sizeof (char*));
-    for (int i = 0; i < 20; i++){
-        tab[i] = malloc(20 * sizeof (char));
-        for (int j = 0; j < 20; j++){
-            tab[i][j] = 'j'+j;
-            printf("%c", tab[i][j]);
-        }
-        printf("\n");
-    }
-
+    printTimer();
     printMap(tab, 0, 0, 2, 2, 20, 20);
-
-    /*do {
-        printMap();
-        return 0;
-    } while( timer > 0);*/
 }
