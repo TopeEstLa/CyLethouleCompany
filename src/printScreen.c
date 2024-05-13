@@ -4,17 +4,22 @@
 #include <sys/time.h>
 
 
-WINDOW* printTimer(struct timeval start_prg) {
-        WINDOW *win = newwin(1, 12, 1, 1);
-
-        struct timeval current;
-        gettimeofday(&current, NULL);
-        int difference = current.tv_sec - start_prg.tv_sec;
+WINDOW* printTimer(struct timeval current) {
+    start_color();
+    WINDOW *win = newwin(1, 12, 1, 1);
+    init_pair(1, COLOR_RED, COLOR_BLACK);
+    struct timeval tv;
+    gettimeofday(&tv, NULL);
+    int difference = tv.tv_sec - current.tv_sec;
+    if (difference <= 10){
+        wattron(win, COLOR_PAIR(1));
         mvwprintw(win, 0, 0, "%3d", difference);
-
-        wrefresh(win);
-
-        return win;
+        wattroff(win, COLOR_PAIR(1));
+    } else {
+        mvwprintw(win, 0, 0, "%3d", difference);
+    }
+    wrefresh(win);
+    return win;
 }
 
 WINDOW* printMap(char** tab, int x, int y, int dx, int dy, int height, int width){
