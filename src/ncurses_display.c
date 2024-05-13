@@ -3,8 +3,17 @@
 #include <curses.h>
 
 #include <scene/main_menu_scene.h>
+#include <scene/load_menu_scene.h>
 
 Current_Scene current_scene = MAIN_MENU;
+
+void set_current_scene(Current_Scene scene) {
+    current_scene = scene;
+}
+
+Current_Scene get_current_scene() {
+    return current_scene;
+}
 
 void init_curses() {
     current_scene = MAIN_MENU;
@@ -22,6 +31,9 @@ void handle_input() {
         case MAIN_MENU:
             main_handle_input();
             break;
+        case LOAD_MENU:
+            load_saves_handle_input();
+            break;
         default:
             break;
     }
@@ -32,6 +44,9 @@ void curses_scene() {
     switch (current_scene) {
         case MAIN_MENU:
             main_curses_scene();
+            break;
+        case LOAD_MENU:
+            load_saves_curses_scene();
             break;
         default:
             break;

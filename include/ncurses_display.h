@@ -8,6 +8,7 @@
 
 typedef enum current_scene {
     MAIN_MENU,
+    LOAD_MENU,
     GAME,
     GAME_OVER,
 } Current_Scene;
