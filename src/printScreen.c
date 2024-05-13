@@ -30,6 +30,7 @@ WINDOW* printMap(char** tab, int x, int y, int dx, int dy, int height, int width
 
 
     if (tab == NULL || x < 0 || x > width || y < 0 || y > height){
+
         exit(404);
     }
 
