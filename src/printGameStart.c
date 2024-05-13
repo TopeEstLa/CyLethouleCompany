@@ -69,7 +69,6 @@ void Terminal_Game_Start(){
     refresh();
 }
 int main(){
-    cbreak();
     initscr();
     Terminal_Game_Start();
     return 0;
