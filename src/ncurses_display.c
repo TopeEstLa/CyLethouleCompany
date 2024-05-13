@@ -1,4 +1,4 @@
-#include <terminal_ncurses_display.h>
+#include <ncurses_display.h>
 
 #include <curses.h>
 

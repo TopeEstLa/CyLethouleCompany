@@ -1,10 +1,10 @@
 #include <scene/main_menu_scene.h>
 
 char *menu_options[] = {
-        "Option 1",
-        "Option 2",
-        "Option 3",
-        "Option 4",
+        "Charger une partie",
+        "Commencer une nouvelle partie",
+        "Tutoriel",
+        "Quitter le jeu",
 };
 int options_count = 4;
 

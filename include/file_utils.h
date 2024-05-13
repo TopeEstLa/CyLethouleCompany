@@ -4,6 +4,14 @@
 #include <stdbool.h>
 #include "../libs/include/cJSON.h"
 
+
+/**
+ * Create a folder
+ * @param folder the folder to create
+ * @return true if the folder was created successfully, false otherwise
+ */
+bool create_folder(char *folder);
+
 /**
  * Save a cJSON object to a file
  * @param filename

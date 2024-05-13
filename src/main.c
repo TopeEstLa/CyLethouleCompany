@@ -4,10 +4,12 @@
 #include <curses.h>
 
 #include <world.h>
-#include <terminal_ncurses_display.h>
+#include <ncurses_display.h>
 #include <terminal_display.h>
 #include <world_generator.h>
 #include <entities.h>
+#include <file_utils.h>
+#include <saves.h>
 
 
 int main() {
@@ -23,6 +25,14 @@ int main() {
     add_entity(player, world->rooms[0].x + 3, world->rooms[0].y + 3);
 
     init_curses();
+
+    if (create_folder(SAVES_FOLDER)) {
+        printf("Folder created successfully\n");
+    } else {
+        printf("Folder could not be created\n");
+    }
+
+    save_world(world, "saves/world.json");
 
 
     int shouldQuit = 0;
