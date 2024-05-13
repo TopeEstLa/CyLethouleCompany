@@ -15,6 +15,8 @@ int current_choice = 0;
 void main_handle_input() {
     int ch = getch();
 
+    printw("ch: %d\n", ch);
+
     switch (ch) {
         case KEY_UP:
             if (current_choice > 0)

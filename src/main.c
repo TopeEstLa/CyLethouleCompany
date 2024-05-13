@@ -36,13 +36,15 @@ int main() {
 
 
     int shouldQuit = 0;
-    int index = 0;
+    set_force_redraw(true);
     while (shouldQuit == 0) {
-        if (index != 0)
+        if (!is_force_redraw())
             handle_input();
 
+        if (is_force_redraw())
+            set_force_redraw(false);
+
         curses_scene();
-        index++;
     }
 
     return 0;

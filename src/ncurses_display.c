@@ -7,12 +7,23 @@
 
 Current_Scene current_scene = MAIN_MENU;
 
+bool force_redraw = false;
+
 void set_current_scene(Current_Scene scene) {
     current_scene = scene;
+    force_redraw = true;
 }
 
 Current_Scene get_current_scene() {
     return current_scene;
+}
+
+bool is_force_redraw() {
+    return force_redraw;
+}
+
+bool set_force_redraw(bool force) {
+    force_redraw = force;
 }
 
 void init_curses() {
