@@ -47,6 +47,9 @@ Joueur* creerJoueur(){
     if (tab == NULL){
         exit(404);
     }
+    if (strlen(tab) <= 0){
+        exit(404);
+    }
     (*j).nom = malloc((strlen(tab) + 1) * sizeof(char));
     if ((*j).nom == NULL){
         exit(404);
@@ -68,10 +71,18 @@ typedef struct{
 } Info;
 
 
+typedef struct{
+    Info* item;
+    int capacite;
+    int quantite;
+} Inventaire;
+
+
 typedef enum material {
     SWORD,
     PICKAXE,
 } Material;
+
 
 typedef struct item_stack {
     char name[SIZE];
@@ -80,11 +91,6 @@ typedef struct item_stack {
 } Item_Stack;
 
 
-typedef struct{
-    Info* item;
-    int capacite;
-    int quantite;
-} Inventaire;
 
 // Fonction pour initialiser l'inventaire (capacité de 3 item)
 
