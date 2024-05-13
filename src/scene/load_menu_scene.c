@@ -18,17 +18,15 @@ void load_saves_handle_input() {
                 current_saves--;
             break;
         case KEY_DOWN:
-
-            int max = 10;
-            if (saves_count < 10) {
-                max = saves_count;
-            }
-
-            if (current_saves < max - 1)
+            if (current_saves < saves_count)
                 current_saves++;
             break;
         case 10:
-            // Enter
+            if (current_saves == saves_count) {
+                set_current_scene(MAIN_MENU);
+                break;
+            }
+
             break;
         case 27:
             set_current_scene(MAIN_MENU);
@@ -54,11 +52,7 @@ void load_saves_curses_scene() {
     printw("\n\n");
 
 
-    for (int i = 0; i < 10; i++) {
-        if (i >= saves_count) {
-            break;
-        }
-
+    for (int i = 0; i < saves_count; i++) {
         char a = 'O';
         if (i == current_saves) {
             attron(A_REVERSE);
@@ -69,8 +63,16 @@ void load_saves_curses_scene() {
         attroff(A_REVERSE);
     }
 
+    printw("\n");
 
+    char a = 'O';
+    if (saves_count == current_saves) {
+        attron(A_REVERSE);
+        a = 'X';
+    }
 
+    printw("[%c] %s\n", a, "Retour");
+    attroff(A_REVERSE);
 
 
 }

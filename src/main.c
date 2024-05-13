@@ -47,5 +47,7 @@ int main() {
         curses_scene();
     }
 
+    endwin();
+
     return 0;
 }
