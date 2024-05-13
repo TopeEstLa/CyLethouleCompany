@@ -41,7 +41,7 @@ Joueur* creerJoueur(){
     do{
         res = 0;
         printf("Saissisez le nom du joueur\n");
-        res = scanf("%s", tab);
+        res = scanf("%[^\n]", tab);
         flush();
     } while (res != 1);
     if (tab == NULL){
@@ -188,11 +188,12 @@ void combat(Joueur* a, Joueur* b, int N){
     printf("1 : Archer :\n Attaque : 8 à 12\n Defense : 3 à 5\n Esquive: 5 à 16\n");
     printf("2 : Sorcier :\n Attaque : 4 à 10\n Defense : 8 à 12\n Esquive: 8 à 16\n");
     printf("3 : Guerrier :\n Attaque : 12 à 15\n Defense : 5 à 8\n Esquive: 3 à 16\n");
-    printf("Quelle classe voulait vous choisir ? : ");
+
 
     int res = 0;
     do {
         res = 0;
+        printf("Quelle classe voulait vous choisir ? : ");
         res = scanf("%d", &N);
     } while (res != 1 || N < 1 || N > 3);
 
