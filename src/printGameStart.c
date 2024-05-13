@@ -40,7 +40,6 @@ void Terminal_Game_Start(){
         printw("[%d] %s\n", i, tab[i]);
     }
     int choice = 0;
-
     choice = Choose_Option(choice);
     int selected_option = -1;
 
