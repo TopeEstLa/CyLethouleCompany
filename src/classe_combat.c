@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
+#include <unistd.h>
 
 #define SIZE 50
 
@@ -225,6 +226,7 @@ void combat(Joueur* a, Joueur* b, int N){
 
     while (a->vie > 0 && b->vie > 0) {
 
+        usleep(500000);
         resetData(a);
         resetData(b);
 
