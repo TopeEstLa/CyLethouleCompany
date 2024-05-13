@@ -243,7 +243,6 @@ void combat(Joueur* a, Joueur* b, int N){
             printf("%s tombe, %s gagne le combat!\n", b->nom, a->nom);
             a->exp += 1;
             break;
-
         }
 
 
