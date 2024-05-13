@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <string.h>
 
 #define SIZE 50
 
@@ -11,7 +12,7 @@ typedef enum class {
 } Class;
 
 typedef struct{
-    char* nom[SIZE];
+    char* nom;
     Class current_class;
     int attaque;
     int defense;
@@ -19,8 +20,13 @@ typedef struct{
     int vie;
     int exp;
 } Joueur;
-
-
+void flush(){
+    int  a;
+    char c;
+    do{
+        a = scanf("%c", &c);
+    } while(a==1 && c != '\n' );
+}
 Joueur* creerJoueur(){
     Joueur* j = NULL;
     int size = 0;
@@ -30,8 +36,22 @@ Joueur* creerJoueur(){
         exit(1);
     }
     // Create first name
-    printf("Saissisez le nom du joueur\n");
-    scanf("%s", j->nom);
+    char tab[256];
+    int res = 0;
+    do{
+        res = 0;
+        printf("Saissisez le nom du joueur\n");
+        res = scanf("%s", tab);
+        flush();
+    } while (res != 1);
+    if (tab == NULL){
+        exit(404);
+    }
+    (*j).nom = malloc((strlen(tab) + 1) * sizeof(char));
+    if ((*j).nom == NULL){
+        exit(404);
+    }
+    strcpy((*j).nom, tab);
     // Vie
     j->vie = 150;
     // Exp
@@ -96,13 +116,13 @@ void ajoutItem(Inventaire* p, Info nom){
 }
 
 
-//FOnction pour verifier son inventaire
+//Fonction pour verifier son inventaire
 
 void afficheInv(Inventaire* p){
     printf("Voici votre inventaire :\n");
-        for(int i = 0; i < p->quantite; i++){
-            printf("%s", p->item[i].nom);
-        }
+    for(int i = 0; i < p->quantite; i++){
+        printf("%s", p->item[i].nom);
+    }
 }
 
 
@@ -169,9 +189,14 @@ void combat(Joueur* a, Joueur* b, int N){
     printf("2 : Sorcier :\n Attaque : 4 à 10\n Defense : 8 à 12\n Esquive: 8 à 16\n");
     printf("3 : Guerrier :\n Attaque : 12 à 15\n Defense : 5 à 8\n Esquive: 3 à 16\n");
     printf("Quelle classe voulait vous choisir ? : ");
-    scanf("%d", &N);
 
-   switch (N) {
+    int res = 0;
+    do {
+        res = 0;
+        res = scanf("%d", &N);
+    } while (res != 1 || N < 1 || N > 3);
+
+    switch (N) {
         case 1:
             resetArcher(a, b);
             break;
@@ -204,16 +229,16 @@ void combat(Joueur* a, Joueur* b, int N){
             b->vie -= degats;
             printf("%s attaque %s et lui inflige %d points de degats!\n", a->nom, b->nom, degats);
         }
-        
+
         if (b->vie <= 0) {
             printf("%s tombe, %s gagne le combat!\n", b->nom, a->nom);
             a->exp += 1;
             break;
 
         }
-        
 
-         if (b->attaque < a->esquive) {
+
+        if (b->attaque < a->esquive) {
             printf("%s esquive l'attaque de %s!\n", a->nom, b->nom);
         } else {
             int degats = b->attaque - a->defense;
@@ -221,13 +246,13 @@ void combat(Joueur* a, Joueur* b, int N){
             a->vie -= degats;
             printf("%s attaque %s et lui inflige %d points de degats!\n", b->nom, a->nom, degats);
         }
-        
+
         if (a->vie <= 0) {
             printf("%s tombe, %s gagne le combat!\n", a->nom, b->nom);
             b->exp +=1;
             break;
         }
-     }
+    }
 }
 
 
@@ -235,7 +260,7 @@ void combat(Joueur* a, Joueur* b, int N){
 
 int main() {
 
-srand(time(NULL));
+    srand(time(NULL));
 
     Joueur*  j1    = NULL;
     Joueur*  j2     = NULL;
@@ -252,8 +277,5 @@ srand(time(NULL));
     free(j1);
     free(j2);
 
-return 0;
-
+    return 0;
 }
-
-
