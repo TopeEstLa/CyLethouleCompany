@@ -54,7 +54,7 @@ typedef enum material {
 } Material;
 
 typedef struct item_stack {
-    char name[SIZE];
+    char* name;
     Material material;
     int count;
 } Item_Stack;
@@ -224,6 +224,11 @@ void combat(Joueur* a, Joueur* b, int N){
         
         if (a->vie <= 0) {
             printf("%s tombe, %s gagne le combat!\n", a->nom, b->nom);
+            Item_Stack item;
+            item.name = "Coupe du boss";
+            item.material = COUPE;
+            item.count = 1;
+
             b->exp +=1;
             break;
         }
