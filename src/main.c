@@ -8,10 +8,12 @@
 #include <terminal_display.h>
 #include <world_generator.h>
 #include <entities.h>
+#include "printSreen.h"
 
 
 int main() {
     srand(time(NULL));
+    initscr();
     Game_World *world = create_world(rand() % 1000);
 
     init_entities(world);
@@ -25,7 +27,7 @@ int main() {
 
 
 
-    print_all_map(world);
+    printMap(world, 9, 30, 2, 2);
 
     while (1) {
 
