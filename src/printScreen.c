@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/time.h>
+#include "entities.h"
+#include "world.h"
 
 //Print the timer on the terminal
 WINDOW* printTimer(struct timeval current) {
@@ -26,17 +28,17 @@ WINDOW* printTimer(struct timeval current) {
 }
 
 //Print the map on the terminal
-void printMap(Game_World** tab, int x, int y, int dx, int dy, int height, int width){
-    if (tab == NULL || x < 0 || x > width || y < 0 || y > height){
+void printMap(Game_World* world, int x, int y, int dx, int dy){
+    if (world == NULL || x < 0 || x > world->width || y < 0 || y > world->height){
         exit(404);
     }
     for (int i = y - dy; i <= y + dy; i++){
-        if (tab[i] == NULL || i < 0 || i > height){
+        if (i < 0 || i > world->height){
 
         } else {
             for (int j = x - dx; j <= x + dx; j++) {
                 Entity *entity = get_entity(x, y);
-                if (j < 0 || j > width) {
+                if (j < 0 || j > world->width) {
 
                 } else {
                     //print the item to stack or the emoji of the player
@@ -44,21 +46,21 @@ void printMap(Game_World** tab, int x, int y, int dx, int dy, int height, int wi
                         printw("  %s", entity->texture);
                     }else {
                         //print the map : door, wall, etc ...
-                        switch (tab->chunk[i][j]->type) {
+                        switch (world->chunk[i][j]->type) {
                             case DOOR :
                                 printw("  D ");
                                 break;
                             case WALL :
                                 printw("  | ");
                                 break;
-                            case void :
+                            case VOID :
                                 printw("    ");
                                 break;
                             case EMPTY :
                                 printw("    ");
                                 break;
-                            case default :
-                                printw("  ? ",);
+                            default :
+                                printw("  ? ");
                                 break;
                         }
                     }
