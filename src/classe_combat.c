@@ -665,6 +665,8 @@ int main() {
     combatBoss3(j1, j5, N, i1);
 
 
+// FOnction shop avec point d'exp à faire (heal, degats bonus, etc...)
+
     free(j1);
     free(j2);
     free(j3);
@@ -672,6 +674,7 @@ int main() {
     free(j5);
 
     return 0;
+
 }
 
 
