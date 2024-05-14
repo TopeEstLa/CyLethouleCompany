@@ -345,7 +345,7 @@ void combatBoss1(Joueur* a, Joueur* b, int N){
             return;
     }
 
-    b->vie= 300;
+    b->vie= 230;
 
     printf("Debut du combat ! :\n");
 
@@ -355,11 +355,11 @@ void combatBoss1(Joueur* a, Joueur* b, int N){
 
         usleep(500000);
         resetData(a);
-        
+
         b->esquive=0;
         b->attaque= rand()%10 + 10;
         b->defense=0;
-        
+
 
         if (a->attaque < b->esquive) {
             printf("%s esquive l'attaque de %s!\n", b->nom, a->nom);
