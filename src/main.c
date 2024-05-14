@@ -25,7 +25,7 @@ int main() {
     add_entity(player, world->rooms[0].x + 3, world->rooms[0].y + 3);
 
 
-    printMap(world, world->rooms[0].x + 3, world->rooms[0].y + 3, 30, 30);
+    printMap(world, world->rooms[0].x + 3, world->rooms[0].y + 3, 10, 10);
 
     while (1) {
 
