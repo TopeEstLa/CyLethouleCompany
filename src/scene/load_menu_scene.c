@@ -12,6 +12,9 @@ int current_saves = 0;
 void load_saves_handle_input() {
     int ch = getch();
 
+    if (ch == ERR)
+        return;
+
     switch (ch) {
         case KEY_UP:
             if (current_saves > 0)

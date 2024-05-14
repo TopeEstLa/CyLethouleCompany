@@ -34,6 +34,8 @@ add_executable(CyLethouleCompany
         src/scene/main_menu_scene.c
         include/scene/load_menu_scene.h
         src/scene/load_menu_scene.c
+        include/frame_rate.h
+        src/frame_rate.c
 )
 
 target_link_libraries(CyLethouleCompany PRIVATE

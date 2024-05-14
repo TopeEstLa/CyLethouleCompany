@@ -2,6 +2,8 @@
 
 #include <curses.h>
 
+#include <frame_rate.h>
+
 #include <scene/main_menu_scene.h>
 #include <scene/load_menu_scene.h>
 
@@ -33,6 +35,9 @@ void init_curses() {
     cbreak();
     noecho();
     keypad(stdscr, TRUE);
+    nodelay(stdscr, TRUE);
+
+    timeout(6000);
 
     curs_set(0);
 }
