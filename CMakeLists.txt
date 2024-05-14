@@ -30,12 +30,13 @@ add_executable(CyLethouleCompany
         src/entites.c
         include/ncurses_display.h
         src/ncurses_display.c
-        include/scene/main_menu_scene.h
-        src/scene/main_menu_scene.c
-        include/scene/load_menu_scene.h
-        src/scene/load_menu_scene.c
+        include/scene/main_menu.h
+        src/scene/main_menu.c
+        include/scene/load_menu.h
+        src/scene/load_menu.c
         include/frame_rate.h
         src/frame_rate.c
+        include/scene/create_menu.h
 )
 
 target_link_libraries(CyLethouleCompany PRIVATE

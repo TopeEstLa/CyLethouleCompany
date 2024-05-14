@@ -15,6 +15,7 @@ typedef enum current_scene {
     LOAD_MENU,
     GAME,
     GAME_OVER,
+    QUITTING,
 } Current_Scene;
 
 /**
@@ -29,19 +30,6 @@ void set_current_scene(Current_Scene scene);
  */
 Current_Scene get_current_scene();
 
-/**
- * Check if we redraw without waiting input.
- * @return True if we redraw without waiting input.
- */
-bool is_force_redraw();
-
-/**
- * Set if we redraw without waiting input.
- * @param force True if we redraw without waiting input.
- * @return True if we redraw without waiting input.
- */
-bool set_force_redraw(bool force);
-
 void init_curses();
 
 void handle_input();
@@ -49,5 +37,7 @@ void handle_input();
 void curses_scene();
 
 void curses_all_map(Game_World* world);
+
+void curses_visited_map(Game_World* world);
 
 #endif //TERMINAL_NCURSES_DISPLAY_H

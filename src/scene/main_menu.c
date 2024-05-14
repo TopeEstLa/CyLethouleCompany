@@ -1,4 +1,4 @@
-#include <scene/main_menu_scene.h>
+#include <scene/main_menu.h>
 
 #include <ncurses_display.h>
 
@@ -38,8 +38,7 @@ void main_handle_input() {
                 case 2:
                     break;
                 case 3:
-                    exit(0);
-                    //set_current_scene(GAME_OVER);
+                    set_current_scene(QUITTING);
                     break;
                 default:
                     break;
@@ -50,7 +49,7 @@ void main_handle_input() {
     }
 }
 
-void main_curses_scene() {
+void main_menu_curses() {
     printw(" _             _    _                    _         _____\n"
            "| |           | |  | |                  | |       / ____|\n"
            "| |       ___ | |_ | |__    ___   _   _ | |  ___ | |       ___   _ __ ___   _ __    __ _  _ __   _   _\n"

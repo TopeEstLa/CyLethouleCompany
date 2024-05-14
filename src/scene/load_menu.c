@@ -1,4 +1,4 @@
-#include <scene/load_menu_scene.h>
+#include <scene/load_menu.h>
 
 #include <ncurses_display.h>
 #include <file_utils.h>
@@ -40,7 +40,7 @@ void load_saves_handle_input() {
 
 }
 
-void load_saves_curses_scene() {
+void load_saves_menu_curses() {
     saves = list_files(SAVES_FOLDER, &saves_count);
 
     printw(" _             _    _                    _         _____\n"
@@ -53,6 +53,8 @@ void load_saves_curses_scene() {
            "                                                                           |_|                   |___/\n");
 
     printw("\n\n");
+
+    printw("Sélectionnez une sauvegarde\n\n");
 
 
     for (int i = 0; i < saves_count; i++) {

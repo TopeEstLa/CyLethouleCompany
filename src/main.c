@@ -36,8 +36,7 @@ int main() {
     save_world(world, "saves/world.json");
 
 
-    int shouldQuit = 0;
-    while (shouldQuit == 0) {
+    while (get_current_scene() != QUITTING) {
         start_frame();
         handle_input();
 
