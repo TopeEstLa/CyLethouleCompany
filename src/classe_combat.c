@@ -264,6 +264,88 @@ void combat(Joueur* a, Joueur* b, int N){
 }
 
 
+// Fonction boss1 
+
+void combatBoss1(Joueur* a, Joueur* b, int N){
+
+    printf("Voici les différentes classes :\n");
+    printf("1 : Archer :\n Attaque : 8 à 12\n Defense : 3 à 5\n Esquive: 5 à 16\n");
+    printf("2 : Sorcier :\n Attaque : 4 à 10\n Defense : 8 à 12\n Esquive: 8 à 16\n");
+    printf("3 : Guerrier :\n Attaque : 12 à 15\n Defense : 5 à 8\n Esquive: 3 à 16\n");
+
+
+    int res = 0;
+    do {
+        res = 0;
+        printf("Quelle classe voulait vous choisir ? : ");
+        res = scanf("%d", &N);
+    } while (res != 1 || N < 1 || N > 3);
+
+    switch (N) {
+        case 1:
+            resetArcher(a, b);
+            break;
+        case 2:
+            resetSorcier(a, b);
+            break;
+        case 3:
+            resetGuerrier(a, b);
+            break;
+        default:
+            printf("Choix inexistant\n");
+            return;
+    }
+
+    b->vie= 300;
+
+    printf("Debut du combat ! :\n");
+
+
+
+    while (a->vie > 0 && b->vie > 0) {
+
+        usleep(500000);
+        resetData(a);
+        char tmp[]=
+        b->nom = Lazarus;
+        b->esquive=0;
+        b->attaque= rand()%10 + 10;
+        b->defense=0;
+        
+
+        if (a->attaque < b->esquive) {
+            printf("%s esquive l'attaque de %s!\n", b->nom, a->nom);
+        } else {
+            int degats = a->attaque - b->defense;
+            if (degats < 0) degats = 0;
+            b->vie -= degats;
+            printf("%s attaque %s et lui inflige %d points de degats!\n", a->nom, b->nom, degats);
+        }
+
+        if (b->vie <= 0) {
+            printf("%s tombe, %s gagne le combat!\n", b->nom, a->nom);
+            a->exp += 1;
+            break;
+        }
+
+
+        if (b->attaque < a->esquive) {
+            printf("%s esquive l'attaque de %s!\n", a->nom, b->nom);
+        } else {
+            int degats = b->attaque - a->defense;
+            if (degats < 0) degats = 0;
+            a->vie -= degats;
+            printf("%s attaque %s et lui inflige %d points de degats!\n", b->nom, a->nom, degats);
+        }
+
+        if (a->vie <= 0) {
+            printf("%s tombe, %s gagne le combat!\n", a->nom, b->nom);
+            b->exp +=1;
+            break;
+        }
+    }
+}
+
 
 
 int main() {
@@ -279,6 +361,7 @@ int main() {
     j2  = creerJoueur();
 
     combat(j1, j2, N);
+    combatBoss1(j1, 
 
     printf("Exp : %d", j1->exp);
 
