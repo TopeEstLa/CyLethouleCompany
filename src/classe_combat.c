@@ -253,30 +253,21 @@ void resetData(Joueur* j){
 
 // Reset archer
 
-void resetArcher(Joueur* a, Joueur* b) {
+void resetArcher(Joueur* a) {
     a->current_class = ARCHER;
     resetData(a);
-
-    b->current_class = GUERRIER;
-    resetData(b);
 }
 
 // Reset wizard
-void resetSorcier(Joueur* a, Joueur* b) {
+void resetSorcier(Joueur* a) {
     a->current_class = SORCIER;
     resetData(a);
-
-    b->current_class = GUERRIER;
-    resetData(b);
 }
 
 // Reset Warrior
-void resetGuerrier(Joueur* a, Joueur* b) {
+void resetGuerrier(Joueur* a){
     a->current_class = GUERRIER;
     resetData(a);
-
-    b->current_class = GUERRIER;
-    resetData(b);
 }
 
 
@@ -333,13 +324,13 @@ void combat(Joueur* a, Joueur* b, int N){
 
     switch (N) {
         case 1:
-            resetArcher(a, b);
+            resetArcher(a);
             break;
         case 2:
-            resetSorcier(a, b);
+            resetSorcier(a);
             break;
         case 3:
-            resetGuerrier(a, b);
+            resetGuerrier(a);
             break;
         default:
             printf("Choix inexistant\n");
@@ -356,7 +347,7 @@ void combat(Joueur* a, Joueur* b, int N){
 
         usleep(500000);
         resetData(a);
-        resetData(b);
+        resetGuerrier(b);
 
         if (a->attaque < b->esquive) {
             printf("%s esquive l'attaque de %s!\n", b->nom, a->nom);
@@ -413,21 +404,22 @@ void combatBoss1(Joueur* a, Joueur* b, int N, Inventaire* i1){
         printf("Quelle classe voulait vous choisir ? : ");
         res = scanf("%d", &N);
     } while (res != 1 || N < 1 || N > 3);
-
-    switch (N) {
+    
+       switch (N) {
         case 1:
-            resetArcher(a, b);
+            resetArcher(a);
             break;
         case 2:
-            resetSorcier(a, b);
+            resetSorcier(a);
             break;
         case 3:
-            resetGuerrier(a, b);
+            resetGuerrier(a);
             break;
         default:
             printf("Choix inexistant\n");
             return;
     }
+
 
     printf("Debut du combat ! :\n");
 
@@ -497,20 +489,21 @@ void combatBoss2(Joueur* a, Joueur* b, int N, Inventaire* i1){
         res = scanf("%d", &N);
     } while (res != 1 || N < 1 || N > 3);
 
-    switch (N) {
+     switch (N) {
         case 1:
-            resetArcher(a, b);
+            resetArcher(a);
             break;
         case 2:
-            resetSorcier(a, b);
+            resetSorcier(a);
             break;
         case 3:
-            resetGuerrier(a, b);
+            resetGuerrier(a);
             break;
         default:
             printf("Choix inexistant\n");
             return;
     }
+
 
     printf("Debut du combat ! :\n");
 
@@ -578,18 +571,19 @@ void combatBoss3(Joueur* a, Joueur* b, int N, Inventaire* i1){
 
     switch (N) {
         case 1:
-            resetArcher(a, b);
+            resetArcher(a);
             break;
         case 2:
-            resetSorcier(a, b);
+            resetSorcier(a);
             break;
         case 3:
-            resetGuerrier(a, b);
+            resetGuerrier(a);
             break;
         default:
             printf("Choix inexistant\n");
             return;
     }
+
 
     printf("Debut du combat ! :\n");
 
