@@ -353,10 +353,9 @@ void combatBoss1(Joueur* a, Joueur* b, int N){
     printf("Debut du combat ! :\n");
 
 
-
     while (a->vie > 0 && b->vie > 0) {
 
-        usleep(500000);
+        usleep(800000);
         resetData(a);
 
         b->esquive=0;
