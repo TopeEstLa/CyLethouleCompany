@@ -67,6 +67,7 @@ Joueur* creerJoueur(){
 
 Joueur* creerBoss(){
     Joueur* j = NULL;
+    j->nom = NULL;
     int size = 0;
     // Malloc struct
     j = malloc(sizeof(Joueur));
@@ -76,12 +77,16 @@ Joueur* creerBoss(){
     // Create first name
     char tab[256];
     int res = 0;
-    do{
-        res = 0;
-        printf("Saissisez le nom du joueur\n");
-        res = scanf("%[^\n]", tab);
-        flush();
-    } while (res != 1);
+    char tmp[]= {
+            'Lazarus',
+    };
+    if (strlen(tmp) > 0){
+        j->nom = malloc(((strlen(tmp)+1) * sizeof(char));
+    }
+    if (j->nom == NULL){
+        exit(404);
+    }
+    strcpy(j->nom, tmp);
     if (tab == NULL){
         exit(404);
     }
@@ -304,7 +309,12 @@ void combat(Joueur* a, Joueur* b, int N){
 // Fonction boss1 
 
 void combatBoss1(Joueur* a, Joueur* b, int N){
-
+    if (a == NULL || b == NULL){
+        exit(1);
+    }
+    if (a->nom == NULL || b->nom == NULL){
+        exit(1);
+    }
     printf("Voici les différentes classes :\n");
     printf("1 : Archer :\n Attaque : 8 à 12\n Defense : 3 à 5\n Esquive: 5 à 16\n");
     printf("2 : Sorcier :\n Attaque : 4 à 10\n Defense : 8 à 12\n Esquive: 8 à 16\n");
@@ -340,7 +350,7 @@ void combatBoss1(Joueur* a, Joueur* b, int N){
 
 
     while (a->vie > 0 && b->vie > 0) {
-        b->nom = NULL;
+
         usleep(500000);
         resetData(a);
         
