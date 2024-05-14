@@ -84,7 +84,7 @@ void printMap(Game_World* world, int x, int y, int dx, int dy){
 
                     //print the item to stack or the emoji of the player
                     if (entity != NULL){
-                        mvprintw(lignes_debut, colonnes_debut, "%c", entity->texture);
+                        mvprintw(lignes_debut, colonnes_debut, "%s", entity->texture);
                         colonnes_debut++;
                     }else {
                         //print the map : door, wall, etc ...

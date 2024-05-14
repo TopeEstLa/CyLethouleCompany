@@ -23,13 +23,19 @@ int main() {
 
     base_generation(world);
 
-    Entity *player = create_entity(PLAYER, NULL, "@");
+    Entity *player = create_entity(PLAYER, NULL, "🗿");
 
     add_entity(player, world->rooms[0].x + 3, world->rooms[0].y + 3);
 
-    init_curses();
+    //init_curses();
 
+    printMap(world, world->rooms[0].x + 3, world->rooms[0].y + 3, 20, 10);
 
+    while (1) {
+
+    }
+
+    /**
     while (get_current_scene() != QUITTING) {
         //start_frame(); //useless lol :c (if using timeout());
         handle_input();
@@ -37,7 +43,7 @@ int main() {
         curses_scene();
 
         //end_frame();
-    }
+    } */
 
     endwin();
 
