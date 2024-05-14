@@ -13,6 +13,7 @@
 typedef enum current_scene {
     MAIN_MENU,
     LOAD_MENU,
+    CREATE_MENU,
     GAME,
     GAME_OVER,
     QUITTING,

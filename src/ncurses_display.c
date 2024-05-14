@@ -6,6 +6,7 @@
 
 #include <scene/main_menu.h>
 #include <scene/load_menu.h>
+#include <scene/create_menu.h>
 
 Current_Scene current_scene = MAIN_MENU;
 
@@ -26,7 +27,7 @@ void init_curses() {
     keypad(stdscr, TRUE);
     nodelay(stdscr, TRUE);
 
-    timeout(600);
+    timeout(600); //useless if using frame_rate.h
 
     curs_set(0);
 }
@@ -38,6 +39,9 @@ void handle_input() {
             break;
         case LOAD_MENU:
             load_saves_handle_input();
+            break;
+        case CREATE_MENU:
+            create_handle_input();
             break;
         default:
             break;
@@ -52,6 +56,9 @@ void curses_scene() {
             break;
         case LOAD_MENU:
             load_saves_menu_curses();
+            break;
+        case CREATE_MENU:
+            create_menu_curses();
             break;
         default:
             break;

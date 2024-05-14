@@ -29,13 +29,13 @@ int main() {
 
 
     while (get_current_scene() != QUITTING) {
-        start_frame();
+        //start_frame(); //useless lol :c (if using timeout());
         handle_input();
 
         curses_scene();
 
-        end_frame();
-    } 
+        //end_frame();
+    }
 
     endwin();
 
