@@ -403,7 +403,8 @@ int main() {
     srand(time(NULL));
 
     Joueur*  j1    = NULL;
-    Joueur*  j2     = NULL;
+    Joueur*  j2    = NULL;
+    Joueur*  j3    = NULL;
     int degats = 0;
     int N = 0;
 
