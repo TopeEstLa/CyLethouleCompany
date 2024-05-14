@@ -97,14 +97,6 @@ Joueur* creerBoss(){
 //Inventaire
 
 
-
-typedef struct{
-    Info* item;
-    int capacite;
-    int quantite;
-} Inventaire;
-
-
 typedef enum material {
     COUPE,
     EPEE,
@@ -114,8 +106,10 @@ typedef enum material {
 
 typedef struct item_stack {
     char* name;
+    int capacite;
+    int quantite
     Material material;
-} Item_Stack;
+} Inventaire;
 
 
 
@@ -401,11 +395,15 @@ int main() {
 
     srand(time(NULL));
 
+    Inventaire* i1 = NULL;
     Joueur*  j1    = NULL;
     Joueur*  j2    = NULL;
     Joueur*  j3    = NULL;
     int degats = 0;
     int N = 0;
+
+    i1 = initialiserInv();
+    afficheInv(i1);
 
     j1  = creerJoueur();
     //j2  = creerJoueur();
@@ -413,6 +411,9 @@ int main() {
 
     //combat(j1, j2, N);
     combatBoss1(j1, j3, N);
+
+
+
 
     printf("Exp : %d", j1->exp);
 
