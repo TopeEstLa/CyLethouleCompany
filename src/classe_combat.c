@@ -81,7 +81,7 @@ Joueur* creerBoss(){
             'Lazarus',
     };
     if (strlen(tmp) > 0){
-        j->nom = malloc(((strlen(tmp)+1) * sizeof(char));
+        j->nom = malloc(((strlen(tmp)+1) * sizeof(char)));
     }
     if (j->nom == NULL){
         exit(404);
