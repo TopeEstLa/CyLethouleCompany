@@ -67,7 +67,6 @@ Joueur* creerJoueur(){
 
 Joueur* creerBoss(){
     Joueur* j = NULL;
-    j->nom = NULL;
     int size = 0;
     // Malloc struct
     j = malloc(sizeof(Joueur));
