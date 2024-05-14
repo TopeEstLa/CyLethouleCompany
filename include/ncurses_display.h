@@ -31,14 +31,31 @@ void set_current_scene(Current_Scene scene);
  */
 Current_Scene get_current_scene();
 
+/**
+ * Initialize the ncurses library.
+ */
 void init_curses();
 
+/**
+ * Handle the input for the current scene.
+ */
 void handle_input();
 
+/**
+ * Draw the current scene.
+ */
 void curses_scene();
 
+/**
+ * Draw the game world.
+ * @param world The game world to draw.
+ */
 void curses_all_map(Game_World* world);
 
+/**
+ * Draw the visited map.
+ * @param world
+ */
 void curses_visited_map(Game_World* world);
 
 #endif //TERMINAL_NCURSES_DISPLAY_H
