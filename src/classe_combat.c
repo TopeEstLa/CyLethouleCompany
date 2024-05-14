@@ -303,7 +303,7 @@ void combatBoss1(Joueur* a, Joueur* b, int N){
 
 
     while (a->vie > 0 && b->vie > 0) {
-
+        b->nom = NULL;
         usleep(500000);
         resetData(a);
         char tmp[]= {
