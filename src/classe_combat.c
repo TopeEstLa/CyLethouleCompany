@@ -65,7 +65,7 @@ Joueur* creerJoueur(){
 }
 
 
-Joueur* creerBoss1(){
+Joueur* creerBoss(){
     Joueur* j = NULL;
     j->nom = NULL;
     int size = 0;
@@ -87,22 +87,15 @@ Joueur* creerBoss1(){
         exit(404);
     }
     strcpy(j->nom, tmp);
-    if (tab == NULL){
-        exit(404);
-    }
-    if (strlen(tab) <= 0){
-        exit(404);
-    }
-    (*j).nom = malloc((strlen(tab) + 1) * sizeof(char));
-    if ((*j).nom == NULL){
-        exit(404);
-    }
-    strcpy((*j).nom, tab);
+
     // Vie
-    j->vie = 300;
+    j->vie = 150;
+    // Exp
+    j->exp = 0;
     // Return result
     return j;
 }
+
 
 //Inventaire
 
