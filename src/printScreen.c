@@ -2,11 +2,33 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/time.h>
+#include <string.h>
 
 
 #include "entities.h"
 #include "world.h"
+void printName(){
+    int lignes, colonnes;
+    char* tab[] = {
+            " _             _    _                    _         _____",
+            "| |           | |  | |                  | |       / ____|",
+            "| |       ___ | |_ | |__    ___   _   _ | |  ___ | |       ___   _ __ ___   _ __    __ _  _ __   _   _",
+            "| |      / _ \\| __|| '_ \\  / _ \\ | | | || | / _ \\| |      / _ \\ | '_ ` _ \\ | '_ \\  / _` || '_ \\ | | | |",
+            "| |____ |  __/| |_ | | | || (_) || |_| || ||  __/| |____ | (_) || | | | | || |_) || (_| || | | || |_| |",
+            "|______| \\___| \\__||_| |_| \\___/  \\__,_||_| \\___| \\_____| \\___/ |_| |_| |_|| .__/  \\__,_||_| |_| \\__, |",
+            "                                                                           | |                    __/ |",
+            "                                                                           |_|                   |___/",
+    };
+    getmaxyx(stdscr, lignes, colonnes);
+    int colonnes_text = strlen(tab[3]);
+    int colonnes_debut = (colonnes - colonnes_text) / 2;
+    int lignes_debut = 1;
+    for (int i = 0; i < 8; i++){
+        mvprintw(lignes_debut, colonnes_debut, "%s", tab[i]);
+        lignes_debut++;
+    }
 
+}
 //Print the timer on the terminal
 void printTimer(long start) {
     int lignes, colonnes;
@@ -43,7 +65,7 @@ void printMap(Game_World* world, int x, int y, int dx, int dy){
     getmaxyx(stdscr, lignes, colonnes);
     int colonnes_text = dx * 2;
     int colonnes_debut = (colonnes - colonnes_text) / 2;
-    int lignes_debut = 6;
+    int lignes_debut = 12;
     for (int iy = y - dy; iy < y + dy; iy++){
         if (iy < 1 || iy > world->height){
             continue;
