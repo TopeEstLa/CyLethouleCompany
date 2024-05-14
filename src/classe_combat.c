@@ -76,9 +76,7 @@ Joueur* creerBoss(){
     // Create first name
     char tab[256];
     int res = 0;
-    char tmp[]= {
-            'Lazarus',
-    };
+    char* tmp = "Lazarus";
     if (strlen(tmp) > 0){
         j->nom = malloc(((strlen(tmp)+1) * sizeof(char)));
     }
