@@ -412,7 +412,7 @@ int main() {
 
     //combat(j1, j2, N);
     combatBoss1(j1, j3, N);
-
+    /
 
 
 
