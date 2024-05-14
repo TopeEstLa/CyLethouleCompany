@@ -30,6 +30,7 @@ add_executable(CyLethouleCompany
         src/entites.c
         include/terminal_ncurses_display.h
         src/terminal_ncurses_display.c
+        src/printScreen.c
 )
 
 target_link_libraries(CyLethouleCompany PRIVATE
