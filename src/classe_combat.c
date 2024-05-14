@@ -452,6 +452,7 @@ void combatBoss1(Joueur* a, Joueur* b, int N, Inventaire* i1){
             ajoutItem(i1, COUPE);
             a->exp += 10;
             printf("Exp : %d\n", a->exp);
+            afficheInv(i1);
             break;
         }
 
@@ -534,6 +535,7 @@ void combatBoss2(Joueur* a, Joueur* b, int N, Inventaire* i1){
             ajoutItem(i1, EPEE);
             a->exp += 30;
             printf("Exp : %d\n", a->exp);
+            afficheInv(i1);
             break;
         }
 
@@ -614,6 +616,7 @@ void combatBoss3(Joueur* a, Joueur* b, int N, Inventaire* i1){
             ajoutItem(i1, CRANE);
             a->exp += 60;
             printf("Exp : %d\n", a->exp);
+            afficheInv(i1);
             break;
         }
 
@@ -658,12 +661,9 @@ int main() {
 
     //combat(j1, j2, N);
     combatBoss1(j1, j3, N, i1);
-    afficheInv(i1);
     combatBoss2(j1, j4, N, i1);
-    afficheInv(i1);
     combatBoss3(j1, j5, N, i1);
 
-    afficheInv(i1);
 
     free(j1);
     free(j2);
@@ -673,4 +673,6 @@ int main() {
 
     return 0;
 }
+
+
 
