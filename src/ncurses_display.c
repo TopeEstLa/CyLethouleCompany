@@ -37,7 +37,7 @@ void init_curses() {
     keypad(stdscr, TRUE);
     nodelay(stdscr, TRUE);
 
-    timeout(6000);
+    timeout(600);
 
     curs_set(0);
 }

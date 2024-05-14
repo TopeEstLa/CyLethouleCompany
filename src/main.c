@@ -37,14 +37,9 @@ int main() {
 
 
     int shouldQuit = 0;
-    set_force_redraw(true);
     while (shouldQuit == 0) {
         start_frame();
-        if (!is_force_redraw())
-            handle_input();
-
-        if (is_force_redraw())
-            set_force_redraw(false);
+        handle_input();
 
         curses_scene();
 
