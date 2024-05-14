@@ -34,24 +34,22 @@ void printMap(Game_World* world, int x, int y, int dx, int dy){
     }
     for (int iy = y - dy; iy < y + dy; iy++){
         if (iy < 0 || iy > world->height){
-            printf("VIDE");
             continue;
         } else {
             for (int jx = x - dx; jx < x + dx; jx++) {
                 if (jx < 0 || jx > world->width) {
-                    printw("VIDE");
                     continue;
                 } else {
                     Entity *entity = get_entity(jx, iy);
 
                     //print the item to stack or the emoji of the player
                     if (entity != NULL){
-                        printw("  %c", entity->texture);
+                        //printw("  %c", entity->texture);
                     }else {
                         //print the map : door, wall, etc ...
                         switch (world->chunk[jx][iy]->type) {
                             case DOOR :
-                                printf("D");
+                                printw("D");
                                 break;
                             case WALL :
                                 printw("|");
