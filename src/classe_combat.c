@@ -409,10 +409,10 @@ int main() {
     int N = 0;
 
     j1  = creerJoueur();
-    j2  = creerJoueur();
+    //j2  = creerJoueur();
     j3 = creerBoss();
 
-    combat(j1, j2, N);
+    //combat(j1, j2, N);
     combatBoss1(j1, j3, N);
 
     printf("Exp : %d", j1->exp);
