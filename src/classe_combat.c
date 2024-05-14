@@ -65,7 +65,7 @@ Joueur* creerJoueur(){
 }
 
 
-Joueur* creerBoss(){
+Joueur* creerBoss1(){
     Joueur* j = NULL;
     j->nom = NULL;
     int size = 0;
@@ -99,9 +99,7 @@ Joueur* creerBoss(){
     }
     strcpy((*j).nom, tab);
     // Vie
-    j->vie = 150;
-    // Exp
-    j->exp = 0;
+    j->vie = 300;
     // Return result
     return j;
 }
@@ -400,7 +398,6 @@ void combatBoss1(Joueur* a, Joueur* b, int N){
 
         if (a->vie <= 0) {
             printf("%s tombe, %s gagne le combat!\n", a->nom, b->nom);
-            b->exp +=1;
             break;
         }
     }
@@ -419,14 +416,16 @@ int main() {
 
     j1  = creerJoueur();
     j2  = creerJoueur();
+    j3 = creerJoueur();
 
     combat(j1, j2, N);
-    combatBoss1(j1, 
+    combatBoss1(j1, j3, N);
 
     printf("Exp : %d", j1->exp);
 
     free(j1);
     free(j2);
+    free(j3);
 
     return 0;
 }
