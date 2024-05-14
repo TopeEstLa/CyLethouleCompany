@@ -98,13 +98,13 @@ Joueur* creerBoss(){
 
 
 typedef enum material {
-    COUPE,
-    EPEE,
-    CRANE,
+    COUPE[1],
+    EPEE[2],
+    CRANE[3],
 } Material;
 
 
-typedef struct item_stack {
+typedef struct {
     char* name;
     int capacite;
     int quantite
@@ -122,8 +122,8 @@ Inventaire* initialiserInv(){
         exit(2);
     }
     p->capacite = 3;
-    p->item = malloc(sizeof(Inventaire) * p->capacite);
-    if( p->item == NULL){
+    p->material = malloc(sizeof(Inventaire) * p->capacite);
+    if( p->material == NULL){
         exit(3);
     }
 
@@ -132,13 +132,13 @@ Inventaire* initialiserInv(){
 
 // FOnction pour ajouter item
 
-void ajoutItem(Inventaire* p, Info nom){
+void ajoutItem(Inventaire* p){
     if (p == NULL || p->item == NULL){
         exit(1);
     }
     if (p->quantite <= p->capacite){
-        p->item[p->quantite] = nom;
         p->quantite++;
+        p->material[p->quantite] = p->material[1];
     }
     else{
         printf("Inventaire chargé !");
@@ -380,9 +380,9 @@ void combatBoss1(Joueur* a, Joueur* b, int N){
 
         if (a->vie <= 0) {
             printf("%s tombe, %s gagne le combat!\n", a->nom, b->nom);
-            Item_Stack item;
-            item.name = "Coupe du Roi";
-            item.material = COUPE;
+            //Item_Stack item;
+            //item.name = "Coupe du Roi";
+            //item.material = COUPE;
 
             break;
         }
@@ -403,6 +403,7 @@ int main() {
     int N = 0;
 
     i1 = initialiserInv();
+    ajouteItem(i1);
     afficheInv(i1);
 
     j1  = creerJoueur();
