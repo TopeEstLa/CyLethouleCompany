@@ -155,6 +155,9 @@ Inventaire* initialiserInv(){
 // FOnction pour ajouter item
 
 void ajoutItem(Inventaire* p, Info nom){
+    if (p == NULL || p->item == NULL){
+        exit(1);
+    }
     if (p->quantite <= p->capacite){
         p->item[p->quantite] = nom;
         p->quantite++;
@@ -168,6 +171,9 @@ void ajoutItem(Inventaire* p, Info nom){
 //Fonction pour verifier son inventaire
 
 void afficheInv(Inventaire* p){
+    if (p == NULL || p->item == NULL){
+        exit(1);
+    }
     printf("Voici votre inventaire :\n");
     for(int i = 0; i < p->quantite; i++){
         printf("%s", p->item[i].nom);
@@ -179,6 +185,9 @@ void afficheInv(Inventaire* p){
 
 
 void resetData(Joueur* j){
+    if (j == NULL || j->nom == NULL){
+        exit(1);
+    }
     switch(j->current_class){
         case ARCHER:
             j->attaque = rand()%5 + 8;
@@ -232,7 +241,12 @@ void resetGuerrier(Joueur* a, Joueur* b) {
 
 
 void combat(Joueur* a, Joueur* b, int N){
-
+    if (a == NULL || b == NULL){
+        exit(1);
+    }
+    if (a->nom == NULL || b->nom == NULL){
+        exit(1);
+    }
     printf("Voici les différentes classes :\n");
     printf("1 : Archer :\n Attaque : 8 à 12\n Defense : 3 à 5\n Esquive: 5 à 16\n");
     printf("2 : Sorcier :\n Attaque : 4 à 10\n Defense : 8 à 12\n Esquive: 8 à 16\n");
