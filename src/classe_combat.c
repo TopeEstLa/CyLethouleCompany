@@ -306,16 +306,7 @@ void combatBoss1(Joueur* a, Joueur* b, int N){
         b->nom = NULL;
         usleep(500000);
         resetData(a);
-        char tmp[]= {
-                'Lazarus',
-        };
-        if (strlen(tmp) > 0){
-            b->nom = malloc(((strlen(tmp)+1) * sizeof(char));
-        }
-        if (b->nom == NULL){
-            exit(404);
-        }
-        strcpy(b->nom, tmp);
+        
         b->esquive=0;
         b->attaque= rand()%10 + 10;
         b->defense=0;
