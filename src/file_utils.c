@@ -4,6 +4,12 @@
 #include <stdio.h>
 #include <dirent.h>
 #include <string.h>
+#include <sys/stat.h>
+
+bool create_folder(char *folder) {
+    int result = mkdir("/home/me/test.txt", 0777);
+    return result == 0;
+}
 
 bool save_json(char *filename, cJSON *json) {
     FILE *file = fopen(filename, "w");
@@ -67,29 +73,31 @@ char** list_files(char *directory, int *count) {
     int files_count = 0;
 
     while ((entry = readdir(dir)) != NULL) {
+        if (strcasecmp(entry->d_name, ".") == 0 || strcasecmp(entry->d_name, "..") == 0) continue;
         files_count++;
     }
 
-    char** files = (char**) malloc(files_count * sizeof(char*));
+    rewinddir(dir);
 
+    char** files = (char**) malloc(files_count * sizeof(char*));
     if (files == NULL) {
         closedir(dir);
         return NULL;
     }
 
-    while ((entry = readdir(dir)) != NULL) {
-        files[files_count] = (char*) malloc(strlen(entry->d_name) + 1);
+    files_count = 0;
 
+    while ((entry = readdir(dir)) != NULL) {
+        if (strcasecmp(entry->d_name, ".") == 0 || strcasecmp(entry->d_name, "..") == 0) continue;
+        files[files_count] = (char*) malloc(strlen(entry->d_name) + 1);
         if (files[files_count] == NULL) {
             for (int i = 0; i < files_count; i++) {
                 free(files[i]);
             }
-
             free(files);
             closedir(dir);
             return NULL;
         }
-
         strcpy(files[files_count], entry->d_name);
         files_count++;
     }

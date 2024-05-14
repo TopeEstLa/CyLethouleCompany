@@ -6,7 +6,7 @@
 #include <world.h>
 
 #define FORMAT_VERSION 1
-#define FOLDER "saves/"
+#define SAVES_FOLDER "saves/"
 
 /**
  * Save the world in a file.

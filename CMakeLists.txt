@@ -28,10 +28,18 @@ add_executable(CyLethouleCompany
         src/saves.c
         include/entities.h
         src/entites.c
-        include/terminal_ncurses_display.h
-        src/terminal_ncurses_display.c
         src/printScreen.c
         include/printSreen.h
+        include/ncurses_display.h
+        src/ncurses_display.c
+        include/scene/main_menu.h
+        src/scene/main_menu.c
+        include/scene/load_menu.h
+        src/scene/load_menu.c
+        include/frame_rate.h
+        src/frame_rate.c
+        include/scene/create_menu.h
+        src/scene/create_menu.c
 )
 
 target_link_libraries(CyLethouleCompany PRIVATE

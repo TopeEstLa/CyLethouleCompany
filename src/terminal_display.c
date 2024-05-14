@@ -20,7 +20,7 @@ void print_all_map(Game_World *world) {
             Entity *entity = get_entity(x, y);
 
             if (entity != NULL) {
-                printf("%c", entity->texture);
+                printf("%s", entity->texture);
                 printf("  ");
                 continue;
             }
