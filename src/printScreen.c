@@ -2,72 +2,97 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/time.h>
+
+
 #include "entities.h"
 #include "world.h"
 
 //Print the timer on the terminal
-WINDOW* printTimer(struct timeval current) {
-
+void printTimer(long start) {
+    int lignes, colonnes;
     start_color();
-    WINDOW *win = newwin(1, 12, 1, 1);
+    getmaxyx(stdscr, lignes, colonnes);
+    int colonnes_text = 3;
+    int colonnes_debut = (colonnes - colonnes_text) / 2;
+    sleep(2);
     init_pair(1, COLOR_RED, COLOR_BLACK);
     struct timeval tv;
     gettimeofday(&tv, NULL);
     //save the actual timeofday
-    int difference = tv.tv_sec - current.tv_sec;
+    long difference = tv.tv_sec - start;
     //Print in red if the difference is under 10 seconds
     if (difference <= 10){
-        wattron(win, COLOR_PAIR(1));
-        mvwprintw(win, 0, 0, "%3d", difference);
-        wattroff(win, COLOR_PAIR(1));
+        attron(COLOR_PAIR(1));
+        mvprintw(3, colonnes_debut, "%3ld", difference);
+        attroff(COLOR_PAIR(1));
     } else {
-        mvwprintw(win, 0, 0, "%3d", difference);
+        mvprintw(3, colonnes_debut, "%3ld", difference);
     }
-    wrefresh(win);
-    return win;
+    refresh();
+
 }
 
 //Print the map on the terminal
 void printMap(Game_World* world, int x, int y, int dx, int dy){
+    int lignes, colonnes;
+
     if (world == NULL || x < 0 || x > world->width || y < 0 || y > world->height){
         exit(404);
     }
+    printw("\n");
+    getmaxyx(stdscr, lignes, colonnes);
+    int colonnes_text = dx * 2;
+    int colonnes_debut = (colonnes - colonnes_text) / 2;
+    int lignes_debut = 6;
     for (int iy = y - dy; iy < y + dy; iy++){
-        if (iy < 0 || iy > world->height){
+        if (iy < 1 || iy > world->height){
             continue;
         } else {
             for (int jx = x - dx; jx < x + dx; jx++) {
-                if (jx < 0 || jx > world->width) {
+                if(jx == x-dx || jx == x+dx-1){
+                    mvprintw(lignes_debut, colonnes_debut, "|");
+                    colonnes_debut++;
+                } else if (iy == y-dy || iy == y+dy-1) {
+                    mvprintw(lignes_debut, colonnes_debut, "-");
+                    colonnes_debut++;
+                }else if (jx < 0 || jx > world->width) {
                     continue;
                 } else {
                     Entity *entity = get_entity(jx, iy);
 
                     //print the item to stack or the emoji of the player
                     if (entity != NULL){
-                        //printw("  %c", entity->texture);
+                        mvprintw(lignes_debut, colonnes_debut, "%c", entity->texture);
+                        colonnes_debut++;
                     }else {
                         //print the map : door, wall, etc ...
                         switch (world->chunk[jx][iy]->type) {
                             case DOOR :
-                                printw("D");
+                                mvprintw(lignes_debut, colonnes_debut, "D");
+                                colonnes_debut++;
                                 break;
                             case WALL :
-                                printw("|");
+                                mvprintw(lignes_debut, colonnes_debut, "|");
+                                colonnes_debut++;
                                 break;
                             case VOID :
-                                printw(" ");
+                                mvprintw(lignes_debut, colonnes_debut, " ");
+                                colonnes_debut++;
                                 break;
                             case EMPTY :
-                                printw(" ");
+                                mvprintw(lignes_debut, colonnes_debut, " ");
+                                colonnes_debut++;
                                 break;
                             default :
-                                printw("?");
+                                mvprintw(lignes_debut, colonnes_debut, "?");
+                                colonnes_debut++;
                                 break;
                         }
                     }
                 }
             }
-            printw("\n");
+            lignes_debut++;
+            colonnes_debut = (colonnes - colonnes_text) / 2;
         }
     }
     refresh();
