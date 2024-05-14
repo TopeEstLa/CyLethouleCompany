@@ -344,8 +344,11 @@ void combatBoss1(Joueur* a, Joueur* b, int N){
             printf("Choix inexistant\n");
             return;
     }
-
-    b->vie= 230;
+    if (a->current_class == 2){
+        b->vie = 290;
+    } else {
+        b->vie = 230;
+    }
 
     printf("Debut du combat ! :\n");
 
