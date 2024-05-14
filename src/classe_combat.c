@@ -64,6 +64,43 @@ Joueur* creerJoueur(){
     return j;
 }
 
+
+Joueur* creerBoss(){
+    Joueur* j = NULL;
+    int size = 0;
+    // Malloc struct
+    j = malloc(sizeof(Joueur));
+    if( j == NULL){
+        exit(1);
+    }
+    // Create first name
+    char tab[256];
+    int res = 0;
+    do{
+        res = 0;
+        printf("Saissisez le nom du joueur\n");
+        res = scanf("%[^\n]", tab);
+        flush();
+    } while (res != 1);
+    if (tab == NULL){
+        exit(404);
+    }
+    if (strlen(tab) <= 0){
+        exit(404);
+    }
+    (*j).nom = malloc((strlen(tab) + 1) * sizeof(char));
+    if ((*j).nom == NULL){
+        exit(404);
+    }
+    strcpy((*j).nom, tab);
+    // Vie
+    j->vie = 150;
+    // Exp
+    j->exp = 0;
+    // Return result
+    return j;
+}
+
 //Inventaire
 
 typedef struct{
