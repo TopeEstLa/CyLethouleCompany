@@ -96,10 +96,6 @@ Joueur* creerBoss(){
 
 //Inventaire
 
-typedef struct{
-    char* nom[SIZE];
-    int nombre;
-} Info;
 
 
 typedef struct{
@@ -110,15 +106,15 @@ typedef struct{
 
 
 typedef enum material {
-    SWORD,
-    PICKAXE,
+    COUPE,
+    EPEE,
+    CRANE,
 } Material;
 
 
 typedef struct item_stack {
-    char name[SIZE];
+    char* name;
     Material material;
-    int count;
 } Item_Stack;
 
 
@@ -390,6 +386,10 @@ void combatBoss1(Joueur* a, Joueur* b, int N){
 
         if (a->vie <= 0) {
             printf("%s tombe, %s gagne le combat!\n", a->nom, b->nom);
+            Item_Stack item;
+            item.name = "Coupe du Roi";
+            item.material = COUPE;
+
             break;
         }
     }
