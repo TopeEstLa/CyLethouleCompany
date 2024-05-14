@@ -46,7 +46,7 @@ void printMap(Game_World* world, int x, int y, int dx, int dy){
 
                     //print the item to stack or the emoji of the player
                     if (entity != NULL){
-                        //printw("%c", entity->texture);
+                        printw("  %c", entity->texture);
                     }else {
                         //print the map : door, wall, etc ...
                         switch (world->chunk[jx][iy]->type) {
