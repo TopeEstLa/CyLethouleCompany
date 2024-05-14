@@ -14,7 +14,7 @@ void init_entities(Game_World *world_ptr) {
     entities_capacity = 10;
 }
 
-Entity *create_entity(Entity_Type type, void *data, char texture) {
+Entity *create_entity(Entity_Type type, void *data, char* texture) {
     Entity *entity = malloc(sizeof(Entity));
     entity->type = type;
     entity->data = data;

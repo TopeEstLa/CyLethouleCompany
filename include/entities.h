@@ -13,7 +13,7 @@ typedef enum entity_type {
 typedef struct entity {
     Entity_Type type;
     void* data;
-    char texture;
+    char* texture;
     int x, y;
 } Entity;
 
@@ -31,7 +31,7 @@ typedef struct move_callback {
 
 void init_entities(Game_World* world_ptr);
 
-Entity* create_entity(Entity_Type type, void* data, char texture);
+Entity* create_entity(Entity_Type type, void* data, char* texture);
 
 bool add_entity(Entity* entity, int x, int y);
 

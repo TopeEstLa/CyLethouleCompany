@@ -72,7 +72,7 @@ void curses_all_map(Game_World *world) {
             Entity *entity = get_entity(x, y);
 
             if (entity != NULL) {
-                printw("%c", entity->texture);
+                printw("%s", entity->texture);
                 printw("  ");
                 continue;
             }
@@ -125,7 +125,7 @@ void curses_visited_map(Game_World *world) {
             Entity *entity = get_entity(x, y);
 
             if (entity != NULL) {
-                printw("%c", entity->texture);
+                printw("%s", entity->texture);
                 printw("  ");
                 continue;
             }

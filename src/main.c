@@ -21,19 +21,11 @@ int main() {
 
     base_generation(world);
 
-    Entity *player = create_entity(PLAYER, NULL, '@');
+    Entity *player = create_entity(PLAYER, NULL, "@");
 
     add_entity(player, world->rooms[0].x + 3, world->rooms[0].y + 3);
 
     init_curses();
-
-    if (create_folder(SAVES_FOLDER)) {
-        //printf("Folder created successfully\n");
-    } else {
-        //printf("Folder could not be created\n");
-    }
-
-    save_world(world, "saves/world.json");
 
 
     while (get_current_scene() != QUITTING) {
@@ -43,7 +35,7 @@ int main() {
         curses_scene();
 
         end_frame();
-    }
+    } 
 
     endwin();
 
