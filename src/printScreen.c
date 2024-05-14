@@ -32,36 +32,38 @@ void printMap(Game_World* world, int x, int y, int dx, int dy){
     if (world == NULL || x < 0 || x > world->width || y < 0 || y > world->height){
         exit(404);
     }
-    for (int i = y - dy; i < y + dy; i++){
-        if (i < 0 || i > world->height){
+    for (int iy = y - dy; iy < y + dy; iy++){
+        if (iy < 0 || iy > world->height){
+            printf("VIDE");
             continue;
         } else {
-            for (int j = x - dx; j < x + dx; j++) {
-                if (j < 0 || j > world->width) {
+            for (int jx = x - dx; jx < x + dx; jx++) {
+                if (jx < 0 || jx > world->width) {
+                    printw("VIDE");
                     continue;
                 } else {
-                    Entity *entity = get_entity(x, y);
+                    Entity *entity = get_entity(jx, iy);
 
                     //print the item to stack or the emoji of the player
                     if (entity != NULL){
-                        printw("  %s", entity->texture);
+                        //printw("%c", entity->texture);
                     }else {
                         //print the map : door, wall, etc ...
-                        switch (world->chunk[j][i]->type) {
+                        switch (world->chunk[jx][iy]->type) {
                             case DOOR :
-                                printw("  D ");
+                                printf("D");
                                 break;
                             case WALL :
-                                printw("  | ");
+                                printw("|");
                                 break;
                             case VOID :
-                                printw("    ");
+                                printw(" ");
                                 break;
                             case EMPTY :
-                                printw("    ");
+                                printw(" ");
                                 break;
                             default :
-                                printw("  ? ");
+                                printw("?");
                                 break;
                         }
                     }
