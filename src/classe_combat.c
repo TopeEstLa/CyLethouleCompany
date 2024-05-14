@@ -410,7 +410,7 @@ int main() {
 
     j1  = creerJoueur();
     j2  = creerJoueur();
-    j3 = creerJoueur();
+    j3 = creerBoss();
 
     combat(j1, j2, N);
     combatBoss1(j1, j3, N);
