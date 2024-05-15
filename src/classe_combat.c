@@ -315,16 +315,16 @@ void resetBoss3(Joueur* b){
 
 
 void shopExp(Joueur* a, Joueur* b){
-    printf("Bienvenu dans la taverne de Garedon !");
-    printf("Vous possédez actuellement %d points d'experience !", a->exp); 
-    printf("Voici les services proposés par Garedon :");
-    printf("1 - Fiole de vie : La vie n'a pas de prix ! (+10 points de vie)");
-    printf("Prix : 10");
-    printf("2 - Pari risqué : Qui ne tente rien n'a rien ! (1 chances sur 2 de doubler sa mise)");
-    printf("Prix : 15");
-    printf("3 - Mort instantané : L'ennemi est mort ! (Tue instantannément l'ennemi)");
-    printf("Prix : 150");
-    printf("Choisissez le numero de l'item voulu :");
+    printf("Bienvenu dans la taverne de Garedon !\n");
+    printf("Vous possédez actuellement %d points d'experience !\n", a->exp); 
+    printf("Voici les services proposés par Garedon :\n");
+    printf("1 - Fiole de vie : La vie n'a pas de prix ! (+10 points de vie)\n");
+    printf("Prix : 10\n");
+    printf("2 - Pari risqué : Qui ne tente rien n'a rien ! (1 chances sur 2 de doubler sa mise)\n");
+    printf("Prix : 15\n");
+    printf("3 - Mort instantané : L'ennemi est mort ! (Tue instantannément l'ennemi)\n");
+    printf("Prix : 150\n");
+    printf("Choisissez le numero de l'item voulu :\n");
     int res = 0;
     int C = 0;
     int ran = 0;
