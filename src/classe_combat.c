@@ -68,7 +68,7 @@ Joueur* creerJoueur(){
     // Vie
     j->vie = 1500;
     // Exp
-    j->exp = 0;
+    j->exp = 150;
     // Return result
     return j;
 }
@@ -324,7 +324,7 @@ void shopExp(Joueur* a, Joueur* b){
     printf("Prix : 15\n");
     printf("3 - Mort instantané : L'ennemi est mort ! (Tue instantannément l'ennemi)\n");
     printf("Prix : 150\n");
-    printf("Choisissez le numero de l'item voulu :\n");
+    printf("Choisissez le numero de l'item voulu :");
     int res = 0;
     int C = 0;
     int ran = 0;
@@ -340,25 +340,28 @@ void shopExp(Joueur* a, Joueur* b){
             }
             a-> vie += 10;
             a-> exp -=10;
+            break;
         case 2:
             if(a->exp < 15){
                 exit(69);
             }
             ran = rand()%2 + 1;
             if(ran == 1){
-                printf("Vous avez perdu votre mise");
+                printf("Vous avez perdu votre mise\n");
                 a->exp -= 15;
             }
             if(ran == 2){
-                printf("Vous avez gagne !");
+                printf("Vous avez gagne !\n");
                 a->exp += 15;
             }
+            break;
         case 3:
             if(a->exp < 150){
                 exit(69);
             }
             b->vie = 0;
             a->exp -= 150;
+            break;
     }   
 
 }
@@ -408,17 +411,26 @@ void combat(Joueur* a, Joueur* b, int N){
             return;
     }
 
-    shopExp(a,b);
+        shopExp(a,b);
 
     printf("Debut du combat ! :\n");
 
     
 
-    while (a->vie > 0 && b->vie > 0) {
+    while (a->vie > 0 && b->vie >= 0 ) {
+        
 
         usleep(500000);
         resetData(a);
         resetGuerrier(b);
+        
+        if (b->vie <= 0) {
+            printf("%s tombe, %s gagne le combat!\n", b->nom, a->nom);
+            a->exp += 1;
+            printf("Exp : %d\n", a->exp);
+            break;
+        }
+
 
         if (a->attaque < b->esquive) {
             printf("%s esquive l'attaque de %s!\n", b->nom, a->nom);
@@ -432,6 +444,7 @@ void combat(Joueur* a, Joueur* b, int N){
         if (b->vie <= 0) {
             printf("%s tombe, %s gagne le combat!\n", b->nom, a->nom);
             a->exp += 1;
+            printf("Exp : %d\n", a->exp);
             break;
         }
 
@@ -498,11 +511,20 @@ void combatBoss1(Joueur* a, Joueur* b, int N, Inventaire* i1){
     printf("Debut du combat ! :\n");
 
 
-    while (a->vie > 0 && b->vie > 0) {
+    while (a->vie > 0 && b->vie >= 0) {
 
         usleep(800000);
         resetData(a);
         resetBoss1(b);
+        
+        if (b->vie <= 0) {
+            printf("%s tombe, %s gagne le combat!\n", b->nom, a->nom);
+            ajoutItem(i1, COUPE);
+            a->exp += 10;
+            printf("Exp : %d\n", a->exp);
+            afficheInv(i1);
+            break;
+        }
 
         if (a->attaque < b->esquive) {
             printf("%s esquive l'attaque de %s!\n", b->nom, a->nom);
@@ -585,11 +607,21 @@ void combatBoss2(Joueur* a, Joueur* b, int N, Inventaire* i1){
     printf("Debut du combat ! :\n");
 
 
-    while (a->vie > 0 && b->vie > 0) {
+    while (a->vie > 0 && b->vie >= 0) {
 
         usleep(800000);
         resetData(a);
         resetBoss2(b);
+        
+        if (b->vie <= 0) {
+            printf("%s tombe, %s gagne le combat!\n", b->nom, a->nom);
+            ajoutItem(i1, EPEE);
+            a->exp += 30;
+            printf("Exp : %d\n", a->exp);
+            afficheInv(i1);
+            break;
+        }
+
 
         if (a->attaque < b->esquive) {
             printf("%s esquive l'attaque de %s!\n", b->nom, a->nom);
@@ -671,6 +703,14 @@ void combatBoss3(Joueur* a, Joueur* b, int N, Inventaire* i1){
         resetData(a);
         resetBoss3(b);
 
+        if (b->vie <= 0) {
+            printf("%s tombe, %s gagne le combat!\n", b->nom, a->nom);
+            ajoutItem(i1, CRANE);
+            a->exp += 60;
+            printf("Exp : %d\n", a->exp);
+            afficheInv(i1);
+            break;
+        }
 
 
         if (a->attaque < b->esquive) {
@@ -725,13 +765,13 @@ int main() {
     i1 = initialiserInv();
 
     j1  = creerJoueur();
-    //j2  = creerJoueur();
-    j3 = creerBoss1();
+    j2  = creerJoueur();
+    //j3 = creerBoss1();
     //j4 = creerBoss2();
     //j5 = creerBoss3();
 
-    //combat(j1, j2, N);
-    combatBoss1(j1, j3, N, i1);
+    combat(j1, j2, N);
+    //combatBoss1(j1, j3, N, i1);
     //combatBoss2(j1, j4, N, i1);
     //combatBoss3(j1, j5, N, i1);
 
