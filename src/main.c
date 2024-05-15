@@ -18,24 +18,23 @@
 int main() {
 
     initscr();
-/*
-    while (get_current_scene() != QUITTING) {
+
+    /*while (get_current_scene() != QUITTING) {
         //start_frame(); //useless lol :c (if using timeout());
         handle_input();
 
-        curses_scene();
+        //curses_scene();
 
         //end_frame();
-    }
-*/
-    //while(1){
+    }*/
+
+    while(1){
         //clear();
         srand(time(NULL));
-        Game_World *world = create_world(412);
-        printf("%d\n", (*world).height);
+        Game_World *world = create_world(rand()%1000);
         init_entities(world);
 
-        init_curses();
+        //init_curses();
 
         base_generation(world);
 
@@ -47,13 +46,9 @@ int main() {
         //printName();
         //printTimer(t);
 
-        printf("seed %d\n", world->seed);
-        printf("%d\n", (*world).height);
-        //printMap(world, world->rooms[0].x + 3, world->rooms[0].y + 3, 35, 20);
-        //refresh();
+        printMap(world, world->rooms[0].x + 3, world->rooms[0].y + 3, 20, 40);
         free(world);
-    //}
-
+    }
 
     while (1){
 
