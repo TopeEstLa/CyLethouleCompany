@@ -3,7 +3,7 @@
 #include <time.h>
 #include <string.h>
 #include <unistd.h>
-#include <ncurses.h>
+//#include <ncurses.h>
 
 #define SIZE 50
 
@@ -66,9 +66,35 @@ Joueur* creerJoueur(){
     }
     strcpy((*j).nom, tab);
     // Vie
-    j->vie = 1500;
+    j->vie = 150;
     // Exp
-    j->exp = 150;
+    j->exp = 30;
+    // Return result
+    return j;
+}
+
+
+Joueur* creerCradorien(){
+    Joueur* j = NULL;
+    int size = 0;
+    // Malloc struct
+    j = malloc(sizeof(Joueur));
+    if( j == NULL){
+        exit(1);
+    }
+    // Create first name
+    char tab[256];
+    int res = 0;
+    char* tmp = "Guerrier Cradorien";
+    if (strlen(tmp) > 0){
+        j->nom = malloc(((strlen(tmp)+1) * sizeof(char)));
+    }
+    if (j->nom == NULL){
+        exit(404);
+    }
+    strcpy(j->nom, tmp);
+    // Vie
+    j->vie = 50;
     // Return result
     return j;
 }
@@ -86,14 +112,14 @@ Joueur* creerBoss1(){
     // Create first name
     char tab[256];
     int res = 0;
-    char* tmp = "Lazarus";
-    if (strlen(tmp) > 0){
-        j->nom = malloc(((strlen(tmp)+1) * sizeof(char)));
+    char* laz = "Lazarus";
+    if (strlen(laz) > 0){
+        j->nom = malloc(((strlen(laz)+1) * sizeof(char)));
     }
     if (j->nom == NULL){
         exit(404);
     }
-    strcpy(j->nom, tmp);
+    strcpy(j->nom, laz);
 
     // Vie
     j->vie = 20;
@@ -283,6 +309,15 @@ void resetGuerrier(Joueur* a){
 }
 
 
+
+//reset Cradorien
+
+void resetCradorien(Joueur* b){
+            b->attaque = rand()%4 + 11;
+            b->defense = rand()%4 + 2;
+            b->esquive = 0;
+}
+
 // reset boss 1
 
 
@@ -310,6 +345,9 @@ void resetBoss3(Joueur* b){
 
 }
 
+
+
+
 // fonction shop 
 
 
@@ -336,31 +374,41 @@ void shopExp(Joueur* a, Joueur* b){
     switch (C){
         case 1:
             if(a->exp < 10){
-                exit(69);
+                printf("Garedon n'aime pas perdre son temps. La boutique est fermé\n");
+                printf("Point d'expérience restant : %d\n", a->exp);
+                break;
             }
             a-> vie += 10;
             a-> exp -=10;
+            printf("Point d'expérience restant : %d\n", a->exp);
             break;
         case 2:
             if(a->exp < 15){
-                exit(69);
+                printf("Garedon n'aime pas perdre son temps. La boutique est fermé\n");
+                printf("Point d'expérience restant : %d\n", a->exp);
+                break;
             }
             ran = rand()%2 + 1;
             if(ran == 1){
                 printf("Vous avez perdu votre mise\n");
+                printf("Point d'expérience restant : %d\n", a->exp);
                 a->exp -= 15;
             }
             if(ran == 2){
                 printf("Vous avez gagne !\n");
+                printf("Point d'expérience restant : %d\n", a->exp);
                 a->exp += 15;
             }
             break;
         case 3:
             if(a->exp < 150){
-                exit(69);
+                printf("Garedon n'aime pas perdre son temps. La boutique est fermé\n");
+                printf("Point d'expérience restant : %d\n", a->exp);
+                break;
             }
             b->vie = 0;
             a->exp -= 150;
+            printf("Point d'expérience restant : %d\n", a->exp);
             break;
     }   
 
@@ -396,15 +444,15 @@ void combat(Joueur* a, Joueur* b, int N){
     switch (N) {
         case 1:
             resetArcher(a);
-            resetGuerrier(b);
+            resetCradorien(b);
             break;
         case 2:
             resetSorcier(a);
-            resetGuerrier(b);
+            resetCradorien(b);
             break;
         case 3:
             resetGuerrier(a);
-            resetGuerrier(b);
+            resetCradorien(b);
             break;
         default:
             printf("Choix inexistant\n");
@@ -412,6 +460,9 @@ void combat(Joueur* a, Joueur* b, int N){
     }
 
         shopExp(a,b);
+        sleep(1);
+        printf("Point de vie : %d\n", a->vie);
+        sleep(1);
 
     printf("Debut du combat ! :\n");
 
@@ -422,11 +473,12 @@ void combat(Joueur* a, Joueur* b, int N){
 
         usleep(500000);
         resetData(a);
-        resetGuerrier(b);
+        resetCradorien(b);
+        
         
         if (b->vie <= 0) {
             printf("%s tombe, %s gagne le combat!\n", b->nom, a->nom);
-            a->exp += 1;
+            a->exp += 2;
             printf("Exp : %d\n", a->exp);
             break;
         }
@@ -443,7 +495,7 @@ void combat(Joueur* a, Joueur* b, int N){
 
         if (b->vie <= 0) {
             printf("%s tombe, %s gagne le combat!\n", b->nom, a->nom);
-            a->exp += 1;
+            a->exp += 2;
             printf("Exp : %d\n", a->exp);
             break;
         }
@@ -507,7 +559,10 @@ void combatBoss1(Joueur* a, Joueur* b, int N, Inventaire* i1){
     }
     
     shopExp(a,b);
-    
+    sleep(1);
+    printf("Point de vie : %d\n", a->vie);
+    sleep(1);
+
     printf("Debut du combat ! :\n");
 
 
@@ -603,6 +658,10 @@ void combatBoss2(Joueur* a, Joueur* b, int N, Inventaire* i1){
             return;
     }
 
+    shopExp(a,b);
+    sleep(1);
+    printf("Point de vie : %d\n", a->vie);
+    sleep(1);
 
     printf("Debut du combat ! :\n");
 
@@ -693,6 +752,11 @@ void combatBoss3(Joueur* a, Joueur* b, int N, Inventaire* i1){
             return;
     }
 
+    shopExp(a,b);
+    sleep(1);
+    printf("Point de vie : %d\n", a->vie);
+    sleep(1);
+
 
     printf("Debut du combat ! :\n");
 
@@ -765,18 +829,17 @@ int main() {
     i1 = initialiserInv();
 
     j1  = creerJoueur();
-    j2  = creerJoueur();
-    //j3 = creerBoss1();
-    //j4 = creerBoss2();
-    //j5 = creerBoss3();
+    j2  = creerCradorien();
+    j3 = creerBoss1();
+    j4 = creerBoss2();
+    j5 = creerBoss3();
 
-    combat(j1, j2, N);
-    //combatBoss1(j1, j3, N, i1);
+    //combat(j1, j2, N);
+    combatBoss1(j1, j3, N, i1);
     //combatBoss2(j1, j4, N, i1);
     //combatBoss3(j1, j5, N, i1);
 
 
-// FOnction shop avec point d'exp à faire (heal, degats bonus, etc...)
 
     free(j1);
     free(j2);
