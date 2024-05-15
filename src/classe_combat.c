@@ -292,18 +292,27 @@ void resetData(Joueur* j){
 // Reset archer
 
 void resetArcher(Joueur* a) {
+    if (a == NULL || a->nom == NULL){
+        exit(404);
+    }
     a->current_class = ARCHER;
     resetData(a);
 }
 
 // Reset wizard
 void resetSorcier(Joueur* a) {
+    if (a == NULL || a->nom == NULL){
+        exit(404);
+    }
     a->current_class = SORCIER;
     resetData(a);
 }
 
 // Reset Warrior
 void resetGuerrier(Joueur* a){
+    if (a == NULL || a->nom == NULL){
+        exit(404);
+    }
     a->current_class = GUERRIER;
     resetData(a);
 }
@@ -313,6 +322,9 @@ void resetGuerrier(Joueur* a){
 //reset Cradorien
 
 void resetCradorien(Joueur* b){
+    if (b == NULL || b->nom == NULL){
+        exit(404);
+    }
             b->attaque = rand()%4 + 11;
             b->defense = rand()%4 + 2;
             b->esquive = 0;
@@ -322,6 +334,9 @@ void resetCradorien(Joueur* b){
 
 
 void resetBoss1(Joueur* b){
+    if (b == NULL || b->nom == NULL){
+        exit(404);
+    }
         b->attaque = rand()%4 + 12;
         b->defense = rand()%4 + 8;
         b->esquive = rand()%10 + 6;
@@ -330,6 +345,9 @@ void resetBoss1(Joueur* b){
 //reset boss 2
 
 void resetBoss2(Joueur* b){
+    if (b == NULL || b->nom == NULL){
+        exit(404);
+    }
         b->esquive=rand()%5 + 3;
         b->attaque= rand()%3 + 6;
         b->defense= rand()%3 + 5;
@@ -339,6 +357,9 @@ void resetBoss2(Joueur* b){
 // reset boss 3
 
 void resetBoss3(Joueur* b){
+    if (b == NULL || b->nom == NULL){
+        exit(404);
+    }
         b->esquive=rand()%8 + 7;
         b->attaque= rand()%4 + 10;
         b->defense= rand()%4 + 7;
@@ -353,6 +374,9 @@ void resetBoss3(Joueur* b){
 
 
 void shopExp(Joueur* a, Joueur* b){
+    if (b == NULL || b->nom == NULL || a == NULL || a->nom == NULL){
+        exit(404);
+    }
     printf("Bienvenu dans la taverne de Garedon !\n");
     printf("Vous possédez actuellement %d points d'experience !\n", a->exp); 
     printf("Voici les services proposés par Garedon :\n");
@@ -521,7 +545,7 @@ void combat(Joueur* a, Joueur* b, int N){
 // Fonction boss1
 
 void combatBoss1(Joueur* a, Joueur* b, int N, Inventaire* i1){
-    if (a == NULL || b == NULL){
+    if (a == NULL || b == NULL || i1 == NULL){
         exit(1);
     }
     if (a->nom == NULL || b->nom == NULL){
@@ -622,7 +646,7 @@ void combatBoss1(Joueur* a, Joueur* b, int N, Inventaire* i1){
 
 
 void combatBoss2(Joueur* a, Joueur* b, int N, Inventaire* i1){
-    if (a == NULL || b == NULL){
+    if (a == NULL || b == NULL || i1 == NULL){
         exit(1);
     }
     if (a->nom == NULL || b->nom == NULL){
@@ -718,7 +742,7 @@ void combatBoss2(Joueur* a, Joueur* b, int N, Inventaire* i1){
 }
 
 void combatBoss3(Joueur* a, Joueur* b, int N, Inventaire* i1){
-    if (a == NULL || b == NULL){
+    if (a == NULL || b == NULL || i1 == NULL){
         exit(1);
     }
     if (a->nom == NULL || b->nom == NULL){
@@ -840,13 +864,15 @@ int main() {
     //combatBoss3(j1, j5, N, i1);
 
 
-
+    free(j1->nom);
+    free(j2->nom);
+    free(j3->nom);
+    free(j4->nom);
+    free(j5->nom);
     free(j1);
     free(j2);
     free(j3);
     free(j4);
     free(j5);
-
     return 0;
-
 }
