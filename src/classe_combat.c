@@ -297,18 +297,27 @@ void resetData(Joueur* j){
 // Reset archer
 
 void resetArcher(Joueur* a) {
+    if (a == NULL || a->nom == NULL){
+        exit(404);
+    }
     a->current_class = ARCHER;
     resetData(a);
 }
 
 // Reset wizard
 void resetSorcier(Joueur* a) {
+    if (a == NULL || a->nom == NULL){
+        exit(404);
+    }
     a->current_class = SORCIER;
     resetData(a);
 }
 
 // Reset Warrior
 void resetGuerrier(Joueur* a){
+    if(a == NULL || a->nom == NULL){
+        exit(404);
+    }
     a->current_class = GUERRIER;
     resetData(a);
 }
@@ -318,6 +327,9 @@ void resetGuerrier(Joueur* a){
 //reset Cradorien
 
 void resetCradorien(Joueur* b){
+     if (b == NULL || b->nom == NULL){
+        exit(404);
+    }
             b->attaque = rand()%4 + 2; 
             b->defense = 0;
             b->esquive = 0;
@@ -327,6 +339,9 @@ void resetCradorien(Joueur* b){
 
 
 void resetBoss1(Joueur* b){
+     if (b == NULL || b->nom == NULL){
+        exit(404);
+    }
         b->attaque = rand()%5 + 5; 
         b->defense = 0;
         b->esquive = 0;
@@ -335,6 +350,9 @@ void resetBoss1(Joueur* b){
 //reset boss 2
 
 void resetBoss2(Joueur* b){
+     if (b == NULL || b->nom == NULL){
+        exit(404);
+    }
         b->attaque= rand()%5 + 5; 
         b->defense= 0;
         b->esquive=0;
@@ -345,6 +363,9 @@ void resetBoss2(Joueur* b){
 // reset boss 3
 
 void resetBoss3(Joueur* b){
+     if (b == NULL || b->nom == NULL){
+        exit(404);
+    }
         b->attaque= rand()%4 + 9; // 8 à 13
         b->defense= rand()%3 + 2;
         b->esquive=rand()%3 + 1;
@@ -359,6 +380,9 @@ void resetBoss3(Joueur* b){
 
 
 void shopExp(Joueur* a, Joueur* b){
+    if (b == NULL || b->nom == NULL || a == NULL || a->nom == NULL){
+        exit(404);
+    }
     printf("Bienvenu dans la taverne de Garedon !\n");
     printf("Vous possédez actuellement %d ame(s) de Morlok !\n", a->exp); 
     printf("Voici les services proposés par Garedon :\n");
@@ -530,11 +554,8 @@ void combat(Joueur* a, Joueur* b, int N){
 // Fonction boss1
 
 void combatBoss1(Joueur* a, Joueur* b, int N, Inventaire* i1){
-    if (a == NULL || b == NULL){
-        exit(1);
-    }
-    if (a->nom == NULL || b->nom == NULL){
-        exit(1);
+    if (a == NULL || b == NULL  || i1 == NULL){
+        exit(404);
     }
     printf("Voici les différentes classes :\n");
     printf("1 : Archer :\n Attaque : 5 à 7\n Defense : 2 à 5\n Esquive: 2 à 7\n");
@@ -630,7 +651,7 @@ void combatBoss1(Joueur* a, Joueur* b, int N, Inventaire* i1){
 
 
 void combatBoss2(Joueur* a, Joueur* b, int N, Inventaire* i1){
-    if (a == NULL || b == NULL){
+    if (a == NULL || b == NULL || i1 == NULL){
         exit(1);
     }
     if (a->nom == NULL || b->nom == NULL){
@@ -727,7 +748,7 @@ void combatBoss2(Joueur* a, Joueur* b, int N, Inventaire* i1){
 }
 
 void combatBoss3(Joueur* a, Joueur* b, int N, Inventaire* i1){
-    if (a == NULL || b == NULL){
+    if (a == NULL || b == NULL || i1 == NULL){
         exit(1);
     }
     if (a->nom == NULL || b->nom == NULL){
@@ -854,6 +875,12 @@ int main() {
     // de notre faute si dans un scanf où il faut rentrer un chiffre, on rentre une lettre et ca full bug (ex choix de classe avec lettre)
     // faire une page données sur le main menu pour retirer les stats des printf ici   et les mettre la bas
 
+
+    free(j1->nom);
+    free(j2->nom);
+    free(j3->nom);
+    free(j4->nom);
+    free(j5->nom);
     free(j1);
     free(j2);
     free(j3);
