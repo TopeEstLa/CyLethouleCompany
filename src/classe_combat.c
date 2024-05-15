@@ -458,9 +458,6 @@ void combat(Joueur* a, Joueur* b, int N){
     if (a == NULL || b == NULL){
         exit(1);
     }
-    if (a->nom == NULL || b->nom == NULL){
-        exit(1);
-    }
     printf("Voici les différentes classes :\n");
     printf("1 : Archer :\n Attaque : 5 à 7\n Defense : 2 à 5\n Esquive: 2 à 7\n");
     printf("2 : Sorcier :\n Attaque : 3 à 5\n Defense : 4 à 7\n Esquive: 4 à 12\n");
