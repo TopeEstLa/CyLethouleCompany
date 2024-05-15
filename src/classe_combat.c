@@ -60,13 +60,18 @@ Joueur* creerJoueur(){
     if (strlen(tab) <= 0){
         exit(404);
     }
+    if (strlen(tab) >= 255){
+        printf("Prenom trop long\n");
+        exit(404);
+    }
+
     (*j).nom = malloc((strlen(tab) + 1) * sizeof(char));
     if ((*j).nom == NULL){
         exit(404);
     }
     strcpy((*j).nom, tab);
     // Vie
-    j->vie = 150;
+    j->vie = 125;
     // Exp
     j->exp = 30;
     // Return result
@@ -94,7 +99,7 @@ Joueur* creerCradorien(){
     }
     strcpy(j->nom, tmp);
     // Vie
-    j->vie = 50;
+    j->vie = 20;
     // Return result
     return j;
 }
@@ -122,7 +127,7 @@ Joueur* creerBoss1(){
     strcpy(j->nom, laz);
 
     // Vie
-    j->vie = 20;
+    j->vie = 125;
     // Return result
     return j;
 }
@@ -150,7 +155,7 @@ Joueur* creerBoss2(){
     strcpy(j->nom, tmp);
 
     // Vie
-    j->vie = 50;
+    j->vie = 150;
     // Return result
     return j;
 }
@@ -178,7 +183,7 @@ Joueur* creerBoss3(){
     strcpy(j->nom, tmp);
 
     // Vie
-    j->vie = 30;
+    j->vie = 175;
     // Return result
     return j;
 }
@@ -272,19 +277,19 @@ void resetData(Joueur* j){
     }
     switch(j->current_class){
         case ARCHER:
-            j->attaque = rand()%3 + 9;
-            j->defense = rand()%3 + 4;
-            j->esquive = rand()%8 + 7;
+            j->attaque = rand()%3 + 5;
+            j->defense = rand()%4 + 2;
+            j->esquive = rand()%6 + 2;
             break;
         case SORCIER:
-            j->attaque = rand()%5 + 5;
-            j->defense = rand()%5 + 7;
-            j->esquive = rand()%7 + 9;
+            j->attaque = rand()%3 + 3;
+            j->defense = rand()%4 + 4;
+            j->esquive = rand()%9 + 4;
             break;
         case GUERRIER:
-            j->attaque = rand()%4 + 11;
-            j->defense = rand()%4 + 6;
-            j->esquive = rand()%10 + 4;
+            j->attaque = rand()%5 + 7;
+            j->defense = 0;
+            j->esquive = 0;
 
     }
 }
@@ -292,27 +297,18 @@ void resetData(Joueur* j){
 // Reset archer
 
 void resetArcher(Joueur* a) {
-    if (a == NULL || a->nom == NULL){
-        exit(404);
-    }
     a->current_class = ARCHER;
     resetData(a);
 }
 
 // Reset wizard
 void resetSorcier(Joueur* a) {
-    if (a == NULL || a->nom == NULL){
-        exit(404);
-    }
     a->current_class = SORCIER;
     resetData(a);
 }
 
 // Reset Warrior
 void resetGuerrier(Joueur* a){
-    if (a == NULL || a->nom == NULL){
-        exit(404);
-    }
     a->current_class = GUERRIER;
     resetData(a);
 }
@@ -322,11 +318,8 @@ void resetGuerrier(Joueur* a){
 //reset Cradorien
 
 void resetCradorien(Joueur* b){
-    if (b == NULL || b->nom == NULL){
-        exit(404);
-    }
-            b->attaque = rand()%4 + 11;
-            b->defense = rand()%4 + 2;
+            b->attaque = rand()%4 + 2; 
+            b->defense = 0;
             b->esquive = 0;
 }
 
@@ -334,35 +327,27 @@ void resetCradorien(Joueur* b){
 
 
 void resetBoss1(Joueur* b){
-    if (b == NULL || b->nom == NULL){
-        exit(404);
-    }
-        b->attaque = rand()%4 + 12;
-        b->defense = rand()%4 + 8;
-        b->esquive = rand()%10 + 6;
+        b->attaque = rand()%5 + 5; 
+        b->defense = 0;
+        b->esquive = 0;
 }
 
 //reset boss 2
 
 void resetBoss2(Joueur* b){
-    if (b == NULL || b->nom == NULL){
-        exit(404);
-    }
-        b->esquive=rand()%5 + 3;
-        b->attaque= rand()%3 + 6;
-        b->defense= rand()%3 + 5;
+        b->attaque= rand()%5 + 5; 
+        b->defense= 0;
+        b->esquive=0;
+        
 
 }
 
 // reset boss 3
 
 void resetBoss3(Joueur* b){
-    if (b == NULL || b->nom == NULL){
-        exit(404);
-    }
-        b->esquive=rand()%8 + 7;
-        b->attaque= rand()%4 + 10;
-        b->defense= rand()%4 + 7;
+        b->attaque= rand()%4 + 9; // 8 à 13
+        b->defense= rand()%3 + 2;
+        b->esquive=rand()%3 + 1;
 
 }
 
@@ -374,24 +359,22 @@ void resetBoss3(Joueur* b){
 
 
 void shopExp(Joueur* a, Joueur* b){
-    if (b == NULL || b->nom == NULL || a == NULL || a->nom == NULL){
-        exit(404);
-    }
     printf("Bienvenu dans la taverne de Garedon !\n");
-    printf("Vous possédez actuellement %d points d'experience !\n", a->exp); 
+    printf("Vous possédez actuellement %d ame(s) de Morlok !\n", a->exp); 
     printf("Voici les services proposés par Garedon :\n");
-    printf("1 - Fiole de vie : La vie n'a pas de prix ! (+10 points de vie)\n");
-    printf("Prix : 10\n");
+    printf("1 - Fiole de vie : La vie n'a pas de prix ! (+100 points de vie)\n");
+    printf("Prix : 10 ames de Morlok\n");
     printf("2 - Pari risqué : Qui ne tente rien n'a rien ! (1 chances sur 2 de doubler sa mise)\n");
-    printf("Prix : 15\n");
+    printf("Prix : 15 ames de Morlok\n");
     printf("3 - Mort instantané : L'ennemi est mort ! (Tue instantannément l'ennemi)\n");
-    printf("Prix : 150\n");
-    printf("Choisissez le numero de l'item voulu :");
+    printf("Prix : 150 ames de Morlok\n");
+    printf("4 - Ne rien acheter\n");
+    printf("Choisissez le numero correspondant au service voulu :");
     int res = 0;
     int C = 0;
     int ran = 0;
     res = scanf("%d", &C);
-    if(res != 1 || C < 1 || C > 3){
+    if(res != 1 || C < 1 || C > 4){
         exit(404);
     }
 
@@ -399,41 +382,43 @@ void shopExp(Joueur* a, Joueur* b){
         case 1:
             if(a->exp < 10){
                 printf("Garedon n'aime pas perdre son temps. La boutique est fermé\n");
-                printf("Point d'expérience restant : %d\n", a->exp);
+                printf("Ame(s) de Morlok restant: %d\n", a->exp);
                 break;
             }
-            a-> vie += 10;
+            a-> vie += 100;
             a-> exp -=10;
-            printf("Point d'expérience restant : %d\n", a->exp);
+            printf("Ame(s) de Morlok restant : %d\n", a->exp);
             break;
         case 2:
             if(a->exp < 15){
                 printf("Garedon n'aime pas perdre son temps. La boutique est fermé\n");
-                printf("Point d'expérience restant : %d\n", a->exp);
+                printf("Ame(s) de Morlok restant : %d\n", a->exp);
                 break;
             }
             ran = rand()%2 + 1;
             if(ran == 1){
                 printf("Vous avez perdu votre mise\n");
-                printf("Point d'expérience restant : %d\n", a->exp);
                 a->exp -= 15;
+                printf("Ame(s) de Morlok restant : %d\n", a->exp);
             }
             if(ran == 2){
                 printf("Vous avez gagne !\n");
-                printf("Point d'expérience restant : %d\n", a->exp);
                 a->exp += 15;
+                printf("Ame(s) de Morlok restant : %d\n", a->exp);
             }
             break;
         case 3:
             if(a->exp < 150){
                 printf("Garedon n'aime pas perdre son temps. La boutique est fermé\n");
-                printf("Point d'expérience restant : %d\n", a->exp);
+                printf("Ame(s) de Morlok restant : %d\n", a->exp);
                 break;
             }
             b->vie = 0;
             a->exp -= 150;
-            printf("Point d'expérience restant : %d\n", a->exp);
+            printf("Ame(s) de Morlok restant : %d\n", a->exp);
             break;
+        case 4:
+            printf("Un vrai guerrier se doit de gagner des ames de Morlok...\n");
     }   
 
 }
@@ -453,9 +438,9 @@ void combat(Joueur* a, Joueur* b, int N){
         exit(1);
     }
     printf("Voici les différentes classes :\n");
-    printf("1 : Archer :\n Attaque : 9 à 11\n Defense : 4 à 6\n Esquive: 7 à 14\n");
-    printf("2 : Sorcier :\n Attaque : 5 à 9\n Defense : 7 à 11\n Esquive: 9 à 16\n");
-    printf("3 : Guerrier :\n Attaque : 11 à 14\n Defense : 6 à 9\n Esquive: 4 à 13\n");
+    printf("1 : Archer :\n Attaque : 5 à 7\n Defense : 2 à 5\n Esquive: 2 à 7\n");
+    printf("2 : Sorcier :\n Attaque : 3 à 5\n Defense : 4 à 7\n Esquive: 4 à 12\n");
+    printf("3 : Guerrier :\n Attaque : 7 à 11\n Defense : 0\n Esquive: 0\n");
 
 
     int res = 0;
@@ -503,7 +488,7 @@ void combat(Joueur* a, Joueur* b, int N){
         if (b->vie <= 0) {
             printf("%s tombe, %s gagne le combat!\n", b->nom, a->nom);
             a->exp += 2;
-            printf("Exp : %d\n", a->exp);
+            printf("Ame(s) de Morlok : %d\n", a->exp);
             break;
         }
 
@@ -520,7 +505,7 @@ void combat(Joueur* a, Joueur* b, int N){
         if (b->vie <= 0) {
             printf("%s tombe, %s gagne le combat!\n", b->nom, a->nom);
             a->exp += 2;
-            printf("Exp : %d\n", a->exp);
+            printf("Ame(s) de Morlok : %d\n", a->exp);
             break;
         }
 
@@ -545,16 +530,16 @@ void combat(Joueur* a, Joueur* b, int N){
 // Fonction boss1
 
 void combatBoss1(Joueur* a, Joueur* b, int N, Inventaire* i1){
-    if (a == NULL || b == NULL || i1 == NULL){
+    if (a == NULL || b == NULL){
         exit(1);
     }
     if (a->nom == NULL || b->nom == NULL){
         exit(1);
     }
     printf("Voici les différentes classes :\n");
-    printf("1 : Archer :\n Attaque : 9 à 11\n Defense : 4 à 6\n Esquive: 7 à 14\n");
-    printf("2 : Sorcier :\n Attaque : 5 à 9\n Defense : 7 à 11\n Esquive: 9 à 16\n");
-    printf("3 : Guerrier :\n Attaque : 11 à 14\n Defense : 6 à 9\n Esquive: 4 à 13\n");
+    printf("1 : Archer :\n Attaque : 5 à 7\n Defense : 2 à 5\n Esquive: 2 à 7\n");
+    printf("2 : Sorcier :\n Attaque : 3 à 5\n Defense : 4 à 7\n Esquive: 4 à 12\n");
+    printf("3 : Guerrier :\n Attaque : 7 à 11\n Defense : 0\n Esquive: 0\n");
 
 
     int res = 0;
@@ -599,8 +584,7 @@ void combatBoss1(Joueur* a, Joueur* b, int N, Inventaire* i1){
         if (b->vie <= 0) {
             printf("%s tombe, %s gagne le combat!\n", b->nom, a->nom);
             ajoutItem(i1, COUPE);
-            a->exp += 10;
-            printf("Exp : %d\n", a->exp);
+            printf("Ame(s) de Morlok : %d\n", a->exp);
             afficheInv(i1);
             break;
         }
@@ -618,7 +602,7 @@ void combatBoss1(Joueur* a, Joueur* b, int N, Inventaire* i1){
             printf("%s tombe, %s gagne le combat!\n", b->nom, a->nom);
             ajoutItem(i1, COUPE);
             a->exp += 10;
-            printf("Exp : %d\n", a->exp);
+            printf("Ame(s) de Morlok : %d\n", a->exp);
             afficheInv(i1);
             break;
         }
@@ -646,16 +630,17 @@ void combatBoss1(Joueur* a, Joueur* b, int N, Inventaire* i1){
 
 
 void combatBoss2(Joueur* a, Joueur* b, int N, Inventaire* i1){
-    if (a == NULL || b == NULL || i1 == NULL){
+    if (a == NULL || b == NULL){
         exit(1);
     }
     if (a->nom == NULL || b->nom == NULL){
         exit(1);
     }
     printf("Voici les différentes classes :\n");
-    printf("1 : Archer :\n Attaque : 9 à 11\n Defense : 4 à 6\n Esquive: 7 à 14\n");
-    printf("2 : Sorcier :\n Attaque : 5 à 9\n Defense : 7 à 11\n Esquive: 9 à 16\n");
-    printf("3 : Guerrier :\n Attaque : 11 à 14\n Defense : 6 à 9\n Esquive: 4 à 13\n");
+    printf("1 : Archer :\n Attaque : 5 à 7\n Defense : 2 à 5\n Esquive: 2 à 7\n");
+    printf("2 : Sorcier :\n Attaque : 3 à 5\n Defense : 4 à 7\n Esquive: 4 à 12\n");
+    printf("3 : Guerrier :\n Attaque : 7 à 11\n Defense : 0\n Esquive: 0\n");
+
 
     int res = 0;
     do {
@@ -700,7 +685,7 @@ void combatBoss2(Joueur* a, Joueur* b, int N, Inventaire* i1){
             printf("%s tombe, %s gagne le combat!\n", b->nom, a->nom);
             ajoutItem(i1, EPEE);
             a->exp += 30;
-            printf("Exp : %d\n", a->exp);
+            printf("Ame(s) de Morlok : %d\n", a->exp);
             afficheInv(i1);
             break;
         }
@@ -719,7 +704,7 @@ void combatBoss2(Joueur* a, Joueur* b, int N, Inventaire* i1){
             printf("%s tombe, %s gagne le combat!\n", b->nom, a->nom);
             ajoutItem(i1, EPEE);
             a->exp += 30;
-            printf("Exp : %d\n", a->exp);
+            printf("Ame(s) de Morlok : %d\n", a->exp);
             afficheInv(i1);
             break;
         }
@@ -742,16 +727,17 @@ void combatBoss2(Joueur* a, Joueur* b, int N, Inventaire* i1){
 }
 
 void combatBoss3(Joueur* a, Joueur* b, int N, Inventaire* i1){
-    if (a == NULL || b == NULL || i1 == NULL){
+    if (a == NULL || b == NULL){
         exit(1);
     }
     if (a->nom == NULL || b->nom == NULL){
         exit(1);
     }
     printf("Voici les différentes classes :\n");
-    printf("1 : Archer :\n Attaque : 9 à 11\n Defense : 4 à 6\n Esquive: 7 à 14\n");
-    printf("2 : Sorcier :\n Attaque : 5 à 9\n Defense : 7 à 11\n Esquive: 9 à 16\n");
-    printf("3 : Guerrier :\n Attaque : 11 à 14\n Defense : 6 à 9\n Esquive: 4 à 13\n");
+    printf("1 : Archer :\n Attaque : 5 à 7\n Defense : 2 à 5\n Esquive: 2 à 7\n");
+    printf("2 : Sorcier :\n Attaque : 3 à 5\n Defense : 4 à 7\n Esquive: 4 à 12\n");
+    printf("3 : Guerrier :\n Attaque : 7 à 11\n Defense : 0\n Esquive: 0\n");
+
 
 
     int res = 0;
@@ -795,7 +781,7 @@ void combatBoss3(Joueur* a, Joueur* b, int N, Inventaire* i1){
             printf("%s tombe, %s gagne le combat!\n", b->nom, a->nom);
             ajoutItem(i1, CRANE);
             a->exp += 60;
-            printf("Exp : %d\n", a->exp);
+            printf("Ame(s) de Morlok : %d\n", a->exp);
             afficheInv(i1);
             break;
         }
@@ -814,7 +800,7 @@ void combatBoss3(Joueur* a, Joueur* b, int N, Inventaire* i1){
             printf("%s tombe, %s gagne le combat!\n", b->nom, a->nom);
             ajoutItem(i1, CRANE);
             a->exp += 60;
-            printf("Exp : %d\n", a->exp);
+            printf("Ame(s) de Morlok : %d\n", a->exp);
             afficheInv(i1);
             break;
         }
@@ -860,19 +846,20 @@ int main() {
 
     //combat(j1, j2, N);
     combatBoss1(j1, j3, N, i1);
-    //combatBoss2(j1, j4, N, i1);
+    combatBoss2(j1, j4, N, i1);
     //combatBoss3(j1, j5, N, i1);
+ 
 
+    // test d'aller plus loin avec 4 item (ici ca a l'air de marcher avec 4 item donc bloqué ou sinon accepté un inventaire infini)
+    // de notre faute si dans un scanf où il faut rentrer un chiffre, on rentre une lettre et ca full bug (ex choix de classe avec lettre)
+    // faire une page données sur le main menu pour retirer les stats des printf ici   et les mettre la bas
 
-    free(j1->nom);
-    free(j2->nom);
-    free(j3->nom);
-    free(j4->nom);
-    free(j5->nom);
     free(j1);
     free(j2);
     free(j3);
     free(j4);
     free(j5);
+
     return 0;
+
 }
