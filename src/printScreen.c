@@ -1,4 +1,4 @@
-#include <ncurses.h>
+#include <curses.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/time.h>
@@ -82,6 +82,13 @@ void printMap(Game_World* world, int x, int y, int dx, int dy) {
                     }
 
                     Entity *entity = get_entity(ix, iy);
+
+                    if (entity != NULL) {
+                        mvprintw(lignes_debut, colonnes_debut, "%s", entity->texture);
+                        colonnes_debut++;
+                        continue;
+                    }
+
                     switch (world->chunk[ix][iy]->type) {
                         case DOOR :
                             mvprintw(lignes_debut, colonnes_debut, "D");
