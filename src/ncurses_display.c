@@ -25,7 +25,7 @@ void init_curses() {
     keypad(stdscr, TRUE);
     nodelay(stdscr, TRUE);
 
-    timeout(600); //useless if using frame_rate.h
+    timeout(600); //time to wait in MS
 
     curs_set(0);
 }
