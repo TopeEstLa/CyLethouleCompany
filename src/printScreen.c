@@ -65,26 +65,27 @@ void printMap(Game_World* world, int x, int y, int dx, int dy){
     getmaxyx(stdscr, lignes, colonnes);
     int colonnes_text = dx * 2;
     int colonnes_debut = (colonnes - colonnes_text) / 2;
-    int lignes_debut = 12;
+    int lignes_debut = 6;
     for (int iy = y - dy; iy < y + dy; iy++){
         if (iy < 1 || iy > world->height){
             continue;
         } else {
             for (int jx = x - dx; jx < x + dx; jx++) {
+
                 if(jx == x-dx || jx == x+dx-1){
                     mvprintw(lignes_debut, colonnes_debut, "|");
                     colonnes_debut++;
                 } else if (iy == y-dy || iy == y+dy-1) {
                     mvprintw(lignes_debut, colonnes_debut, "-");
                     colonnes_debut++;
-                }else if (jx < 0 || jx > world->width) {
+                } else if (jx < 0 || jx > world->width) {
                     continue;
                 } else {
                     Entity *entity = get_entity(jx, iy);
 
                     //print the item to stack or the emoji of the player
                     if (entity != NULL){
-                        mvprintw(lignes_debut, colonnes_debut, "%s", entity->texture);
+                        mvprintw(lignes_debut, colonnes_debut, "%c", entity->texture);
                         colonnes_debut++;
                     }else {
                         //print the map : door, wall, etc ...
