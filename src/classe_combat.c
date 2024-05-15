@@ -206,7 +206,7 @@ void ajoutItem(Inventaire* p, Material material){
         p->quantite++;
     }
     else{
-        printf("Inventaire chargé !");
+        printf("Inventaire rempli !");
     }
 }
 
@@ -312,20 +312,54 @@ void resetBoss3(Joueur* b){
 
 // fonction shop 
 
-void shopExp(Joueur* a){
-    mvprintw("Bienvenu dans la taverne de Garedon !");
-    mvprintw("Vous possédez actuellement %d points d'experience !", a->exp); 
-    mvprintw("Voici les services proposés par Garedon :");
-    mvprintw("Fiole de vie : La vie n'a pas de prix ! (+30 points de vie)");
-    mvprintw("Prix : ");
-    mvprintw("Fureur temporaire : Vos attaques sont écrasantes ! (+5 points d'attaque)");
-    mvprintw("Prix : ");
-    mvprintw("Pari risqué : Qui ne tente rien n'a rien ! (1 chances sur 2 de doubler sa mise)");
-    mvprintw("Prix : ");
-    mvprintw("Choisissez 
-    
 
 
+void shopExp(Joueur* a, Joueur* b){
+    printf("Bienvenu dans la taverne de Garedon !\n");
+    printf("Vous possédez actuellement %d points d'experience !\n", a->exp); 
+    printf("Voici les services proposés par Garedon :\n");
+    printf("1 - Fiole de vie : La vie n'a pas de prix ! (+10 points de vie)\n");
+    printf("Prix : 10\n");
+    printf("2 - Pari risqué : Qui ne tente rien n'a rien ! (1 chances sur 2 de doubler sa mise)\n");
+    printf("Prix : 15\n");
+    printf("3 - Mort instantané : L'ennemi est mort ! (Tue instantannément l'ennemi)\n");
+    printf("Prix : 150\n");
+    printf("Choisissez le numero de l'item voulu :\n");
+    int res = 0;
+    int C = 0;
+    int ran = 0;
+    res = scanf("%d", &C);
+    if(res != 1 || C < 1 || C > 3){
+        exit(404);
+    }
+
+    switch (C){
+        case 1:
+            if(a->exp < 10){
+                exit(69);
+            }
+            a-> vie += 10;
+            a-> exp -=10;
+        case 2:
+            if(a->exp < 15){
+                exit(69);
+            }
+            ran = rand()%2 + 1;
+            if(ran == 1){
+                printf("Vous avez perdu votre mise");
+                a->exp -= 15;
+            }
+            if(ran == 2){
+                printf("Vous avez gagne !");
+                a->exp += 15;
+            }
+        case 3:
+            if(a->exp < 150){
+                exit(69);
+            }
+            b->vie = 0;
+            a->exp -= 150;
+    }   
 
 }
 
@@ -374,11 +408,11 @@ void combat(Joueur* a, Joueur* b, int N){
             return;
     }
 
-
+    shopExp(a,b);
 
     printf("Debut du combat ! :\n");
 
-
+    
 
     while (a->vie > 0 && b->vie > 0) {
 
@@ -458,8 +492,9 @@ void combatBoss1(Joueur* a, Joueur* b, int N, Inventaire* i1){
             printf("Choix inexistant\n");
             return;
     }
-
-
+    
+    shopExp(a,b);
+    
     printf("Debut du combat ! :\n");
 
 
@@ -692,13 +727,13 @@ int main() {
     j1  = creerJoueur();
     //j2  = creerJoueur();
     j3 = creerBoss1();
-    j4 = creerBoss2();
-    j5 = creerBoss3();
+    //j4 = creerBoss2();
+    //j5 = creerBoss3();
 
     //combat(j1, j2, N);
     combatBoss1(j1, j3, N, i1);
-    combatBoss2(j1, j4, N, i1);
-    combatBoss3(j1, j5, N, i1);
+    //combatBoss2(j1, j4, N, i1);
+    //combatBoss3(j1, j5, N, i1);
 
 
 // FOnction shop avec point d'exp à faire (heal, degats bonus, etc...)
@@ -712,6 +747,3 @@ int main() {
     return 0;
 
 }
-
-
-
