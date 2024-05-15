@@ -58,11 +58,17 @@ void printTimer(long start) {
 void printMap(Game_World* world, int x, int y, int dx, int dy){
     int lignes, colonnes;
 
+
+
     if (world == NULL || x < 0 || x > world->width || y < 0 || y > world->height){
         exit(404);
     }
 
-    getmaxyx(stdscr, lignes, colonnes);
+    //getmaxyx(stdscr, lignes, colonnes);
+
+    lignes = 80;
+    colonnes = 120;
+
     int colonnes_text = dx * 2;
     int colonnes_debut = (colonnes - colonnes_text) / 2;
     int lignes_debut = 6;
@@ -74,16 +80,16 @@ void printMap(Game_World* world, int x, int y, int dx, int dy){
                 if (jx < 0 || jx > world->height) {
                     continue;
                 } else if (jx == x-dx || jx == x+dx-1){
-                    mvprintw(lignes_debut, colonnes_debut, "|");
+                    //mvprintw(lignes_debut, colonnes_debut, "|");
                     colonnes_debut++;
                 } else if (iy == y-dy || iy == y+dy-1) {
-                    mvprintw(lignes_debut, colonnes_debut, "-");
+                    //mvprintw(lignes_debut, colonnes_debut, "-");
                     colonnes_debut++;
                 } else {
                     Room room = get_room(world, jx, iy);
                     if ((room.x != -1 && room.y != -1) && !room.is_visited) {
-                        mvprintw(lignes_debut, colonnes_debut," ");
-                        mvprintw(lignes_debut, colonnes_debut,"  ");
+                        //mvprintw(lignes_debut, colonnes_debut," ");
+                        //mvprintw(lignes_debut, colonnes_debut,"  ");
                         colonnes_debut++;
                         continue;
                     }
@@ -91,29 +97,29 @@ void printMap(Game_World* world, int x, int y, int dx, int dy){
 
                     //print the item to stack or the emoji of the player
                     if (entity != NULL){
-                        mvprintw(lignes_debut, colonnes_debut, "%c", entity->texture);
+                        //mvprintw(lignes_debut, colonnes_debut, "%s", entity->texture);
                         colonnes_debut++;
                     }else {
                         //print the map : door, wall, etc ...
                         switch (world->chunk[jx][iy]->type) {
                             case DOOR :
-                                mvprintw(lignes_debut, colonnes_debut, "D");
+                                //mvprintw(lignes_debut, colonnes_debut, "D");
                                 colonnes_debut++;
                                 break;
                             case WALL :
-                                mvprintw(lignes_debut, colonnes_debut, "|");
+                                //mvprintw(lignes_debut, colonnes_debut, "|");
                                 colonnes_debut++;
                                 break;
                             case VOID :
-                                mvprintw(lignes_debut, colonnes_debut, " ");
+                                //mvprintw(lignes_debut, colonnes_debut, " ");
                                 colonnes_debut++;
                                 break;
                             case EMPTY :
-                                mvprintw(lignes_debut, colonnes_debut, " ");
+                                //mvprintw(lignes_debut, colonnes_debut, " ");
                                 colonnes_debut++;
                                 break;
                             default :
-                                mvprintw(lignes_debut, colonnes_debut, "?");
+                                //mvprintw(lignes_debut, colonnes_debut, "?");
                                 colonnes_debut++;
                                 break;
                         }
@@ -124,7 +130,7 @@ void printMap(Game_World* world, int x, int y, int dx, int dy){
             colonnes_debut = (colonnes - colonnes_text) / 2;
         }
     }
-    refresh();
+   // refresh();
 }
 WINDOW* printInventary(){
 

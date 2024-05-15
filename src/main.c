@@ -16,24 +16,7 @@
 
 
 int main() {
-    srand(time(NULL));
-    Game_World *world = create_world(rand() % 1000);
 
-    init_entities(world);
-
-    init_curses();
-
-    base_generation(world);
-
-
-    Entity *player = create_entity(PLAYER, NULL, "🗿");
-
-    add_entity(player, world->rooms[0].x + 3, world->rooms[0].y + 3);
-
-    //printName();
-    //printTimer(t);
-
-    printMap(world, world->rooms[0].x + 3, world->rooms[0].y + 3, 20, 10);
 
 /*
     while (get_current_scene() != QUITTING) {
@@ -45,10 +28,32 @@ int main() {
         //end_frame();
     }
 */
-    while(1){
+    //while(1){
+        //clear();
+        srand(time(NULL));
+        Game_World *world = create_world(412);
 
-    }
-    refresh();
+        init_entities(world);
+
+        //init_curses();
+
+        base_generation(world);
+
+
+        Entity *player = create_entity(PLAYER, NULL, "🗿");
+
+        add_entity(player, world->rooms[0].x + 3, world->rooms[0].y + 3);
+
+        //printName();
+        //printTimer(t);
+
+        printf("seed %d\n", world->seed);
+
+        printMap(world, world->rooms[0].x + 3, world->rooms[0].y + 3, 35, 20);
+        //refresh();
+        free(world);
+    //}
+
 
 
     endwin();
