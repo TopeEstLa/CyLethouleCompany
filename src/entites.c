@@ -1,7 +1,7 @@
 #include <entities.h>
 #include <stdlib.h>
 
-Game_World* world;
+Game_World *world;
 Entity **entities;
 int entities_count;
 int entities_capacity;
@@ -14,7 +14,7 @@ void init_entities(Game_World *world_ptr) {
     entities_capacity = 10;
 }
 
-Entity *create_entity(Entity_Type type, void *data, char* texture) {
+Entity *create_entity(Entity_Type type, void *data, char *texture) {
     Entity *entity = malloc(sizeof(Entity));
     entity->type = type;
     entity->data = data;
@@ -84,26 +84,42 @@ Entity *get_entity(int x, int y) {
 }
 
 Move_Callback move_entity(Entity *entity, int new_x, int new_y) {
-    Entity *existing_entity = get_entity(new_x, new_y);
+    Chunk *chunk = world->chunk[new_x][new_y];
+
 
     Move_Callback callback;
+    callback.collided_entity = NULL;
+    callback.reason = NO_REASON;
+    callback.move_made = false;
+
+    if (chunk == NULL) {
+        return callback;
+    }
+
+    Entity *existing_entity = get_entity(new_x, new_y);
 
     if (existing_entity != NULL) {
         callback.collided_entity = existing_entity;
         callback.reason = ENTITY_COLLISION;
-        callback.move_made = false;
-    } else if (world->chunk[new_x][new_y]->type == WALL) {
-        callback.collided_entity = NULL;
-        callback.reason = WALL_COLLISION;
-        callback.move_made = false;
-    } else {
-        callback.collided_entity = NULL;
-        callback.reason = NO_REASON;
-        callback.move_made = true;
+        return callback;
+    }
 
+    if (chunk->type == WALL || chunk->type == VOID) {
+        callback.reason = WALL_COLLISION;
+        return callback;
+    }
+
+    if (chunk->type == DOOR) {
+        callback.reason = DOOR_COLLISION;
+        callback.move_made = true;
         entity->x = new_x;
         entity->y = new_y;
+        return callback;
     }
+
+    entity->x = new_x;
+    entity->y = new_y;
+    callback.move_made = true;
 
     return callback;
 }

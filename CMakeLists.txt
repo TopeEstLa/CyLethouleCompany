@@ -38,6 +38,10 @@ add_executable(CyLethouleCompany
         src/scene/load_menu.c
         include/scene/create_menu.h
         src/scene/create_menu.c
+        include/player.h
+        src/player.c
+        include/game.h
+        src/game.c
 )
 
 target_link_libraries(CyLethouleCompany PRIVATE

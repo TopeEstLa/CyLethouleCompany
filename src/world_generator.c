@@ -58,11 +58,6 @@ void base_generation(Game_World *world) {
 
     append_room(world, starting_room);
 
-    int roomCenterX = baseX + width / 2;
-    int roomCenterY = baseY + height / 2;
-
-    world->chunk[roomCenterX][roomCenterY]->type = WALL;
-
     generate_rooms(world, starting_room, 1);
 
     for (int i = 1; i < 5; i++) {

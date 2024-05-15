@@ -20,6 +20,7 @@ typedef struct entity {
 typedef enum cancel_move_reason {
     ENTITY_COLLISION,
     WALL_COLLISION,
+    DOOR_COLLISION,
     NO_REASON,
 } Cancel_Move_Reason;
 

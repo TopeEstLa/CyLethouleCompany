@@ -11,26 +11,43 @@
 #include <entities.h>
 #include <file_utils.h>
 #include <saves.h>
-#include <frame_rate.h>
+#include <game.h>
 #include "printScreen.h"
 
 
 int main() {
     init_curses();
-
     srand(time(NULL));
-    Game_World *world = create_world(rand()%1000);
-    base_generation(world);
-    init_entities(world);
+    init_game(rand() % 100, "Player", WARRIOR);
 
-    Entity *player = create_entity(PLAYER, NULL, "⌛");
-
-    add_entity(player, world->rooms[0].x + 3, world->rooms[0].y + 3);
-
-    printMap(world, world->rooms[0].x + 3, world->rooms[0].y + 3, 20, 100);
+    Game *game = get_game();
 
     while (1) {
+        //clear();
+        int ch = getch();
 
+        Entity *player = game->player->entity;
+
+        if (ch != ERR) {
+            switch (ch) {
+                case KEY_UP:
+                    move_entity(player, player->x, player->y - 1);
+                    break;
+                case KEY_DOWN:
+                    move_entity(player, player->x, player->y + 1);
+                    break;
+                case KEY_LEFT:
+                    move_entity(player, player->x - 1, player->y);
+                    break;
+                case KEY_RIGHT:
+                    move_entity(player, player->x + 1, player->y);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        curses_all_map(game->world);
     }
 
     /*while (get_current_scene() != QUITTING) {
@@ -42,31 +59,6 @@ int main() {
         //end_frame();
     }*/
 
-    while(1){
-        //clear();
-        srand(time(NULL));
-        Game_World *world = create_world(rand()%1000);
-        init_entities(world);
-
-        //init_curses();
-
-        base_generation(world);
-
-
-        Entity *player = create_entity(PLAYER, NULL, "🗿");
-
-        add_entity(player, world->rooms[0].x + 3, world->rooms[0].y + 3);
-
-        //printName();
-        //printTimer(t);
-
-        printMap(world, world->rooms[0].x + 3, world->rooms[0].y + 3, 20, 40);
-        free(world);
-    }
-
-    while (1){
-
-    }
     endwin();
 
     return 0;
