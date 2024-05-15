@@ -16,49 +16,40 @@
 
 
 int main() {
-    struct timeval tv;
-    gettimeofday(&tv, NULL);
-    long t = tv.tv_sec;
-    initscr();
-    //while(1){
-        srand(time(NULL));
-        Game_World *world = create_world(rand() % 1000);
-        //printf("Generated world with seed: %d\n", world->seed);
+    srand(time(NULL));
+    Game_World *world = create_world(rand() % 1000);
+
+    init_entities(world);
+
+    init_curses();
+
+    base_generation(world);
 
 
-        init_entities(world);
+    Entity *player = create_entity(PLAYER, NULL, "🗿");
 
 
-        base_generation(world);
+    add_entity(player, world->rooms[0].x + 3, world->rooms[0].y + 3);
+
+    /*printName();
+    printTimer(t);
+
+    printMap(world, world->rooms[0].x + 3, world->rooms[0].y + 3, 20, 10);*/
 
 
-        Entity *player = create_entity(PLAYER, NULL, "🗿");
+    while (get_current_scene() != QUITTING) {
+        //start_frame(); //useless lol :c (if using timeout());
+        handle_input();
+
+        curses_scene();
+
+        //end_frame();
+    }
+
+    refresh();
 
 
-        add_entity(player, world->rooms[0].x + 3, world->rooms[0].y + 3);
-
-        printTimer(t);
-
-        printMap(world, world->rooms[0].x + 3, world->rooms[0].y + 3, 20, 10);
-
-        /**
-        while (get_current_scene() != QUITTING) {
-            //start_frame(); //useless lol :c (if using timeout());
-            handle_input();
-
-            curses_scene();
-
-            //end_frame();
-        } */
-
-        refresh();
-
-
-    //}
-    getch();
     endwin();
-    //clear();
-
 
     return 0;
 }
