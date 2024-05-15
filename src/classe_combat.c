@@ -50,7 +50,7 @@ Joueur* creerJoueur(){
     int res = 0;
     do{
         res = 0;
-        printf("Saissisez le nom du joueur\n");
+        mvprintw("Saissisez le nom du joueur\n");
         res = scanf("%[^\n]", tab);
         flush();
     } while (res != 1);
@@ -682,7 +682,7 @@ void combatBoss3(Joueur* a, Joueur* b, int N, Inventaire* i1){
 
 
         if (a->attaque < b->esquive) {
-            printf("%s esquive l'attaque de %s!\n", b->nom, a->nom);
+            mvprintw("%s esquive l'attaque de %s!\n", b->nom, a->nom);
         } else {
             int degats = a->attaque - b->defense;
             if (degats < 0) degats = 0;
