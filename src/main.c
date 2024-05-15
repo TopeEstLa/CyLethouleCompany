@@ -48,7 +48,7 @@ int main() {
         //printTimer(t);
 
         printf("seed %d\n", world->seed);
-        printf("%d", (*world).height);
+        printf("%d\n", (*world).height);
         //printMap(world, world->rooms[0].x + 3, world->rooms[0].y + 3, 35, 20);
         //refresh();
         free(world);
