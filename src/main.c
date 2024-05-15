@@ -42,11 +42,13 @@ int main() {
         Entity *player = create_entity(PLAYER, NULL, "🗿");
 
         add_entity(player, world->rooms[0].x + 3, world->rooms[0].y + 3);
-
-        //printName();
+        struct timeval tv;
+        gettimeofday(&tv, NULL);
+        long t = tv.tv_sec;
         //printTimer(t);
+        //printName();
 
-        printMap(world, world->rooms[0].x + 3, world->rooms[0].y + 3, 20, 40);
+        printMap(world, world->rooms[0].x + 3, world->rooms[0].y + 3, 20, 100);
         free(world);
     }
 

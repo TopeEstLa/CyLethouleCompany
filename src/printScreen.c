@@ -31,11 +31,14 @@ void printName(){
 }
 //Print the timer on the terminal
 void printTimer(long start) {
-    int lignes, colonnes;
+    unsigned int lignes, colonnes;
+    char* tab[] ={
+            "TIMER :",
+    };
     start_color();
     getmaxyx(stdscr, lignes, colonnes);
-    int colonnes_text = 3;
-    int colonnes_debut = (colonnes - colonnes_text) / 2;
+    unsigned int colonnes_text = 3;
+    unsigned int colonnes_debut = (colonnes) - strlen(tab[0]) - 8;
     sleep(2);
     init_pair(1, COLOR_RED, COLOR_BLACK);
     struct timeval tv;
@@ -44,9 +47,11 @@ void printTimer(long start) {
     long difference = tv.tv_sec - start;
     //Print in red if the difference is under 10 seconds
     if (difference <= 10){
+        attron(A_BOLD);
         attron(COLOR_PAIR(1));
-        mvprintw(3, colonnes_debut, " TIMER : %3ld", difference);
+        mvprintw(3, colonnes_debut, " %s %3ld", tab[0],difference);
         attroff(COLOR_PAIR(1));
+        attroff(A_BOLD);
     } else {
         mvprintw(3, colonnes_debut, "TIMER : %3ld", difference);
     }
@@ -82,27 +87,32 @@ void printMap(Game_World* world, int x, int y, int dx, int dy) {
                     }
 
                     Entity *entity = get_entity(ix, iy);
-                    switch (world->chunk[ix][iy]->type) {
-                        case DOOR :
-                            mvprintw(lignes_debut, colonnes_debut, "D");
-                            colonnes_debut++;
-                            break;
-                        case WALL :
-                            mvprintw(lignes_debut, colonnes_debut, "|");
-                            colonnes_debut++;
-                            break;
-                        case VOID :
-                            mvprintw(lignes_debut, colonnes_debut, " ");
-                            colonnes_debut++;
-                            break;
-                        case EMPTY :
-                            mvprintw(lignes_debut, colonnes_debut, " ");
-                            colonnes_debut++;
-                            break;
-                        default :
-                            mvprintw(lignes_debut, colonnes_debut, "?");
-                            colonnes_debut++;
-                            break;
+                    if (entity != NULL) {
+                        mvprintw(lignes_debut, colonnes_debut, "%c", entity->texture);
+                        colonnes_debut++;
+                    } else {
+                        switch (world->chunk[ix][iy]->type) {
+                            case DOOR :
+                                mvprintw(lignes_debut, colonnes_debut, "D");
+                                colonnes_debut++;
+                                break;
+                            case WALL :
+                                mvprintw(lignes_debut, colonnes_debut, "|");
+                                colonnes_debut++;
+                                break;
+                            case VOID :
+                                mvprintw(lignes_debut, colonnes_debut, " ");
+                                colonnes_debut++;
+                                break;
+                            case EMPTY :
+                                mvprintw(lignes_debut, colonnes_debut, " ");
+                                colonnes_debut++;
+                                break;
+                            default :
+                                mvprintw(lignes_debut, colonnes_debut, "?");
+                                colonnes_debut++;
+                                break;
+                        }
                     }
                 }
             }
