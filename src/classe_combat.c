@@ -359,16 +359,8 @@ void shopExp(Joueur* a, Joueur* b){
                 exit(69);
             }
             b->vie = 0;
+            a->exp -= 150;
     }   
-            
-        
-            
-            
-        
-    
-    
-
-
 
 }
 
