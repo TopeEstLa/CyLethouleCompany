@@ -29,7 +29,7 @@ add_executable(CyLethouleCompany
         include/entities.h
         src/entites.c
         src/printScreen.c
-        include/printSreen.h
+        include/printScreen.h
         include/ncurses_display.h
         src/ncurses_display.c
         include/scene/main_menu.h
