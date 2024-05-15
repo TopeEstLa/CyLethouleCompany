@@ -206,7 +206,7 @@ void ajoutItem(Inventaire* p, Material material){
         p->quantite++;
     }
     else{
-        printf("Inventaire chargé !");
+        mvprintw("Inventaire rempli !");
     }
 }
 
@@ -217,20 +217,20 @@ void afficheInv(Inventaire* p){
     if (p == NULL || p->material == NULL){
         exit(1);
     }
-    printf("Voici votre inventaire :\n");
+    mvprintw("Voici votre inventaire :\n");
        for(int i = 0; i < p->quantite; i++){
         switch(p->material[i]){
             case COUPE:
-                printf("COUPE\n");
+                mvprintw("COUPE\n");
                 break;
             case EPEE:
-                printf("EPEE\n");
+                mvprintw("EPEE\n");
                 break;
             case CRANE:
-                printf("CRANE\n");
+                mvprintw("CRANE\n");
                 break;
             default:
-                printf("Item inconnu\n");
+                mvprintw("Item inconnu\n");
                 break;
     }
  }
@@ -312,17 +312,60 @@ void resetBoss3(Joueur* b){
 
 // fonction shop 
 
-void shopExp(Joueur* a){
+
+
+void shopExp(Joueur* a, Joueur* b){
     mvprintw("Bienvenu dans la taverne de Garedon !");
     mvprintw("Vous possédez actuellement %d points d'experience !", a->exp); 
     mvprintw("Voici les services proposés par Garedon :");
-    mvprintw("Fiole de vie : La vie n'a pas de prix ! (+30 points de vie)");
-    mvprintw("Prix : ");
-    mvprintw("Fureur temporaire : Vos attaques sont écrasantes ! (+5 points d'attaque)");
-    mvprintw("Prix : ");
-    mvprintw("Pari risqué : Qui ne tente rien n'a rien ! (1 chances sur 2 de doubler sa mise)");
-    mvprintw("Prix : ");
-    mvprintw("Choisissez 
+    mvprintw("1 - Fiole de vie : La vie n'a pas de prix ! (+10 points de vie)");
+    mvprintw("Prix : 10");
+    mvprintw("2 - Pari risqué : Qui ne tente rien n'a rien ! (1 chances sur 2 de doubler sa mise)");
+    mvprintw("Prix : 15");
+    mvprintw("3 - Mort instantané : L'ennemi est mort ! (Tue instantannément l'ennemi)");
+    mvprintw("Prix : 150");
+    mvprintw("Choisissez le numero de l'item voulu :");
+    int res = 0;
+    int C = 0;
+    int rand = 0;
+    res = scanf("%d", &C);
+    if(res != 1 || N < 1 || N > 3){
+        exit(404);
+    }
+
+    switch (C){
+        case 1:
+            if(a->exp < 10){
+                exit(69);
+            }
+            a-> vie += 10;
+            a-> exp -=10;
+        case 2:
+            if(a->exp < 15){
+                exit(69);
+            }
+            int rand = 0;
+            rand = rand()%2 + 1;
+            if(rand == 1){
+                mvprintw("Vous avez perdu votre mise");
+                a->exp -= 15;
+            }
+            if(rand == 2){
+                mvprintw("Vous avez gagne !");
+                a->exp += 15
+            }
+        case 3:
+            if(a->exp < 150){
+                exit(69);
+            }
+            b->vie = 0;
+    }   
+            
+        
+            
+            
+        
+    
     
 
 
@@ -343,16 +386,16 @@ void combat(Joueur* a, Joueur* b, int N){
     if (a->nom == NULL || b->nom == NULL){
         exit(1);
     }
-    printf("Voici les différentes classes :\n");
-    printf("1 : Archer :\n Attaque : 9 à 11\n Defense : 4 à 6\n Esquive: 7 à 14\n");
-    printf("2 : Sorcier :\n Attaque : 5 à 9\n Defense : 7 à 11\n Esquive: 9 à 16\n");
-    printf("3 : Guerrier :\n Attaque : 11 à 14\n Defense : 6 à 9\n Esquive: 4 à 13\n");
+    mvprintw("Voici les différentes classes :\n");
+    mvprintw("1 : Archer :\n Attaque : 9 à 11\n Defense : 4 à 6\n Esquive: 7 à 14\n");
+    mvprintw("2 : Sorcier :\n Attaque : 5 à 9\n Defense : 7 à 11\n Esquive: 9 à 16\n");
+    mvprintw("3 : Guerrier :\n Attaque : 11 à 14\n Defense : 6 à 9\n Esquive: 4 à 13\n");
 
 
     int res = 0;
     do {
         res = 0;
-        printf("Quelle classe voulait vous choisir ? : ");
+        mvprintw("Quelle classe voulait vous choisir ? : ");
         res = scanf("%d", &N);
     } while (res != 1 || N < 1 || N > 3);
 
@@ -370,13 +413,13 @@ void combat(Joueur* a, Joueur* b, int N){
             resetGuerrier(b);
             break;
         default:
-            printf("Choix inexistant\n");
+            mvprintw("Choix inexistant\n");
             return;
     }
 
 
 
-    printf("Debut du combat ! :\n");
+    mvprintw("Debut du combat ! :\n");
 
 
 
@@ -387,32 +430,32 @@ void combat(Joueur* a, Joueur* b, int N){
         resetGuerrier(b);
 
         if (a->attaque < b->esquive) {
-            printf("%s esquive l'attaque de %s!\n", b->nom, a->nom);
+            mvprintw("%s esquive l'attaque de %s!\n", b->nom, a->nom);
         } else {
             int degats = a->attaque - b->defense;
             if (degats < 0) degats = 0;
             b->vie -= degats;
-            printf("%s attaque %s et lui inflige %d points de degats!\n", a->nom, b->nom, degats);
+            mvprintw("%s attaque %s et lui inflige %d points de degats!\n", a->nom, b->nom, degats);
         }
 
         if (b->vie <= 0) {
-            printf("%s tombe, %s gagne le combat!\n", b->nom, a->nom);
+            mvprintw("%s tombe, %s gagne le combat!\n", b->nom, a->nom);
             a->exp += 1;
             break;
         }
 
 
         if (b->attaque < a->esquive) {
-            printf("%s esquive l'attaque de %s!\n", a->nom, b->nom);
+            mvprintw("%s esquive l'attaque de %s!\n", a->nom, b->nom);
         } else {
             int degats = b->attaque - a->defense;
             if (degats < 0) degats = 0;
             a->vie -= degats;
-            printf("%s attaque %s et lui inflige %d points de degats!\n", b->nom, a->nom, degats);
+            mvprintw("%s attaque %s et lui inflige %d points de degats!\n", b->nom, a->nom, degats);
         }
 
         if (a->vie <= 0) {
-            printf("%s tombe, %s gagne le combat!\n", a->nom, b->nom);
+            mvprintw("%s tombe, %s gagne le combat!\n", a->nom, b->nom);
             break;
         }
     }
@@ -428,16 +471,16 @@ void combatBoss1(Joueur* a, Joueur* b, int N, Inventaire* i1){
     if (a->nom == NULL || b->nom == NULL){
         exit(1);
     }
-    printf("Voici les différentes classes :\n");
-    printf("1 : Archer :\n Attaque : 9 à 11\n Defense : 4 à 6\n Esquive: 7 à 14\n");
-    printf("2 : Sorcier :\n Attaque : 5 à 9\n Defense : 7 à 11\n Esquive: 9 à 16\n");
-    printf("3 : Guerrier :\n Attaque : 11 à 14\n Defense : 6 à 9\n Esquive: 4 à 13\n");
+    mvprintw("Voici les différentes classes :\n");
+    mvprintw("1 : Archer :\n Attaque : 9 à 11\n Defense : 4 à 6\n Esquive: 7 à 14\n");
+    mvprintw("2 : Sorcier :\n Attaque : 5 à 9\n Defense : 7 à 11\n Esquive: 9 à 16\n");
+    mvprintw("3 : Guerrier :\n Attaque : 11 à 14\n Defense : 6 à 9\n Esquive: 4 à 13\n");
 
 
     int res = 0;
     do {
         res = 0;
-        printf("Quelle classe voulait vous choisir ? : ");
+        mvprintw("Quelle classe voulait vous choisir ? : ");
         res = scanf("%d", &N);
     } while (res != 1 || N < 1 || N > 3);
     
@@ -455,12 +498,12 @@ void combatBoss1(Joueur* a, Joueur* b, int N, Inventaire* i1){
             resetBoss1(b);
             break;
         default:
-            printf("Choix inexistant\n");
+            mvprintw("Choix inexistant\n");
             return;
     }
 
 
-    printf("Debut du combat ! :\n");
+    mvprintw("Debut du combat ! :\n");
 
 
     while (a->vie > 0 && b->vie > 0) {
@@ -470,35 +513,35 @@ void combatBoss1(Joueur* a, Joueur* b, int N, Inventaire* i1){
         resetBoss1(b);
 
         if (a->attaque < b->esquive) {
-            printf("%s esquive l'attaque de %s!\n", b->nom, a->nom);
+            mvprintw("%s esquive l'attaque de %s!\n", b->nom, a->nom);
         } else {
             int degats = a->attaque - b->defense;
             if (degats < 0) degats = 0;
             b->vie -= degats;
-            printf("%s attaque %s et lui inflige %d points de degats!\n", a->nom, b->nom, degats);
+            mvprintw("%s attaque %s et lui inflige %d points de degats!\n", a->nom, b->nom, degats);
         }
 
         if (b->vie <= 0) {
-            printf("%s tombe, %s gagne le combat!\n", b->nom, a->nom);
+            mvprintw("%s tombe, %s gagne le combat!\n", b->nom, a->nom);
             ajoutItem(i1, COUPE);
             a->exp += 10;
-            printf("Exp : %d\n", a->exp);
+            mvprintw("Exp : %d\n", a->exp);
             afficheInv(i1);
             break;
         }
 
 
         if (b->attaque < a->esquive) {
-            printf("%s esquive l'attaque de %s!\n", a->nom, b->nom);
+            mvprintw("%s esquive l'attaque de %s!\n", a->nom, b->nom);
         } else {
             int degats = b->attaque - a->defense;
             if (degats < 0) degats = 0;
             a->vie -= degats;
-            printf("%s attaque %s et lui inflige %d points de degats!\n", b->nom, a->nom, degats);
+            mvprintw("%s attaque %s et lui inflige %d points de degats!\n", b->nom, a->nom, degats);
         }
 
         if (a->vie <= 0) {
-            printf("%s tombe, %s gagne le combat!\n", a->nom, b->nom);
+            mvprintw("%s tombe, %s gagne le combat!\n", a->nom, b->nom);
             break;
         }
     }
@@ -516,15 +559,15 @@ void combatBoss2(Joueur* a, Joueur* b, int N, Inventaire* i1){
     if (a->nom == NULL || b->nom == NULL){
         exit(1);
     }
-    printf("Voici les différentes classes :\n");
-    printf("1 : Archer :\n Attaque : 9 à 11\n Defense : 4 à 6\n Esquive: 7 à 14\n");
-    printf("2 : Sorcier :\n Attaque : 5 à 9\n Defense : 7 à 11\n Esquive: 9 à 16\n");
-    printf("3 : Guerrier :\n Attaque : 11 à 14\n Defense : 6 à 9\n Esquive: 4 à 13\n");
+    mvprintw("Voici les différentes classes :\n");
+    mvprintw("1 : Archer :\n Attaque : 9 à 11\n Defense : 4 à 6\n Esquive: 7 à 14\n");
+    mvprintw("2 : Sorcier :\n Attaque : 5 à 9\n Defense : 7 à 11\n Esquive: 9 à 16\n");
+    mvprintw("3 : Guerrier :\n Attaque : 11 à 14\n Defense : 6 à 9\n Esquive: 4 à 13\n");
 
     int res = 0;
     do {
         res = 0;
-        printf("Quelle classe voulait vous choisir ? : ");
+        mvprintw("Quelle classe voulait vous choisir ? : ");
         res = scanf("%d", &N);
     } while (res != 1 || N < 1 || N > 3);
 
@@ -547,7 +590,7 @@ void combatBoss2(Joueur* a, Joueur* b, int N, Inventaire* i1){
     }
 
 
-    printf("Debut du combat ! :\n");
+    mvprintw("Debut du combat ! :\n");
 
 
     while (a->vie > 0 && b->vie > 0) {
@@ -557,35 +600,35 @@ void combatBoss2(Joueur* a, Joueur* b, int N, Inventaire* i1){
         resetBoss2(b);
 
         if (a->attaque < b->esquive) {
-            printf("%s esquive l'attaque de %s!\n", b->nom, a->nom);
+            mvprintw("%s esquive l'attaque de %s!\n", b->nom, a->nom);
         } else {
             int degats = a->attaque - b->defense;
             if (degats < 0) degats = 0;
             b->vie -= degats;
-            printf("%s attaque %s et lui inflige %d points de degats!\n", a->nom, b->nom, degats);
+            mvprintw("%s attaque %s et lui inflige %d points de degats!\n", a->nom, b->nom, degats);
         }
 
         if (b->vie <= 0) {
-            printf("%s tombe, %s gagne le combat!\n", b->nom, a->nom);
+            mvprintw("%s tombe, %s gagne le combat!\n", b->nom, a->nom);
             ajoutItem(i1, EPEE);
             a->exp += 30;
-            printf("Exp : %d\n", a->exp);
+            mvprintw("Exp : %d\n", a->exp);
             afficheInv(i1);
             break;
         }
 
 
         if (b->attaque < a->esquive) {
-            printf("%s esquive l'attaque de %s!\n", a->nom, b->nom);
+            mvprintw("%s esquive l'attaque de %s!\n", a->nom, b->nom);
         } else {
             int degats = b->attaque - a->defense;
             if (degats < 0) degats = 0;
             a->vie -= degats;
-            printf("%s attaque %s et lui inflige %d points de degats!\n", b->nom, a->nom, degats);
+            mvprintw("%s attaque %s et lui inflige %d points de degats!\n", b->nom, a->nom, degats);
         }
 
         if (a->vie <= 0) {
-            printf("%s tombe, %s gagne le combat!\n", a->nom, b->nom);
+            mvprintw("%s tombe, %s gagne le combat!\n", a->nom, b->nom);
             break;
         }
     }
@@ -598,16 +641,16 @@ void combatBoss3(Joueur* a, Joueur* b, int N, Inventaire* i1){
     if (a->nom == NULL || b->nom == NULL){
         exit(1);
     }
-    printf("Voici les différentes classes :\n");
-    printf("1 : Archer :\n Attaque : 9 à 11\n Defense : 4 à 6\n Esquive: 7 à 14\n");
-    printf("2 : Sorcier :\n Attaque : 5 à 9\n Defense : 7 à 11\n Esquive: 9 à 16\n");
-    printf("3 : Guerrier :\n Attaque : 11 à 14\n Defense : 6 à 9\n Esquive: 4 à 13\n");
+    mvprintw("Voici les différentes classes :\n");
+    mvprintw("1 : Archer :\n Attaque : 9 à 11\n Defense : 4 à 6\n Esquive: 7 à 14\n");
+    mvprintw("2 : Sorcier :\n Attaque : 5 à 9\n Defense : 7 à 11\n Esquive: 9 à 16\n");
+    mvprintw("3 : Guerrier :\n Attaque : 11 à 14\n Defense : 6 à 9\n Esquive: 4 à 13\n");
 
 
     int res = 0;
     do {
         res = 0;
-        printf("Quelle classe voulait vous choisir ? : ");
+        mvprintw("Quelle classe voulait vous choisir ? : ");
         res = scanf("%d", &N);
     } while (res != 1 || N < 1 || N > 3);
 
@@ -622,12 +665,12 @@ void combatBoss3(Joueur* a, Joueur* b, int N, Inventaire* i1){
             resetGuerrier(a);
             break;
         default:
-            printf("Choix inexistant\n");
+            mvprintw("Choix inexistant\n");
             return;
     }
 
 
-    printf("Debut du combat ! :\n");
+    mvprintw("Debut du combat ! :\n");
 
 
     while (a->vie > 0 && b->vie > 0) {
@@ -644,30 +687,30 @@ void combatBoss3(Joueur* a, Joueur* b, int N, Inventaire* i1){
             int degats = a->attaque - b->defense;
             if (degats < 0) degats = 0;
             b->vie -= degats;
-            printf("%s attaque %s et lui inflige %d points de degats!\n", a->nom, b->nom, degats);
+            mvprintw("%s attaque %s et lui inflige %d points de degats!\n", a->nom, b->nom, degats);
         }
 
         if (b->vie <= 0) {
-            printf("%s tombe, %s gagne le combat!\n", b->nom, a->nom);
+            mvprintw("%s tombe, %s gagne le combat!\n", b->nom, a->nom);
             ajoutItem(i1, CRANE);
             a->exp += 60;
-            printf("Exp : %d\n", a->exp);
+            mvprintw("Exp : %d\n", a->exp);
             afficheInv(i1);
             break;
         }
 
 
         if (b->attaque < a->esquive) {
-            printf("%s esquive l'attaque de %s!\n", a->nom, b->nom);
+            mvprintw("%s esquive l'attaque de %s!\n", a->nom, b->nom);
         } else {
             int degats = b->attaque - a->defense;
             if (degats < 0) degats = 0;
             a->vie -= degats;
-            printf("%s attaque %s et lui inflige %d points de degats!\n", b->nom, a->nom, degats);
+            mvprintw("%s attaque %s et lui inflige %d points de degats!\n", b->nom, a->nom, degats);
         }
 
         if (a->vie <= 0) {
-            printf("%s tombe, %s gagne le combat!\n", a->nom, b->nom);
+            mvprintw("%s tombe, %s gagne le combat!\n", a->nom, b->nom);
             break;
         }
     }
