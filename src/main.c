@@ -28,15 +28,14 @@ int main() {
 
     Entity *player = create_entity(PLAYER, NULL, "🗿");
 
-
     add_entity(player, world->rooms[0].x + 3, world->rooms[0].y + 3);
 
-    /*printName();
-    printTimer(t);
+    //printName();
+    //printTimer(t);
 
-    printMap(world, world->rooms[0].x + 3, world->rooms[0].y + 3, 20, 10);*/
+    printMap(world, world->rooms[0].x + 3, world->rooms[0].y + 3, 20, 10);
 
-
+/*
     while (get_current_scene() != QUITTING) {
         //start_frame(); //useless lol :c (if using timeout());
         handle_input();
@@ -45,7 +44,10 @@ int main() {
 
         //end_frame();
     }
+*/
+    while(1){
 
+    }
     refresh();
 
 

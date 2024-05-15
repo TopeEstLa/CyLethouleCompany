@@ -80,10 +80,11 @@ void printMap(Game_World* world, int x, int y, int dx, int dy){
                     mvprintw(lignes_debut, colonnes_debut, "-");
                     colonnes_debut++;
                 } else {
-                    Room room = get_room(world, x, y);
+                    Room room = get_room(world, jx, iy);
                     if ((room.x != -1 && room.y != -1) && !room.is_visited) {
-                        printf(" ");
-                        printf("  ");
+                        mvprintw(lignes_debut, colonnes_debut," ");
+                        mvprintw(lignes_debut, colonnes_debut,"  ");
+                        colonnes_debut++;
                         continue;
                     }
                     Entity *entity = get_entity(jx, iy);
