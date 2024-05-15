@@ -1,4 +1,4 @@
-#include <ncurses.h>
+#include <curses.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/time.h>
@@ -87,6 +87,7 @@ void printMap(Game_World* world, int x, int y, int dx, int dy) {
                     }
 
                     Entity *entity = get_entity(ix, iy);
+<<<<<<< HEAD
                     if (entity != NULL) {
                         mvprintw(lignes_debut, colonnes_debut, "%c", entity->texture);
                         colonnes_debut++;
@@ -113,6 +114,36 @@ void printMap(Game_World* world, int x, int y, int dx, int dy) {
                                 colonnes_debut++;
                                 break;
                         }
+=======
+
+                    if (entity != NULL) {
+                        mvprintw(lignes_debut, colonnes_debut, "%s", entity->texture);
+                        colonnes_debut++;
+                        continue;
+                    }
+
+                    switch (world->chunk[ix][iy]->type) {
+                        case DOOR :
+                            mvprintw(lignes_debut, colonnes_debut, "D");
+                            colonnes_debut++;
+                            break;
+                        case WALL :
+                            mvprintw(lignes_debut, colonnes_debut, "|");
+                            colonnes_debut++;
+                            break;
+                        case VOID :
+                            mvprintw(lignes_debut, colonnes_debut, " ");
+                            colonnes_debut++;
+                            break;
+                        case EMPTY :
+                            mvprintw(lignes_debut, colonnes_debut, " ");
+                            colonnes_debut++;
+                            break;
+                        default :
+                            mvprintw(lignes_debut, colonnes_debut, "?");
+                            colonnes_debut++;
+                            break;
+>>>>>>> 0caf1f7fca6e4d0bd6e5323093952b6be4d3eb08
                     }
                 }
             }

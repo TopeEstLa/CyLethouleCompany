@@ -16,8 +16,22 @@
 
 
 int main() {
+    init_curses();
 
-    initscr();
+    srand(time(NULL));
+    Game_World *world = create_world(rand()%1000);
+    base_generation(world);
+    init_entities(world);
+
+    Entity *player = create_entity(PLAYER, NULL, "🗿");
+
+    add_entity(player, world->rooms[0].x + 3, world->rooms[0].y + 3);
+
+    printMap(world, world->rooms[0].x + 3, world->rooms[0].y + 3, 10, 60);
+
+    while (1) {
+
+    }
 
     /*while (get_current_scene() != QUITTING) {
         //start_frame(); //useless lol :c (if using timeout());
@@ -28,6 +42,7 @@ int main() {
         //end_frame();
     }*/
 
+<<<<<<< HEAD
     while(1){
         //clear();
         srand(time(NULL));
@@ -55,6 +70,8 @@ int main() {
     while (1){
 
     }
+=======
+>>>>>>> 0caf1f7fca6e4d0bd6e5323093952b6be4d3eb08
     endwin();
 
     return 0;
