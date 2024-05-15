@@ -27,7 +27,7 @@ int main() {
 
     add_entity(player, world->rooms[0].x + 3, world->rooms[0].y + 3);
 
-    printMap(world, world->rooms[0].x + 3, world->rooms[0].y + 3, 10, 60);
+    printMap(world, world->rooms[0].x + 3, world->rooms[0].y + 3, 20, 100);
 
     while (1) {
 
@@ -42,7 +42,6 @@ int main() {
         //end_frame();
     }*/
 
-<<<<<<< HEAD
     while(1){
         //clear();
         srand(time(NULL));
@@ -57,21 +56,17 @@ int main() {
         Entity *player = create_entity(PLAYER, NULL, "🗿");
 
         add_entity(player, world->rooms[0].x + 3, world->rooms[0].y + 3);
-        struct timeval tv;
-        gettimeofday(&tv, NULL);
-        long t = tv.tv_sec;
-        //printTimer(t);
-        //printName();
 
-        printMap(world, world->rooms[0].x + 3, world->rooms[0].y + 3, 20, 100);
+        //printName();
+        //printTimer(t);
+
+        printMap(world, world->rooms[0].x + 3, world->rooms[0].y + 3, 20, 40);
         free(world);
     }
 
     while (1){
 
     }
-=======
->>>>>>> 0caf1f7fca6e4d0bd6e5323093952b6be4d3eb08
     endwin();
 
     return 0;
