@@ -36,8 +36,6 @@ add_executable(CyLethouleCompany
         src/scene/main_menu.c
         include/scene/load_menu.h
         src/scene/load_menu.c
-        include/frame_rate.h
-        src/frame_rate.c
         include/scene/create_menu.h
         src/scene/create_menu.c
 )

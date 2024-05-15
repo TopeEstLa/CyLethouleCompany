@@ -23,7 +23,7 @@ int main() {
     base_generation(world);
     init_entities(world);
 
-    Entity *player = create_entity(PLAYER, NULL, "🗿");
+    Entity *player = create_entity(PLAYER, NULL, "⌛");
 
     add_entity(player, world->rooms[0].x + 3, world->rooms[0].y + 3);
 

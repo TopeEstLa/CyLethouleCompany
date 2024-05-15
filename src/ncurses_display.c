@@ -2,8 +2,6 @@
 
 #include <curses.h>
 
-#include <frame_rate.h>
-
 #include <scene/main_menu.h>
 #include <scene/load_menu.h>
 #include <scene/create_menu.h>
