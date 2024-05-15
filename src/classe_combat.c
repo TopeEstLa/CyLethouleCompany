@@ -21,6 +21,10 @@ typedef struct{
     int vie;
     int exp;
 } Joueur;
+
+
+// check scan
+
 void flush(){
     int  a;
     char c;
@@ -28,6 +32,10 @@ void flush(){
         a = scanf("%c", &c);
     } while(a==1 && c != '\n' );
 }
+
+
+// create player model
+
 Joueur* creerJoueur(){
     Joueur* j = NULL;
     int size = 0;
@@ -64,6 +72,7 @@ Joueur* creerJoueur(){
     return j;
 }
 
+//Create boss 1
 
 Joueur* creerBoss1(){
     Joueur* j = NULL;
@@ -91,6 +100,7 @@ Joueur* creerBoss1(){
     return j;
 }
 
+// create boss 2
 
 Joueur* creerBoss2(){
     Joueur* j = NULL;
@@ -118,6 +128,7 @@ Joueur* creerBoss2(){
     return j;
 }
 
+// create boss 3
 
 Joueur* creerBoss3(){
     Joueur* j = NULL;
