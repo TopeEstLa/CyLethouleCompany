@@ -585,7 +585,7 @@ void combatBoss2(Joueur* a, Joueur* b, int N, Inventaire* i1){
             resetBoss2(b);
             break;
         default:
-            printf("Choix inexistant\n");
+            mvprintw("Choix inexistant\n");
             return;
     }
 
