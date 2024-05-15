@@ -3,6 +3,7 @@
 #include <time.h>
 #include <string.h>
 #include <unistd.h>
+#include <ncurses.h>
 
 #define SIZE 50
 
@@ -21,6 +22,10 @@ typedef struct{
     int vie;
     int exp;
 } Joueur;
+
+
+// check scan
+
 void flush(){
     int  a;
     char c;
@@ -28,6 +33,10 @@ void flush(){
         a = scanf("%c", &c);
     } while(a==1 && c != '\n' );
 }
+
+
+// create player model
+
 Joueur* creerJoueur(){
     Joueur* j = NULL;
     int size = 0;
@@ -64,6 +73,7 @@ Joueur* creerJoueur(){
     return j;
 }
 
+//Create boss 1
 
 Joueur* creerBoss1(){
     Joueur* j = NULL;
@@ -91,6 +101,7 @@ Joueur* creerBoss1(){
     return j;
 }
 
+// create boss 2
 
 Joueur* creerBoss2(){
     Joueur* j = NULL;
@@ -118,6 +129,7 @@ Joueur* creerBoss2(){
     return j;
 }
 
+// create boss 3
 
 Joueur* creerBoss3(){
     Joueur* j = NULL;
@@ -298,6 +310,28 @@ void resetBoss3(Joueur* b){
 
 }
 
+// fonction shop 
+
+void shopExp(Joueur* a){
+    mvprintw("Bienvenu dans la taverne de Garedon !");
+    mvprintw("Vous possédez actuellement %d points d'experience !", a->exp); 
+    mvprintw("Voici les services proposés par Garedon :");
+    mvprintw("Fiole de vie : La vie n'a pas de prix ! (+30 points de vie)");
+    mvprintw("Prix : ");
+    mvprintw("Fureur temporaire : Vos attaques sont écrasantes ! (+5 points d'attaque)");
+    mvprintw("Prix : ");
+    mvprintw("Pari risqué : Qui ne tente rien n'a rien ! (1 chances sur 2 de doubler sa mise)");
+    mvprintw("Prix : ");
+    mvprintw("Choisissez 
+    
+
+
+
+}
+
+
+
+
 
 // Creation Combat
 
@@ -325,12 +359,15 @@ void combat(Joueur* a, Joueur* b, int N){
     switch (N) {
         case 1:
             resetArcher(a);
+            resetGuerrier(b);
             break;
         case 2:
             resetSorcier(a);
+            resetGuerrier(b);
             break;
         case 3:
             resetGuerrier(a);
+            resetGuerrier(b);
             break;
         default:
             printf("Choix inexistant\n");
@@ -376,12 +413,6 @@ void combat(Joueur* a, Joueur* b, int N){
 
         if (a->vie <= 0) {
             printf("%s tombe, %s gagne le combat!\n", a->nom, b->nom);
-            Item_Stack item;
-            item.name = "Coupe du boss";
-            item.material = COUPE;
-            item.count = 1;
-
-            b->exp +=1;
             break;
         }
     }
@@ -413,12 +444,15 @@ void combatBoss1(Joueur* a, Joueur* b, int N, Inventaire* i1){
        switch (N) {
         case 1:
             resetArcher(a);
+            resetBoss1(b);
             break;
         case 2:
             resetSorcier(a);
+            resetBoss1(b);
             break;
         case 3:
             resetGuerrier(a);
+            resetBoss1(b);
             break;
         default:
             printf("Choix inexistant\n");
@@ -497,12 +531,15 @@ void combatBoss2(Joueur* a, Joueur* b, int N, Inventaire* i1){
      switch (N) {
         case 1:
             resetArcher(a);
+            resetBoss2(b);
             break;
         case 2:
             resetSorcier(a);
+            resetBoss2(b);
             break;
         case 3:
             resetGuerrier(a);
+            resetBoss2(b);
             break;
         default:
             printf("Choix inexistant\n");
