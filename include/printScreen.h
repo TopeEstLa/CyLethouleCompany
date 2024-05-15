@@ -4,7 +4,7 @@
 #ifndef CYLETHOULECOMPANY_PRINTSREEN_H
 void printMap(Game_World* world, int x, int y, int dx, int dy);
 void printName();
-void printTime();
+void printTimer();
 #define CYLETHOULECOMPANY_PRINTSREEN_H
 
 #endif //CYLETHOULECOMPANY_PRINTSREEN_H

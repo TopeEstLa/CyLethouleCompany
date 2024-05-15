@@ -45,10 +45,10 @@ void printTimer(long start) {
     //Print in red if the difference is under 10 seconds
     if (difference <= 10){
         attron(COLOR_PAIR(1));
-        mvprintw(3, colonnes_debut, "%3ld", difference);
+        mvprintw(3, colonnes_debut, " TIMER : %3ld", difference);
         attroff(COLOR_PAIR(1));
     } else {
-        mvprintw(3, colonnes_debut, "%3ld", difference);
+        mvprintw(3, colonnes_debut, "TIMER : %3ld", difference);
     }
     refresh();
 
@@ -61,26 +61,31 @@ void printMap(Game_World* world, int x, int y, int dx, int dy){
     if (world == NULL || x < 0 || x > world->width || y < 0 || y > world->height){
         exit(404);
     }
-    printw("\n");
+
     getmaxyx(stdscr, lignes, colonnes);
     int colonnes_text = dx * 2;
     int colonnes_debut = (colonnes - colonnes_text) / 2;
     int lignes_debut = 6;
     for (int iy = y - dy; iy < y + dy; iy++){
-        if (iy < 1 || iy > world->height){
+        if (iy < 0 || iy > world->width){
             continue;
         } else {
             for (int jx = x - dx; jx < x + dx; jx++) {
-
-                if(jx == x-dx || jx == x+dx-1){
+                if (jx < 0 || jx > world->height) {
+                    continue;
+                } else if (jx == x-dx || jx == x+dx-1){
                     mvprintw(lignes_debut, colonnes_debut, "|");
                     colonnes_debut++;
                 } else if (iy == y-dy || iy == y+dy-1) {
                     mvprintw(lignes_debut, colonnes_debut, "-");
                     colonnes_debut++;
-                } else if (jx < 0 || jx > world->width) {
-                    continue;
                 } else {
+                    Room room = get_room(world, x, y);
+                    if ((room.x != -1 && room.y != -1) && !room.is_visited) {
+                        printf(" ");
+                        printf("  ");
+                        continue;
+                    }
                     Entity *entity = get_entity(jx, iy);
 
                     //print the item to stack or the emoji of the player
