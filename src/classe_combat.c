@@ -309,6 +309,26 @@ void resetBoss3(Joueur* b){
 
 }
 
+// fonction shop 
+
+void shopExp(Joueur* a){
+    printf("Bienvenu dans la taverne de Garedon !\n");
+    printf("Vous possédez actuellement %d points d'experience !\n", a->exp); 
+    printf("Voici les services proposés par Garedon :\n");
+    printf("Fiole de vie : La vie n'a pas de prix ! (+30 points de vie)\n");
+    printf("Prix : \n");
+    printf("Fureur temporaire : Vos attaques sont écrasantes ! (+5 points d'attaque)\n");
+    printf("Prix : \n");
+    printf("Pari risqué : Qui ne tente rien n'a rien ! (1 chances sur 2 de doubler sa mise)");
+    printf("Prix : \n");
+
+
+
+}
+
+
+
+
 
 // Creation Combat
 
