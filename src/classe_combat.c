@@ -325,12 +325,15 @@ void combat(Joueur* a, Joueur* b, int N){
     switch (N) {
         case 1:
             resetArcher(a);
+            resetGuerrier(b);
             break;
         case 2:
             resetSorcier(a);
+            resetGuerrier(b);
             break;
         case 3:
             resetGuerrier(a);
+            resetGuerrier(b);
             break;
         default:
             printf("Choix inexistant\n");
@@ -413,12 +416,15 @@ void combatBoss1(Joueur* a, Joueur* b, int N, Inventaire* i1){
        switch (N) {
         case 1:
             resetArcher(a);
+            resetBoss1(b);
             break;
         case 2:
             resetSorcier(a);
+            resetBoss1(b);
             break;
         case 3:
             resetGuerrier(a);
+            resetBoss1(b);
             break;
         default:
             printf("Choix inexistant\n");
@@ -497,12 +503,15 @@ void combatBoss2(Joueur* a, Joueur* b, int N, Inventaire* i1){
      switch (N) {
         case 1:
             resetArcher(a);
+            resetBoss2(b);
             break;
         case 2:
             resetSorcier(a);
+            resetBoss2(b);
             break;
         case 3:
             resetGuerrier(a);
+            resetBoss2(b);
             break;
         default:
             printf("Choix inexistant\n");
