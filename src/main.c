@@ -11,7 +11,7 @@
 #include <file_utils.h>
 #include <saves.h>
 #include <frame_rate.h>
-#include "printSreen.h"
+#include "printScreen.h"
 
 
 int main() {
