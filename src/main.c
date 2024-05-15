@@ -25,22 +25,21 @@ int main() {
     while (1) {
         //clear();
         int ch = getch();
-
         Entity *player = game->player->entity;
 
         if (ch != ERR) {
             switch (ch) {
                 case KEY_UP:
-                    move_entity(player, player->x, player->y - 1);
+                    move_player(player->x, player->y - 1);
                     break;
                 case KEY_DOWN:
-                    move_entity(player, player->x, player->y + 1);
+                    move_player(player->x, player->y + 1);
                     break;
                 case KEY_LEFT:
-                    move_entity(player, player->x - 1, player->y);
+                    move_player(player->x - 1, player->y);
                     break;
                 case KEY_RIGHT:
-                    move_entity(player, player->x + 1, player->y);
+                    move_player(player->x + 1, player->y);
                     break;
                 default:
                     break;
@@ -48,6 +47,7 @@ int main() {
         }
 
         curses_all_map(game->world);
+        //printMap(game->world, player->x, player->y, 10, 30);
     }
 
     /*while (get_current_scene() != QUITTING) {

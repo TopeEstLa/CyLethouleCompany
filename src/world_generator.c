@@ -27,14 +27,14 @@ void base_generation(Game_World *world) {
     topDoorX = random_int(roomSeed, baseX + 4, baseX + width - 4);
     topDoorY = baseY;
 
-    bottomDoorX = random_int(roomSeed, baseX + 4, baseX + width - 4);
+    bottomDoorX = random_int(roomSeed+1, baseX + 4, baseX + width - 4);
     bottomDoorY = baseY + height - 1;
 
     leftDoorX = baseX;
-    leftDoorY = random_int(roomSeed, baseY + 4, baseY + height - 4);
+    leftDoorY = random_int(roomSeed+2, baseY + 4, baseY + height - 4);
 
     rightDoorX = baseX + width - 1;
-    rightDoorY = random_int(roomSeed, baseY + 4, baseY + height - 4);
+    rightDoorY = random_int(roomSeed+3, baseY + 4, baseY + height - 4);
 
     Room starting_room = create_room(width, height, baseX, baseY);
 
@@ -74,7 +74,11 @@ void generate_rooms(Game_World *world, Room starting_room, int recursion_depth) 
     for (int i = 0; i < 4; ++i) {
         Door *door = starting_room.doors[i];
 
+        if (door == NULL) continue;
+
+        if (i == starting_room.start_door) continue;
         if (door->x == -1 && door->y == -1) continue;
+        if (door->is_used) continue;
 
         generate_room(world, starting_room, i, recursion_depth);
     }
