@@ -13,8 +13,8 @@ typedef enum class {
     GUERRIER,
 } Class;
 
-typedef struct{
-    char* nom;
+typedef struct {
+    char *nom;
     Class current_class;
     int attaque;
     int defense;
@@ -26,41 +26,41 @@ typedef struct{
 
 // check scan
 
-void flush(){
-    int  a;
+void flush() {
+    int a;
     char c;
-    do{
+    do {
         a = scanf("%c", &c);
-    } while(a==1 && c != '\n' );
+    } while (a == 1 && c != '\n');
 }
 
 
 // create player model
 
-Joueur* creerJoueur(){
-    Joueur* j = NULL;
+Joueur *creerJoueur() {
+    Joueur *j = NULL;
     int size = 0;
     // Malloc struct
     j = malloc(sizeof(Joueur));
-    if( j == NULL){
+    if (j == NULL) {
         exit(1);
     }
     // Create first name
     char tab[50];
     int res = 0;
 
-    do{
+    do {
         res = 0;
         printf("Saissisez le nom du joueur :\n");
         res = scanf("%[^\n]", tab);
         flush();
-        if(strlen(tab) <= 0 || strlen(tab) >= 50){
+        if (strlen(tab) <= 0 || strlen(tab) >= 50) {
             printf("Prenom trop long\n");
         }
     } while (res != 1 || strlen(tab) <= 0 || strlen(tab) >= 50);
 
     (*j).nom = malloc((strlen(tab) + 1) * sizeof(char));
-    if ((*j).nom == NULL){
+    if ((*j).nom == NULL) {
         exit(404);
     }
     strcpy((*j).nom, tab);
@@ -73,22 +73,22 @@ Joueur* creerJoueur(){
 }
 
 
-Joueur* creerCradorien(){
-    Joueur* j = NULL;
+Joueur *creerCradorien() {
+    Joueur *j = NULL;
     int size = 0;
     // Malloc struct
     j = malloc(sizeof(Joueur));
-    if( j == NULL){
+    if (j == NULL) {
         exit(1);
     }
     // Create first name
     char tab[256];
     int res = 0;
-    char* tmp = "Guerrier Cradorien";
-    if (strlen(tmp) > 0){
-        j->nom = malloc(((strlen(tmp)+1) * sizeof(char)));
+    char *tmp = "Guerrier Cradorien";
+    if (strlen(tmp) > 0) {
+        j->nom = malloc(((strlen(tmp) + 1) * sizeof(char)));
     }
-    if (j->nom == NULL){
+    if (j->nom == NULL) {
         exit(404);
     }
     strcpy(j->nom, tmp);
@@ -100,22 +100,22 @@ Joueur* creerCradorien(){
 
 //Create boss 1
 
-Joueur* creerBoss1(){
-    Joueur* j = NULL;
+Joueur *creerBoss1() {
+    Joueur *j = NULL;
     int size = 0;
     // Malloc struct
     j = malloc(sizeof(Joueur));
-    if( j == NULL){
+    if (j == NULL) {
         exit(1);
     }
     // Create first name
     char tab[256];
     int res = 0;
-    char* laz = "Lazarus";
-    if (strlen(laz) > 0){
-        j->nom = malloc(((strlen(laz)+1) * sizeof(char)));
+    char *laz = "Lazarus";
+    if (strlen(laz) > 0) {
+        j->nom = malloc(((strlen(laz) + 1) * sizeof(char)));
     }
-    if (j->nom == NULL){
+    if (j->nom == NULL) {
         exit(404);
     }
     strcpy(j->nom, laz);
@@ -128,22 +128,22 @@ Joueur* creerBoss1(){
 
 // create boss 2
 
-Joueur* creerBoss2(){
-    Joueur* j = NULL;
+Joueur *creerBoss2() {
+    Joueur *j = NULL;
     int size = 0;
     // Malloc struct
     j = malloc(sizeof(Joueur));
-    if( j == NULL){
+    if (j == NULL) {
         exit(1);
     }
     // Create first name
     char tab[256];
     int res = 0;
-    char* tmp = "Xaroth";
-    if (strlen(tmp) > 0){
-        j->nom = malloc(((strlen(tmp)+1) * sizeof(char)));
+    char *tmp = "Xaroth";
+    if (strlen(tmp) > 0) {
+        j->nom = malloc(((strlen(tmp) + 1) * sizeof(char)));
     }
-    if (j->nom == NULL){
+    if (j->nom == NULL) {
         exit(404);
     }
     strcpy(j->nom, tmp);
@@ -156,22 +156,22 @@ Joueur* creerBoss2(){
 
 // create boss 3
 
-Joueur* creerBoss3(){
-    Joueur* j = NULL;
+Joueur *creerBoss3() {
+    Joueur *j = NULL;
     int size = 0;
     // Malloc struct
     j = malloc(sizeof(Joueur));
-    if( j == NULL){
+    if (j == NULL) {
         exit(1);
     }
     // Create first name
     char tab[256];
     int res = 0;
-    char* tmp = "Morlok";
-    if (strlen(tmp) > 0){
-        j->nom = malloc(((strlen(tmp)+1) * sizeof(char)));
+    char *tmp = "Morlok";
+    if (strlen(tmp) > 0) {
+        j->nom = malloc(((strlen(tmp) + 1) * sizeof(char)));
     }
-    if (j->nom == NULL){
+    if (j->nom == NULL) {
         exit(404);
     }
     strcpy(j->nom, tmp);
@@ -194,26 +194,26 @@ typedef enum material {
 
 
 typedef struct {
-    char* name;
+    char *name;
     int capacite;
     int quantite;
-    Material* material;
+    Material *material;
 } Inventaire;
 
 
 
 // Fonction pour initialiser l'inventaire (capacité de 3 item)
 
-Inventaire* initialiserInv(){
-    Inventaire* p = NULL;
+Inventaire *initialiserInv() {
+    Inventaire *p = NULL;
     p = malloc(sizeof(Inventaire));
-    if( p == NULL){
+    if (p == NULL) {
         exit(2);
     }
     p->capacite = 3;
     p->quantite = 0;
     p->material = malloc(sizeof(Material) * p->capacite);
-    if( p->material == NULL){
+    if (p->material == NULL) {
         exit(3);
     }
     return p;
@@ -222,15 +222,14 @@ Inventaire* initialiserInv(){
 
 // FOnction pour ajouter item
 
-void ajoutItem(Inventaire* p, Material material){
-    if (p == NULL || p->material == NULL){
+void ajoutItem(Inventaire *p, Material material) {
+    if (p == NULL || p->material == NULL) {
         exit(1);
     }
-    if (p->quantite <= p->capacite){
+    if (p->quantite <= p->capacite) {
         p->material[p->quantite] = material;
         p->quantite++;
-    }
-    else{
+    } else {
         printf("Inventaire rempli !");
     }
 }
@@ -238,13 +237,13 @@ void ajoutItem(Inventaire* p, Material material){
 
 //Fonction pour verifier son inventaire
 
-void afficheInv(Inventaire* p){
-    if (p == NULL || p->material == NULL){
+void afficheInv(Inventaire *p) {
+    if (p == NULL || p->material == NULL) {
         exit(1);
     }
     printf("Voici votre inventaire :\n");
-       for(int i = 0; i < p->quantite; i++){
-        switch(p->material[i]){
+    for (int i = 0; i < p->quantite; i++) {
+        switch (p->material[i]) {
             case COUPE:
                 printf("COUPE\n");
                 break;
@@ -257,31 +256,31 @@ void afficheInv(Inventaire* p){
             default:
                 printf("Item inconnu\n");
                 break;
+        }
     }
- }
 }
 
 
 // Creation Abilité
 
 
-void resetData(Joueur* j){
-    if (j == NULL || j->nom == NULL){
+void resetData(Joueur *j) {
+    if (j == NULL || j->nom == NULL) {
         exit(1);
     }
-    switch(j->current_class){
+    switch (j->current_class) {
         case ARCHER:
-            j->attaque = rand()%3 + 5;
-            j->defense = rand()%4 + 2;
-            j->esquive = rand()%6 + 2;
+            j->attaque = rand() % 3 + 5;
+            j->defense = rand() % 4 + 2;
+            j->esquive = rand() % 6 + 2;
             break;
         case SORCIER:
-            j->attaque = rand()%3 + 3;
-            j->defense = rand()%4 + 4;
-            j->esquive = rand()%9 + 4;
+            j->attaque = rand() % 3 + 3;
+            j->defense = rand() % 4 + 4;
+            j->esquive = rand() % 9 + 4;
             break;
         case GUERRIER:
-            j->attaque = rand()%5 + 7;
+            j->attaque = rand() % 5 + 7;
             j->defense = 0;
             j->esquive = 0;
 
@@ -290,8 +289,8 @@ void resetData(Joueur* j){
 
 // Reset archer
 
-void resetArcher(Joueur* a) {
-    if (a == NULL || a->nom == NULL){
+void resetArcher(Joueur *a) {
+    if (a == NULL || a->nom == NULL) {
         exit(404);
     }
     a->current_class = ARCHER;
@@ -299,8 +298,8 @@ void resetArcher(Joueur* a) {
 }
 
 // Reset wizard
-void resetSorcier(Joueur* a) {
-    if (a == NULL || a->nom == NULL){
+void resetSorcier(Joueur *a) {
+    if (a == NULL || a->nom == NULL) {
         exit(404);
     }
     a->current_class = SORCIER;
@@ -308,8 +307,8 @@ void resetSorcier(Joueur* a) {
 }
 
 // Reset Warrior
-void resetGuerrier(Joueur* a){
-    if(a == NULL || a->nom == NULL){
+void resetGuerrier(Joueur *a) {
+    if (a == NULL || a->nom == NULL) {
         exit(404);
     }
     a->current_class = GUERRIER;
@@ -320,49 +319,49 @@ void resetGuerrier(Joueur* a){
 
 //reset Cradorien
 
-void resetCradorien(Joueur* b){
-     if (b == NULL || b->nom == NULL){
+void resetCradorien(Joueur *b) {
+    if (b == NULL || b->nom == NULL) {
         exit(404);
     }
-            b->attaque = rand()%4 + 2; 
-            b->defense = 0;
-            b->esquive = 0;
+    b->attaque = rand() % 4 + 2;
+    b->defense = 0;
+    b->esquive = 0;
 }
 
 // reset boss 1
 
 
-void resetBoss1(Joueur* b){
-     if (b == NULL || b->nom == NULL){
+void resetBoss1(Joueur *b) {
+    if (b == NULL || b->nom == NULL) {
         exit(404);
     }
-        b->attaque = rand()%5 + 5; 
-        b->defense = 0;
-        b->esquive = 0;
+    b->attaque = rand() % 5 + 5;
+    b->defense = 0;
+    b->esquive = 0;
 }
 
 //reset boss 2
 
-void resetBoss2(Joueur* b){
-     if (b == NULL || b->nom == NULL){
+void resetBoss2(Joueur *b) {
+    if (b == NULL || b->nom == NULL) {
         exit(404);
     }
-        b->attaque= rand()%5 + 5; 
-        b->defense= 0;
-        b->esquive=0;
-        
+    b->attaque = rand() % 5 + 5;
+    b->defense = 0;
+    b->esquive = 0;
+
 
 }
 
 // reset boss 3
 
-void resetBoss3(Joueur* b){
-     if (b == NULL || b->nom == NULL){
+void resetBoss3(Joueur *b) {
+    if (b == NULL || b->nom == NULL) {
         exit(404);
     }
-        b->attaque= rand()%4 + 9; // 8 à 13
-        b->defense= rand()%3 + 2;
-        b->esquive=rand()%3 + 1;
+    b->attaque = rand() % 4 + 9; // 8 à 13
+    b->defense = rand() % 3 + 2;
+    b->esquive = rand() % 3 + 1;
 
 }
 
@@ -373,14 +372,14 @@ void resetBoss3(Joueur* b){
 
 
 
-void shopExp(Joueur* a, Joueur* b){
-    if (b == NULL || b->nom == NULL || a == NULL || a->nom == NULL){
+void shopExp(Joueur *a, Joueur *b) {
+    if (b == NULL || b->nom == NULL || a == NULL || a->nom == NULL) {
         exit(404);
     }
 
-    
+
     printf("Bienvenu dans la taverne de Garedon !\n");
-    printf("Vous possédez actuellement %d ame(s) de Morlok !\n", a->exp); 
+    printf("Vous possédez actuellement %d ame(s) de Morlok !\n", a->exp);
     printf("Voici les services proposés par Garedon :\n");
     printf("1 - Fiole de vie : La vie n'a pas de prix ! (+100 points de vie)\n");
     printf("Prix : 10 ames de Morlok\n");
@@ -398,51 +397,51 @@ void shopExp(Joueur* a, Joueur* b){
         printf("Choisissez le numero correspondant au service voulu :");
         res = scanf("%d", &C);
         while ((C == 1 && a->exp < 10) || (C == 2 && a->exp < 15) || (C == 3 && a->exp < 150)) {
-        printf("Ame(s) de Morlok insuffisante(s)\n");
-        count1++;
-        if (count1 == 5){
+            printf("Ame(s) de Morlok insuffisante(s)\n");
+            count1++;
+            if (count1 == 5) {
                 printf("Garedon n'aime pas perdre son temps. La boutique est fermé\n");
                 printf("Ame(s) de Morlok restant: %d\n", a->exp);
                 break;
             }
-        printf("Choisissez le numero correspondant au service voulu :");
-        res = scanf("%d", &C);
+            printf("Choisissez le numero correspondant au service voulu :");
+            res = scanf("%d", &C);
 
-    }   
-    
+        }
+
     } while (res != 1 || C < 1 || C > 4);
 
 
-    switch (C){
+    switch (C) {
         case 1:
-            if(count1 == 5){
+            if (count1 == 5) {
                 break;
             }
             printf("Point de vie : %d\n", a->vie);
             sleep(1);
             printf("Fiole consommé\n");
-            a-> vie += 100;
-            a-> exp -=10;
+            a->vie += 100;
+            a->exp -= 10;
             printf("Ame(s) de Morlok restant(s) : %d\n", a->exp);
             break;
         case 2:
-            if(count1 == 5){
+            if (count1 == 5) {
                 break;
             }
-            ran = rand()%2 + 1;
-            if(ran == 1){
+            ran = rand() % 2 + 1;
+            if (ran == 1) {
                 printf("Vous avez perdu votre mise\n");
                 a->exp -= 15;
                 printf("Ame(s) de Morlok restant(s) : %d\n", a->exp);
             }
-            if(ran == 2){
+            if (ran == 2) {
                 printf("Vous avez gagne !\n");
                 a->exp += 15;
                 printf("Ame(s) de Morlok restant(s) : %d\n", a->exp);
             }
             break;
         case 3:
-            if(count1 == 5){
+            if (count1 == 5) {
                 break;
             }
             b->vie = 0;
@@ -450,11 +449,11 @@ void shopExp(Joueur* a, Joueur* b){
             printf("Ame(s) de Morlok restant(s) : %d\n", a->exp);
             break;
         case 4:
-            if(count1 == 5){
+            if (count1 == 5) {
                 break;
             }
             printf("Un vrai guerrier se doit de gagner des ames de Morlok...\n");
-    }   
+    }
 
 }
 
@@ -465,8 +464,8 @@ void shopExp(Joueur* a, Joueur* b){
 // Creation Combat
 
 
-void combat(Joueur* a, Joueur* b, int N){
-    if (a == NULL || b == NULL){
+void combat(Joueur *a, Joueur *b, int N) {
+    if (a == NULL || b == NULL) {
         exit(1);
     }
     printf("Voici les différentes classes :\n");
@@ -501,23 +500,22 @@ void combat(Joueur* a, Joueur* b, int N){
             return;
     }
 
-        shopExp(a,b);
-        sleep(1);
-        printf("Point de vie : %d\n", a->vie);
-        sleep(1);
+    shopExp(a, b);
+    sleep(1);
+    printf("Point de vie : %d\n", a->vie);
+    sleep(1);
 
     printf("Debut du combat ! :\n");
 
-    
 
-    while (a->vie > 0 && b->vie >= 0 ) {
-        
+    while (a->vie > 0 && b->vie >= 0) {
+
 
         usleep(500000);
         resetData(a);
         resetCradorien(b);
-        
-        
+
+
         if (b->vie <= 0) {
             printf("%s tombe, %s gagne le combat!\n", b->nom, a->nom);
             a->exp += 2;
@@ -562,8 +560,8 @@ void combat(Joueur* a, Joueur* b, int N){
 
 // Fonction boss1
 
-void combatBoss1(Joueur* a, Joueur* b, int N, Inventaire* i1){
-    if (a == NULL || b == NULL  || i1 == NULL){
+void combatBoss1(Joueur *a, Joueur *b, int N, Inventaire *i1) {
+    if (a == NULL || b == NULL || i1 == NULL) {
         exit(404);
     }
     printf("Voici les différentes classes :\n");
@@ -578,8 +576,8 @@ void combatBoss1(Joueur* a, Joueur* b, int N, Inventaire* i1){
         printf("Quelle classe voulait vous choisir ? : ");
         res = scanf("%d", &N);
     } while (res != 1 || N < 1 || N > 3);
-    
-       switch (N) {
+
+    switch (N) {
         case 1:
             resetArcher(a);
             resetBoss1(b);
@@ -596,8 +594,8 @@ void combatBoss1(Joueur* a, Joueur* b, int N, Inventaire* i1){
             printf("Choix inexistant\n");
             return;
     }
-    
-    shopExp(a,b);
+
+    shopExp(a, b);
     sleep(1);
     printf("Point de vie : %d\n", a->vie);
     sleep(1);
@@ -610,7 +608,7 @@ void combatBoss1(Joueur* a, Joueur* b, int N, Inventaire* i1){
         usleep(800000);
         resetData(a);
         resetBoss1(b);
-        
+
         if (b->vie <= 0) {
             printf("%s tombe, %s gagne le combat!\n", b->nom, a->nom);
             ajoutItem(i1, COUPE);
@@ -659,11 +657,11 @@ void combatBoss1(Joueur* a, Joueur* b, int N, Inventaire* i1){
 // Fonction Boss 2
 
 
-void combatBoss2(Joueur* a, Joueur* b, int N, Inventaire* i1){
-    if (a == NULL || b == NULL || i1 == NULL){
+void combatBoss2(Joueur *a, Joueur *b, int N, Inventaire *i1) {
+    if (a == NULL || b == NULL || i1 == NULL) {
         exit(1);
     }
-    if (a->nom == NULL || b->nom == NULL){
+    if (a->nom == NULL || b->nom == NULL) {
         exit(1);
     }
     printf("Voici les différentes classes :\n");
@@ -679,7 +677,7 @@ void combatBoss2(Joueur* a, Joueur* b, int N, Inventaire* i1){
         res = scanf("%d", &N);
     } while (res != 1 || N < 1 || N > 3);
 
-     switch (N) {
+    switch (N) {
         case 1:
             resetArcher(a);
             resetBoss2(b);
@@ -697,7 +695,7 @@ void combatBoss2(Joueur* a, Joueur* b, int N, Inventaire* i1){
             return;
     }
 
-    shopExp(a,b);
+    shopExp(a, b);
     sleep(1);
     printf("Point de vie : %d\n", a->vie);
     sleep(1);
@@ -710,7 +708,7 @@ void combatBoss2(Joueur* a, Joueur* b, int N, Inventaire* i1){
         usleep(800000);
         resetData(a);
         resetBoss2(b);
-        
+
         if (b->vie <= 0) {
             printf("%s tombe, %s gagne le combat!\n", b->nom, a->nom);
             ajoutItem(i1, EPEE);
@@ -756,18 +754,17 @@ void combatBoss2(Joueur* a, Joueur* b, int N, Inventaire* i1){
     }
 }
 
-void combatBoss3(Joueur* a, Joueur* b, int N, Inventaire* i1){
-    if (a == NULL || b == NULL || i1 == NULL){
+void combatBoss3(Joueur *a, Joueur *b, int N, Inventaire *i1) {
+    if (a == NULL || b == NULL || i1 == NULL) {
         exit(1);
     }
-    if (a->nom == NULL || b->nom == NULL){
+    if (a->nom == NULL || b->nom == NULL) {
         exit(1);
     }
     printf("Voici les différentes classes :\n");
     printf("1 : Archer :\n Attaque : 5 à 7\n Defense : 2 à 5\n Esquive: 2 à 7\n");
     printf("2 : Sorcier :\n Attaque : 3 à 5\n Defense : 4 à 7\n Esquive: 4 à 12\n");
     printf("3 : Guerrier :\n Attaque : 7 à 11\n Defense : 0\n Esquive: 0\n");
-
 
 
     int res = 0;
@@ -792,7 +789,7 @@ void combatBoss3(Joueur* a, Joueur* b, int N, Inventaire* i1){
             return;
     }
 
-    shopExp(a,b);
+    shopExp(a, b);
     sleep(1);
     printf("Point de vie : %d\n", a->vie);
     sleep(1);
@@ -857,19 +854,19 @@ int main() {
 
     srand(time(NULL));
 
-    Inventaire* i1 = NULL;
-    Joueur*  j1    = NULL;
-    Joueur*  j2    = NULL;
-    Joueur*  j3    = NULL;
-    Joueur*  j4    = NULL;
-    Joueur* j5 = NULL;
+    Inventaire *i1 = NULL;
+    Joueur *j1 = NULL;
+    Joueur *j2 = NULL;
+    Joueur *j3 = NULL;
+    Joueur *j4 = NULL;
+    Joueur *j5 = NULL;
     int degats = 0;
     int N = 0;
 
     i1 = initialiserInv();
 
-    j1  = creerJoueur();
-    j2  = creerCradorien();
+    j1 = creerJoueur();
+    j2 = creerCradorien();
     j3 = creerBoss1();
     j4 = creerBoss2();
     j5 = creerBoss3();
@@ -878,7 +875,7 @@ int main() {
     combatBoss1(j1, j3, N, i1);
     combatBoss2(j1, j4, N, i1);
     //combatBoss3(j1, j5, N, i1);
- 
+
 
     // test d'aller plus loin avec 4 item (ici ca a l'air de marcher avec 4 item donc bloqué ou sinon accepté un inventaire infini)
     // de notre faute si dans un scanf où il faut rentrer un chiffre, on rentre une lettre et ca full bug (ex choix de classe avec lettre)

@@ -1,9 +1,9 @@
 #include <entities.h>
 #include <stdlib.h>
 
-Entity **entities;
-int entities_count;
-int entities_capacity;
+Entity **entities = NULL;
+int entities_count = 0;
+int entities_capacity = 0;
 
 void init_entities() {
     entities = malloc(sizeof(Entity *) * 10);
@@ -28,7 +28,7 @@ Entity *create_entity(Entity_Type type, void *data, char *texture) {
     return entity;
 }
 
-bool add_entity(Game_World* world, Entity *entity, int x, int y) {
+bool add_entity(Game_World *world, Entity *entity, int x, int y) {
     if (x < 0 || x >= world->width || y < 0 || y >= world->height) {
         return false;
     }
@@ -87,7 +87,7 @@ Entity *get_entity(int x, int y) {
     return NULL;
 }
 
-Move_Callback move_entity(Game_World* world, Entity *entity, int new_x, int new_y) {
+Move_Callback move_entity(Game_World *world, Entity *entity, int new_x, int new_y) {
     Chunk *chunk = world->chunk[new_x][new_y];
 
 

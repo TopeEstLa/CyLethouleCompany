@@ -27,16 +27,16 @@ void base_generation(Game_World *world) {
     topDoorX = random_int(roomSeed, baseX + 4, baseX + width - 4);
     topDoorY = baseY;
 
-    bottomDoorX = random_int(roomSeed+1, baseX + 4, baseX + width - 4);
+    bottomDoorX = random_int(roomSeed + 1, baseX + 4, baseX + width - 4);
     bottomDoorY = baseY + height - 1;
 
     leftDoorX = baseX;
-    leftDoorY = random_int(roomSeed+2, baseY + 4, baseY + height - 4);
+    leftDoorY = random_int(roomSeed + 2, baseY + 4, baseY + height - 4);
 
     rightDoorX = baseX + width - 1;
-    rightDoorY = random_int(roomSeed+3, baseY + 4, baseY + height - 4);
+    rightDoorY = random_int(roomSeed + 3, baseY + 4, baseY + height - 4);
 
-    Room* starting_room = create_room(width, height, baseX, baseY);
+    Room *starting_room = create_room(width, height, baseX, baseY);
 
     Door *topDoor = starting_room->doors[TOP];
     topDoor->x = topDoorX;
@@ -61,12 +61,12 @@ void base_generation(Game_World *world) {
     generate_rooms(world, starting_room, 1);
 
     for (int i = 1; i < 5; i++) {
-        Room* room = world->rooms[i];
+        Room *room = world->rooms[i];
         generate_rooms(world, room, 3);
     }
 }
 
-void generate_rooms(Game_World *world, Room* starting_room, int recursion_depth) {
+void generate_rooms(Game_World *world, Room *starting_room, int recursion_depth) {
     if (world == NULL || recursion_depth <= 0) {
         return;
     }
@@ -84,7 +84,7 @@ void generate_rooms(Game_World *world, Room* starting_room, int recursion_depth)
     }
 }
 
-void generate_room(Game_World *world, Room* starting_room, int door_face, int recursion_depth) {
+void generate_room(Game_World *world, Room *starting_room, int door_face, int recursion_depth) {
     if (world == NULL || recursion_depth <= 0) {
         return;
     }
@@ -133,13 +133,13 @@ void generate_room(Game_World *world, Room* starting_room, int door_face, int re
             return;
     }
 
-    Room* new_room = create_room(width, height, startX, startY);
+    Room *new_room = create_room(width, height, startX, startY);
 
     int conflict_id = can_append_room(world, new_room);
 
     int fail = 0;
     while ((conflict_id != -1 && conflict_id != -2) && fail < 300) {
-        Room* conflict_room = world->rooms[conflict_id];
+        Room *conflict_room = world->rooms[conflict_id];
 
         new_room = resize_room(new_room, conflict_room, door_face, looked_door);
         conflict_id = can_append_room(world, new_room);
@@ -248,7 +248,7 @@ void generate_room(Game_World *world, Room* starting_room, int door_face, int re
     }
 }
 
-Room* resize_room(Room *room, Room *conflictRoom, int door_face, Door *door) {
+Room *resize_room(Room *room, Room *conflictRoom, int door_face, Door *door) {
 
     int xRightC = conflictRoom->x + conflictRoom->width;
     int yBottomC = conflictRoom->y + conflictRoom->height;
@@ -297,6 +297,6 @@ Room* resize_room(Room *room, Room *conflictRoom, int door_face, Door *door) {
     return room;
 }
 
-int is_room_valid(Room* room) {
+int is_room_valid(Room *room) {
     return room->width >= MIN_ROOM_WIDTH && room->height >= MIN_ROOM_HEIGHT;
 }

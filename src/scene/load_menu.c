@@ -4,7 +4,7 @@
 #include <file_utils.h>
 #include <saves.h>
 
-char** saves;
+char **saves;
 int saves_count = 0;
 
 int current_saves = 0;
@@ -30,6 +30,16 @@ void load_saves_handle_input() {
                 break;
             }
 
+            char *save = saves[current_saves];
+            Game_Data *game = load_game(save);
+
+            if (game == NULL) {
+                set_current_scene(MAIN_MENU);
+                break;
+            }
+
+            set_game_data(game);
+            set_current_scene(GAME);
             break;
         case 27:
             set_current_scene(MAIN_MENU);

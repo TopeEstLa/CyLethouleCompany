@@ -63,7 +63,7 @@ cJSON *load_json(char *filename) {
     return json;
 }
 
-char** list_files(char *directory, int *count) {
+char **list_files(char *directory, int *count) {
     DIR *dir = opendir(directory);
     if (dir == NULL) {
         return NULL;
@@ -79,7 +79,7 @@ char** list_files(char *directory, int *count) {
 
     rewinddir(dir);
 
-    char** files = (char**) malloc(files_count * sizeof(char*));
+    char **files = (char **) malloc(files_count * sizeof(char *));
     if (files == NULL) {
         closedir(dir);
         return NULL;
@@ -89,7 +89,7 @@ char** list_files(char *directory, int *count) {
 
     while ((entry = readdir(dir)) != NULL) {
         if (strcasecmp(entry->d_name, ".") == 0 || strcasecmp(entry->d_name, "..") == 0) continue;
-        files[files_count] = (char*) malloc(strlen(entry->d_name) + 1);
+        files[files_count] = (char *) malloc(strlen(entry->d_name) + 1);
         if (files[files_count] == NULL) {
             for (int i = 0; i < files_count; i++) {
                 free(files[i]);

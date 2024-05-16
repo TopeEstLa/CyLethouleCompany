@@ -7,7 +7,7 @@
 
 Game_Data *game_data = NULL;
 
-Game_Data* get_game_data() {
+Game_Data *get_game_data() {
     return game_data;
 }
 
@@ -20,18 +20,18 @@ bool is_game_loaded() {
 }
 
 
-void create_game(int seed, char* name, Class current_class) {
+void create_game(int seed, char *name, Class current_class) {
     Game_Data *game = malloc(sizeof(Game_Data));
     if (game == NULL) {
         return;
     }
 
-    Game_World* world = create_world(seed);
+    Game_World *world = create_world(seed);
     base_generation(world);
 
     init_entities();
 
-    Player* player = create_player(world, name, current_class);
+    Player *player = create_player(world, name, current_class);
 
     game->world = world;
     game->player = player;
@@ -45,8 +45,8 @@ void unload_game() {
 }
 
 void move_player(int x, int y) {
-    Player* player = game_data->player;
-    Entity* entity = player->entity;
+    Player *player = game_data->player;
+    Entity *entity = player->entity;
 
     if (entity == NULL) {
         return;
@@ -58,7 +58,7 @@ void move_player(int x, int y) {
     if (!move_callback.move_made) return;
 
     if (move_callback.reason == ENTITY_COLLISION) {
-        Entity* collided_entity = move_callback.collided_entity;
+        Entity *collided_entity = move_callback.collided_entity;
         if (collided_entity == NULL) return;
 
         if (collided_entity->type == MONSTER) {
@@ -69,13 +69,13 @@ void move_player(int x, int y) {
     }
 
     if (move_callback.reason == DOOR_COLLISION) {
-        Room* room = get_room(game_data->world, entity->x, entity->y);
+        Room *room = get_room(game_data->world, entity->x, entity->y);
         if (room != NULL) {
             generate_rooms(game_data->world, room, 1);
         }
     }
 
-    Room* room = get_room(game_data->world, entity->x, entity->y); //TODO switch to pointer
+    Room *room = get_room(game_data->world, entity->x, entity->y); //TODO switch to pointer
     if (room == NULL) {
         return;
     }

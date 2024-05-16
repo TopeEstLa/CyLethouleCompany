@@ -37,14 +37,19 @@ void handle_game_input() {
 }
 
 void game_scene_curses() {
+    if (!is_game_loaded()) {
+        set_current_scene(MAIN_MENU);
+        return;
+    }
+
     Game_Data *game = get_game_data();
     Game_World *world = game->world;
-    Entity* player = game->player->entity;
+    Entity *player = game->player->entity;
 
     int dx = 20;
     int dy = 20;
-    int x =  player->x;
-    int y =  player->y;
+    int x = player->x;
+    int y = player->y;
 
 
     int lignes, colonnes;

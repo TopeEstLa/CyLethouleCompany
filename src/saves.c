@@ -7,7 +7,7 @@
 #include <file_utils.h>
 #include <player.h>
 
-cJSON* create_world_json(Game_World* world) {
+cJSON *create_world_json(Game_World *world) {
     cJSON *worldObj = cJSON_CreateObject();
 
     if (world == NULL) {
@@ -102,7 +102,7 @@ bool save_game(Game_Data *game, char *save_name) {
     return result;
 }
 
-Game_World* load_world_from_json(cJSON* worldObj) {
+Game_World *load_world_from_json(cJSON *worldObj) {
     int seed = cJSON_GetObjectItem(worldObj, "seed")->valueint;
     int width = cJSON_GetObjectItem(worldObj, "width")->valueint;
     int height = cJSON_GetObjectItem(worldObj, "height")->valueint;

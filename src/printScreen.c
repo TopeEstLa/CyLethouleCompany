@@ -7,9 +7,10 @@
 
 #include "entities.h"
 #include "world.h"
-void printName(){
+
+void printName() {
     int lignes, colonnes;
-    char* tab[] = {
+    char *tab[] = {
             " _             _    _                    _         _____",
             "| |           | |  | |                  | |       / ____|",
             "| |       ___ | |_ | |__    ___   _   _ | |  ___ | |       ___   _ __ ___   _ __    __ _  _ __   _   _",
@@ -23,16 +24,17 @@ void printName(){
     int colonnes_text = strlen(tab[3]);
     int colonnes_debut = (colonnes - colonnes_text) / 2;
     int lignes_debut = 1;
-    for (int i = 0; i < 8; i++){
+    for (int i = 0; i < 8; i++) {
         mvprintw(lignes_debut, colonnes_debut, "%s", tab[i]);
         lignes_debut++;
     }
 
 }
+
 //Print the timer on the terminal
 void printTimer(long start) {
     unsigned int lignes, colonnes;
-    char* tab[] ={
+    char *tab[] = {
             "TIMER :",
     };
     start_color();
@@ -46,10 +48,10 @@ void printTimer(long start) {
     //save the actual timeofday
     long difference = tv.tv_sec - start;
     //Print in red if the difference is under 10 seconds
-    if (difference <= 10){
+    if (difference <= 10) {
         attron(A_BOLD);
         attron(COLOR_PAIR(1));
-        mvprintw(3, colonnes_debut, " %s %3ld", tab[0],difference);
+        mvprintw(3, colonnes_debut, " %s %3ld", tab[0], difference);
         attroff(COLOR_PAIR(1));
         attroff(A_BOLD);
     } else {
@@ -60,7 +62,7 @@ void printTimer(long start) {
 }
 
 //Print the map on the terminal
-void printMap(Game_World* world, int x, int y, int dx, int dy) {
+void printMap(Game_World *world, int x, int y, int dx, int dy) {
     int lignes, colonnes;
 
     if (world == NULL || x < 0 || x > world->width || y < 0 || y > world->height) {
@@ -75,9 +77,9 @@ void printMap(Game_World* world, int x, int y, int dx, int dy) {
 
         if (iy >= 0 && iy < world->height) {
 
-            for (int ix = x - dx; ix < x+ dx - 1; ix++) {
+            for (int ix = x - dx; ix < x + dx - 1; ix++) {
                 if (ix >= 0 && ix < world->width) {
-                    Room* room = get_room(world, ix, iy);
+                    Room *room = get_room(world, ix, iy);
 
                     if (room == NULL) {
                         mvprintw(lignes_debut, colonnes_debut, " ");
@@ -135,7 +137,7 @@ void printMap(Game_World* world, int x, int y, int dx, int dy) {
                 } else if (i == y - dy || i == y + dy - 1) {
                     mvprintw(lignes_debut, colonnes_debut, "-");
                     colonnes_debut++;
-                }  else {
+                } else {
                     colonnes_debut++;
                 }
             }
@@ -145,10 +147,11 @@ void printMap(Game_World* world, int x, int y, int dx, int dy) {
     }
     refresh();
 }
-WINDOW* printInventary(){
+
+WINDOW *printInventary() {
 
 
-    WINDOW* win = newwin(10, 2, 1, 1);
+    WINDOW *win = newwin(10, 2, 1, 1);
 
 
     return win;
