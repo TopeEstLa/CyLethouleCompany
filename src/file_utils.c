@@ -37,9 +37,9 @@ cJSON *load_json(char *filename) {
         return NULL;
     }
 
-    fseek(file, 0, SEEK_END);
-    long length = ftell(file);
-    fseek(file, 0, SEEK_SET);
+    fseek(file, 0, SEEK_END); //set read pointer to end of file
+    long length = ftell(file); //get last position and thus the length of the file
+    fseek(file, 0, SEEK_SET); //set read pointer to start of file
 
     char *buffer = (char *) malloc(length + 1);
     if (buffer == NULL) {

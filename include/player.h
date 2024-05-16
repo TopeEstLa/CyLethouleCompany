@@ -14,11 +14,12 @@ typedef struct player {
     char* name;
     Class current_class;
     int health;
+    int max_health;
     int exp;
 } Player;
 
 Player* create_player(Game_World* world, char* name, Class current_class);
 
-Player* load_player(Game_World* world, char* name, Class current_class, int health, int exp, int x, int y);
+Player* load_player(Game_World* world, char* name, Class current_class, int health, int max_health, int exp, int x, int y);
 
 #endif //PLAYER_H

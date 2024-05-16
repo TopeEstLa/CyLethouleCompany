@@ -48,6 +48,7 @@ add_executable(CyLethouleCompany
         src/scene/pause_menu.c
         include/memory_utils.h
         src/memory_utils.c
+        include/monsters.h
 )
 
 target_link_libraries(CyLethouleCompany PRIVATE

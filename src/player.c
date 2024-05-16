@@ -11,6 +11,7 @@ Player *create_player(Game_World *world, char *name, Class current_class) {
     strcpy(player->name, name);
     player->current_class = current_class;
     player->health = 100;
+    player->max_health = 100;
     player->exp = 0;
 
     Room *room = world->rooms[0];
@@ -23,13 +24,14 @@ Player *create_player(Game_World *world, char *name, Class current_class) {
     return player;
 }
 
-Player *load_player(Game_World *world, char *name, Class current_class, int health, int exp, int x, int y) {
+Player *load_player(Game_World *world, char *name, Class current_class, int health, int max_health, int exp, int x, int y) {
     Player *player = malloc(sizeof(Player));
     player->entity = create_entity(PLAYER, player, "x");
     player->name = malloc(strlen(name) + 1);
     strcpy(player->name, name);
     player->current_class = current_class;
     player->health = health;
+    player->max_health = max_health;
     player->exp = exp;
 
     add_entity(world, player->entity, x, y);
