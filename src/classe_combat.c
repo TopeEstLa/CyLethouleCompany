@@ -48,22 +48,16 @@ Joueur* creerJoueur(){
     // Create first name
     char tab[256];
     int res = 0;
+
     do{
         res = 0;
         printf("Saissisez le nom du joueur\n");
         res = scanf("%[^\n]", tab);
         flush();
+        while (strlen(tab) <= 0 || strlen(tab) >= 255){
+            printf("Prenom trop long\n");
+        }
     } while (res != 1);
-    if (tab == NULL){
-        exit(404);
-    }
-    if (strlen(tab) <= 0){
-        exit(404);
-    }
-    if (strlen(tab) >= 255){
-        printf("Prenom trop long\n");
-        exit(404);
-    }
 
     (*j).nom = malloc((strlen(tab) + 1) * sizeof(char));
     if ((*j).nom == NULL){
@@ -484,8 +478,9 @@ void combat(Joueur* a, Joueur* b, int N){
     int res = 0;
     do {
         res = 0;
-        printf("Quelle classe voulait vous choisir ? : ");
+        printf("Quelle classe voulez-vous choisir ? : ");
         res = scanf("%d", &N);
+        flush();
     } while (res != 1 || N < 1 || N > 3);
 
     switch (N) {
