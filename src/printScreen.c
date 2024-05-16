@@ -68,15 +68,15 @@ void printMap(Game_World* world, int x, int y, int dx, int dy) {
     }
 
     getmaxyx(stdscr, lignes, colonnes);
-    int colonnes_text = dy * 2;
+    int colonnes_text = dx * 2;
     int colonnes_debut = (colonnes - colonnes_text) / 2;
     int lignes_debut = 6;
-    for (int ix = x - dx; ix < x + dx - 1; ix++) {
+    for (int iy = y - dy; iy < y + dy - 1; iy++) {
 
-        if (ix >= 0 && ix < world->width) {
+        if (iy >= 0 && iy < world->height) {
 
-            for (int iy = y - dy; iy < y + dy - 1; iy++) {
-                if (iy >= 0 && iy < world->height) {
+            for (int ix = x - dx; ix < x+ dx - 1; ix++) {
+                if (ix >= 0 && ix < world->width) {
                     Room room = get_room(world, ix, iy);
 
                     if ((room.x != -1 && room.y != -1) && !room.is_visited) {
@@ -120,15 +120,15 @@ void printMap(Game_World* world, int x, int y, int dx, int dy) {
             colonnes_debut = (colonnes - colonnes_text) / 2;
         }
         int lignes_debut = 6;
-        for (int i = x - dx; i < x + dx; i++) {
-            for (int j = y - dy; j < y + dy; j++) {
-                if (i == x - dx || i == x + dx - 1) {
-                    mvprintw(lignes_debut, colonnes_debut, "-");
-                    colonnes_debut++;
-                } else if (j == y - dy || j == y + dy - 1) {
+        for (int i = y - dy; i < y + dy; i++) {
+            for (int j = x - dx; j < x + dx; j++) {
+                if (j == x - dx || j == x + dx - 1) {
                     mvprintw(lignes_debut, colonnes_debut, "|");
                     colonnes_debut++;
-                } else {
+                } else if (i == y - dy || i == y + dy - 1) {
+                    mvprintw(lignes_debut, colonnes_debut, "-");
+                    colonnes_debut++;
+                }  else {
                     colonnes_debut++;
                 }
             }

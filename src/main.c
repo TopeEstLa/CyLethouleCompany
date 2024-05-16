@@ -45,9 +45,10 @@ int main() {
                     break;
             }
         }
-
-        curses_all_map(game->world);
-        //printMap(game->world, player->x, player->y, 10, 30);
+        int lignes, colonnes;
+        getmaxyx(stdscr, lignes, colonnes);
+        //curses_all_map(game->world);
+        printMap(game->world, player->x, player->y, colonnes/2, lignes/3);
     }
 
     /*while (get_current_scene() != QUITTING) {
