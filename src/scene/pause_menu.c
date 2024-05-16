@@ -3,7 +3,9 @@
 #include <ncurses_display.h>
 
 #include <curses.h>
+#include <string.h>
 
+#include <saves.h>
 
 char *pause_options[] = {
         "Reprendre la partie",
@@ -13,6 +15,7 @@ char *pause_options[] = {
 int pause_count = 3;
 
 int pause_choice = 0;
+char* aa = "O";
 
 void pause_handle_input() {
     int ch = getch();
@@ -35,7 +38,23 @@ void pause_handle_input() {
                     set_current_scene(GAME);
                     break;
                 case 1:
+                    if (!is_game_loaded())
+                        break;
 
+                    int total_length = strlen(SAVES_FOLDER) + strlen(get_game_data()->player->name) + strlen(".sav") + 1;
+                    char* filename = malloc(sizeof(char) * total_length);
+
+                    if (filename == NULL) {
+                        break;
+                    }
+
+                    strcpy(filename, SAVES_FOLDER);
+                    strcat(filename, get_game_data()->player->name);
+                    strcat(filename, ".sav");
+
+                    aa = filename;
+
+                    save_game(get_game_data(), filename);
                     break;
                 case 2:
                     //unload game
@@ -71,4 +90,6 @@ void pause_menu_curses() {
         printw("[%c] %s\n", a, pause_options[i]);
         attroff(A_REVERSE);
     }
+
+    printw("%s\n", aa);
 }
