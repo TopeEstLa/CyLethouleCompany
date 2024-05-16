@@ -23,7 +23,7 @@ int main() {
 
     Game *game = get_game();
 
-    set_current_scene(GAME);
+   set_current_scene(GAME);
 
     while (get_current_scene() != QUITTING) {
         handle_input();

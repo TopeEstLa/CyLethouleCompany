@@ -5,6 +5,7 @@
 #include <scene/main_menu.h>
 #include <scene/load_menu.h>
 #include <scene/create_menu.h>
+#include <scene/pause_menu.h>
 
 #include <scene/game_scene.h>
 
@@ -43,6 +44,9 @@ void handle_input() {
         case CREATE_MENU:
             create_handle_input();
             break;
+        case PAUSE_MENU:
+            pause_handle_input();
+            break;
         case GAME:
             handle_game_input();
             break;
@@ -62,6 +66,9 @@ void curses_scene() {
             break;
         case CREATE_MENU:
             create_menu_curses();
+            break;
+        case PAUSE_MENU:
+            pause_menu_curses();
             break;
         case GAME:
             game_scene_curses();

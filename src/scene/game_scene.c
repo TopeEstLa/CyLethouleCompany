@@ -1,6 +1,7 @@
 #include <scene/game_scene.h>
 
 #include <curses.h>
+#include <ncurses_display.h>
 
 #include <game.h>
 
@@ -15,6 +16,9 @@ void handle_game_input() {
     Entity *playerEntity = player->entity;
 
     switch (ch) {
+        case 27:
+            set_current_scene(PAUSE_MENU);
+            break;
         case KEY_UP:
             move_player(playerEntity->x, playerEntity->y - 1);
             break;
