@@ -6,6 +6,7 @@
 #include <string.h>
 
 #include <saves.h>
+#include <file_utils.h>
 
 char *pause_options[] = {
         "Reprendre la partie",
@@ -15,7 +16,6 @@ char *pause_options[] = {
 int pause_count = 3;
 
 int pause_choice = 0;
-char* aa = "O";
 
 void pause_handle_input() {
     int ch = getch();
@@ -41,18 +41,7 @@ void pause_handle_input() {
                     if (!is_game_loaded())
                         break;
 
-                    int total_length = strlen(SAVES_FOLDER) + strlen(get_game_data()->player->name) + strlen(".sav") + 1;
-                    char* filename = malloc(sizeof(char) * total_length);
-
-                    if (filename == NULL) {
-                        break;
-                    }
-
-                    strcpy(filename, SAVES_FOLDER);
-                    strcat(filename, get_game_data()->player->name);
-                    strcat(filename, ".sav");
-
-                    aa = filename;
+                    char *filename = get_file_path(SAVES_FOLDER, get_game_data()->player->name, ".sav");
 
                     save_game(get_game_data(), filename);
                     break;
@@ -90,6 +79,4 @@ void pause_menu_curses() {
         printw("[%c] %s\n", a, pause_options[i]);
         attroff(A_REVERSE);
     }
-
-    printw("%s\n", aa);
 }

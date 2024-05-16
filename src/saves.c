@@ -134,8 +134,6 @@ Game_World *load_world_from_json(cJSON *worldObj) {
             door->x = cJSON_GetObjectItem(doorObj, "x")->valueint;
             door->y = cJSON_GetObjectItem(doorObj, "y")->valueint;
             door->is_used = cJSON_GetObjectItem(doorObj, "is_used")->valueint;
-
-            room->doors[j] = door;
         }
 
         append_room(world, room);

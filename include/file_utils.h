@@ -35,4 +35,6 @@ cJSON* load_json(char *filename);
  */
 char** list_files(char *directory, int *count);
 
+char* get_file_path(char* directory, char* file_name, char* extension);
+
 #endif //FILE_UTILS_H

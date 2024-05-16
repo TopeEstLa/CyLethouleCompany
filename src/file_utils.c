@@ -108,3 +108,18 @@ char **list_files(char *directory, int *count) {
 
     return files;
 }
+
+char* get_file_path(char* directory, char* file_name, char* extension) {
+    int total_length = strlen(directory) + strlen(file_name) + strlen(extension) + 1;
+    char* filename = malloc(sizeof(char) * total_length);
+
+    if (filename == NULL) {
+        return NULL;
+    }
+
+    strcpy(filename, directory);
+    strcat(filename, file_name);
+    strcat(filename, extension);
+
+    return filename;
+}

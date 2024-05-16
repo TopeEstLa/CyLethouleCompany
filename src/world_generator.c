@@ -186,7 +186,7 @@ void generate_room(Game_World *world, Room *starting_room, int door_face, int re
 
     connectedDoor->x = connectedDoorX;
     connectedDoor->y = connectedDoorY;
-    connectedDoor->is_used = false;
+    connectedDoor->is_used = true;
 
     new_room->start_door = putted_door_face;
 

@@ -18,7 +18,7 @@
 
 int main() {
     init_curses();
-
+    
     while (get_current_scene() != QUITTING) {
         handle_input();
 
