@@ -46,18 +46,18 @@ Joueur* creerJoueur(){
         exit(1);
     }
     // Create first name
-    char tab[256];
+    char tab[50];
     int res = 0;
 
     do{
         res = 0;
-        printf("Saissisez le nom du joueur\n");
+        printf("Saissisez le nom du joueur :\n");
         res = scanf("%[^\n]", tab);
         flush();
-        while (strlen(tab) <= 0 || strlen(tab) >= 255){
+        if(strlen(tab) <= 0 || strlen(tab) >= 50){
             printf("Prenom trop long\n");
         }
-    } while (res != 1);
+    } while (res != 1 || strlen(tab) <= 0 || strlen(tab) >= 50);
 
     (*j).nom = malloc((strlen(tab) + 1) * sizeof(char));
     if ((*j).nom == NULL){
