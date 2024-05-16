@@ -21,3 +21,16 @@ Player* create_player(Game_World* world, char* name, Class current_class) {
     return player;
 }
 
+Player* load_player(Game_World* world, char* name, Class current_class, int health, int exp, int x, int y) {
+    Player* player = malloc(sizeof(Player));
+    player->entity = create_entity(PLAYER, player, "x");
+    player->name = name;
+    player->current_class = current_class;
+    player->health = health;
+    player->exp = exp;
+
+    add_entity(player->entity, x, y);
+
+    return player;
+}
+

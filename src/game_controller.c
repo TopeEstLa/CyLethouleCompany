@@ -1,22 +1,30 @@
-#include <game.h>
+#include <game_controller.h>
 
 #include <stdlib.h>
 #include <world.h>
 #include <world_generator.h>
 #include <curses.h>
 
-Game *game;
+Game_Data *game_data = NULL;
 
-void set_game(Game *game) {
-    game = game;
+Game_Data* get_game_data() {
+    return game_data;
 }
 
-Game *get_game() {
-    return game;
+void set_game_data(Game_Data *game_data) {
+    game_data = game_data;
 }
+
+bool is_game_loaded() {
+    return game_data != NULL;
+}
+
 
 void init_game(int seed, char* name, Class current_class) {
-    game = malloc(sizeof(Game));
+    Game_Data *game = malloc(sizeof(Game_Data));
+    if (game == NULL) {
+        return;
+    }
 
     Game_World* world = create_world(seed);
     base_generation(world);
@@ -27,10 +35,16 @@ void init_game(int seed, char* name, Class current_class) {
 
     game->world = world;
     game->player = player;
+
+    set_game_data(game);
+}
+
+void unload_game() {
+
 }
 
 void move_player(int x, int y) {
-    Player* player = game->player;
+    Player* player = game_data->player;
     Entity* entity = player->entity;
 
     if (entity == NULL) {
@@ -48,24 +62,26 @@ void move_player(int x, int y) {
 
         if (collided_entity->type == MONSTER) {
             //TODO FIGHT !
+        } else if (collided_entity->type == ITEM) {
+            //TODO PICKUP
         }
     }
 
     if (move_callback.reason == DOOR_COLLISION) {
-        Room* room = get_room(game->world, entity->x, entity->y);
+        Room* room = get_room(game_data->world, entity->x, entity->y);
         if (room != NULL) {
-            generate_rooms(game->world, room, 1);
+            generate_rooms(game_data->world, room, 1);
         }
     }
 
-    Room* room = get_room(game->world, entity->x, entity->y); //TODO switch to pointer
+    Room* room = get_room(game_data->world, entity->x, entity->y); //TODO switch to pointer
     if (room == NULL) {
         return;
     }
 
     if (!room->is_visited) {
         room->is_visited = true;
-        game->player->exp += 10;
+        game_data->player->exp += 10;
     }
 
 }

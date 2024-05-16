@@ -11,7 +11,7 @@
 #include <entities.h>
 #include <file_utils.h>
 #include <saves.h>
-#include <game.h>
+#include <game_controller.h>
 #include "printScreen.h"
 #include <unistd.h>
 

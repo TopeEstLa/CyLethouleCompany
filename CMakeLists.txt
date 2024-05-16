@@ -40,8 +40,8 @@ add_executable(CyLethouleCompany
         src/scene/create_menu.c
         include/player.h
         src/player.c
-        include/game.h
-        src/game.c
+        include/game_controller.h
+        src/game_controller.c
         include/scene/game_scene.h
         src/scene/game_scene.c
         include/scene/pause_menu.h

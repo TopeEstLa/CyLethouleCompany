@@ -3,7 +3,7 @@
 #include <curses.h>
 #include <ncurses_display.h>
 
-#include <game.h>
+#include <game_controller.h>
 
 void handle_game_input() {
     Game *game = get_game();
