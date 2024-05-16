@@ -33,6 +33,7 @@ void load_saves_handle_input() {
             char *save = saves[current_saves];
             char* filename = get_file_path(SAVES_FOLDER, save, "");
 
+            prepare_game();
             Game_Data *game = load_game(filename);
 
             if (game == NULL) {
@@ -40,7 +41,7 @@ void load_saves_handle_input() {
                 break;
             }
 
-            set_game_data(game);
+            loaded_game(game);
             set_current_scene(GAME);
             break;
         case 27:

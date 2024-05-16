@@ -17,6 +17,10 @@ void set_game_data(Game_Data *game_data);
 
 bool is_game_loaded();
 
+void prepare_game();
+
+void loaded_game(Game_Data *game_data);
+
 void create_game(int seed, char* name, Class current_class);
 
 void unload_game();

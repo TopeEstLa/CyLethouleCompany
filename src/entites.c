@@ -16,6 +16,10 @@ void cleanup_entities() {
         free(entities[i]);
     }
     free(entities);
+
+    entities = NULL;
+    entities_count = 0;
+    entities_capacity = 0;
 }
 
 Entity *create_entity(Entity_Type type, void *data, char *texture) {

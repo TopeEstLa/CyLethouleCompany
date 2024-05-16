@@ -20,8 +20,17 @@ bool is_game_loaded() {
     return game_data != NULL;
 }
 
+void prepare_game() {
+    init_entities();
+}
+
+void loaded_game(Game_Data *new_game_data) {
+    set_game_data(new_game_data);
+}
 
 void create_game(int seed, char *name, Class current_class) {
+    prepare_game();
+
     Game_Data *game = malloc(sizeof(Game_Data));
     if (game == NULL) {
         return;
