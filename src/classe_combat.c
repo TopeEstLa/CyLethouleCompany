@@ -383,6 +383,8 @@ void shopExp(Joueur* a, Joueur* b){
     if (b == NULL || b->nom == NULL || a == NULL || a->nom == NULL){
         exit(404);
     }
+
+    
     printf("Bienvenu dans la taverne de Garedon !\n");
     printf("Vous possédez actuellement %d ame(s) de Morlok !\n", a->exp); 
     printf("Voici les services proposés par Garedon :\n");
@@ -393,55 +395,70 @@ void shopExp(Joueur* a, Joueur* b){
     printf("3 - Mort instantané : L'ennemi est mort ! (Tue instantannément l'ennemi)\n");
     printf("Prix : 150 ames de Morlok\n");
     printf("4 - Ne rien acheter\n");
-    printf("Choisissez le numero correspondant au service voulu :");
     int res = 0;
     int C = 0;
     int ran = 0;
-    res = scanf("%d", &C);
-    if(res != 1 || C < 1 || C > 4){
-        exit(404);
-    }
-
-    switch (C){
-        case 1:
-            if(a->exp < 10){
+    int count1 = 0;
+    do {
+        res = 0;
+        printf("Choisissez le numero correspondant au service voulu :");
+        res = scanf("%d", &C);
+        while ((C == 1 && a->exp < 10) || (C == 2 && a->exp < 15) || (C == 3 && a->exp < 150)) {
+        printf("Ame(s) de Morlok insuffisante(s)\n");
+        count1++;
+        if (count1 == 5){
                 printf("Garedon n'aime pas perdre son temps. La boutique est fermé\n");
                 printf("Ame(s) de Morlok restant: %d\n", a->exp);
                 break;
             }
+        printf("Choisissez le numero correspondant au service voulu :");
+        res = scanf("%d", &C);
+
+    }   
+    
+    } while (res != 1 || C < 1 || C > 4);
+
+
+    switch (C){
+        case 1:
+            if(count1 == 5){
+                break;
+            }
+            printf("Point de vie : %d\n", a->vie);
+            sleep(1);
+            printf("Fiole consommé\n");
             a-> vie += 100;
             a-> exp -=10;
-            printf("Ame(s) de Morlok restant : %d\n", a->exp);
+            printf("Ame(s) de Morlok restant(s) : %d\n", a->exp);
             break;
         case 2:
-            if(a->exp < 15){
-                printf("Garedon n'aime pas perdre son temps. La boutique est fermé\n");
-                printf("Ame(s) de Morlok restant : %d\n", a->exp);
+            if(count1 == 5){
                 break;
             }
             ran = rand()%2 + 1;
             if(ran == 1){
                 printf("Vous avez perdu votre mise\n");
                 a->exp -= 15;
-                printf("Ame(s) de Morlok restant : %d\n", a->exp);
+                printf("Ame(s) de Morlok restant(s) : %d\n", a->exp);
             }
             if(ran == 2){
                 printf("Vous avez gagne !\n");
                 a->exp += 15;
-                printf("Ame(s) de Morlok restant : %d\n", a->exp);
+                printf("Ame(s) de Morlok restant(s) : %d\n", a->exp);
             }
             break;
         case 3:
-            if(a->exp < 150){
-                printf("Garedon n'aime pas perdre son temps. La boutique est fermé\n");
-                printf("Ame(s) de Morlok restant : %d\n", a->exp);
+            if(count1 == 5){
                 break;
             }
             b->vie = 0;
             a->exp -= 150;
-            printf("Ame(s) de Morlok restant : %d\n", a->exp);
+            printf("Ame(s) de Morlok restant(s) : %d\n", a->exp);
             break;
         case 4:
+            if(count1 == 5){
+                break;
+            }
             printf("Un vrai guerrier se doit de gagner des ames de Morlok...\n");
     }   
 
@@ -871,6 +888,7 @@ int main() {
     // test d'aller plus loin avec 4 item (ici ca a l'air de marcher avec 4 item donc bloqué ou sinon accepté un inventaire infini)
     // de notre faute si dans un scanf où il faut rentrer un chiffre, on rentre une lettre et ca full bug (ex choix de classe avec lettre)
     // faire une page données sur le main menu pour retirer les stats des printf ici   et les mettre la bas
+    // si on écrit autre chiffre que 1 à 4 dans boutique, prends pas en compte le count1 ++
 
 
     free(j1->nom);
