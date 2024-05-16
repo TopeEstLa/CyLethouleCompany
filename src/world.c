@@ -114,6 +114,23 @@ Game_World *create_world_sized(int seed, int width, int height) {
     return world;
 }
 
+Chunk* get_chunk(Game_World *world, int x, int y) {
+    if (world == NULL || world->chunk == NULL) {
+        return NULL;
+    }
+
+    if (x < 0 || x >= world->width || y < 0 || y >= world->height) {
+        return NULL;
+    }
+
+    Chunk *chunk = world->chunk[x][y];
+
+    if (chunk == NULL) {
+        return NULL;
+    }
+
+    return chunk;
+}
 
 
 void append_world(Game_World *world, int width_to_add, int height_to_add) {
@@ -219,25 +236,25 @@ void prepend_world(Game_World *world, int width_to_add, int height_to_add) {
     }
 
     for (int i = 0; i < world->room_count; i++) {
-        Room room = world->rooms[i];
-        room.x += width_to_add;
-        room.y += height_to_add;
-        room.cuboid.x1 += width_to_add;
-        room.cuboid.y1 += height_to_add;
-        room.cuboid.x2 += width_to_add;
+        Room* room = world->rooms[i];
+        room->x += width_to_add;
+        room->y += height_to_add;
+        room->cuboid.x1 += width_to_add;
+        room->cuboid.y1 += height_to_add;
+        room->cuboid.x2 += width_to_add;
         world->rooms[i] = room;
     }
 
     for (int i = 0; i < world->room_count; i++) {
-        Room room = world->rooms[i];
+        Room* room = world->rooms[i];
         for (int j = 0; j < 4; j++) {
-            Door* door = room.doors[j];
+            Door* door = room->doors[j];
             if (door->x == -1 && door->y == -1) {
                 continue;
             }
             door->x += width_to_add;
             door->y += height_to_add;
-            room.doors[j] = door;
+            room->doors[j] = door;
         }
         world->rooms[i] = room;
     }
@@ -254,17 +271,17 @@ void prepend_world(Game_World *world, int width_to_add, int height_to_add) {
     world->chunk = new_chunk;
 }
 
-int can_append_room(Game_World *world, Room room) {
+int can_append_room(Game_World *world, Room* room) {
     if (world == NULL) {
-        return 1;
+        return -2;
     }
 
-    if (room.x < 0 || room.y < 0 || room.width <= 0 || room.height <= 0) {
-        return 1;
+    if (room->x < 0 || room->y < 0 || room->width <= 0 || room->height <= 0) {
+        return -2;
     }
 
-    int width_to_check = room.x + room.width; //>= world->width ? world->width : room.x + room.width;
-    int height_to_check = room.y + room.height;// >= world->height ? world->height : room.y + room.height;
+    int width_to_check = room->x + room->width; //>= world->width ? world->width : room.x + room.width;
+    int height_to_check = room->y + room->height;// >= world->height ? world->height : room.y + room.height;
 
     if (width_to_check >= world->width) {
         width_to_check = world->width;
@@ -274,11 +291,21 @@ int can_append_room(Game_World *world, Room room) {
         height_to_check = world->height;
     }
 
-    for (int i = room.x; i < width_to_check; i++) {
-        for (int j = room.y; j < height_to_check; j++) {
-            Chunk *chunk = world->chunk[i][j];
+    for (int i = room->x; i < width_to_check; i++) {
+        for (int j = room->y; j < height_to_check; j++) {
+            Chunk *chunk = get_chunk(world, i, j);
+
+            if (chunk == NULL) {
+                return -2;
+            }
+
             if (chunk->type != VOID) {
-                return 1;
+                for (int k = 0; k < world->room_count; ++k) {
+                    Room *room_to_check = world->rooms[k];
+                    if (in_room(room_to_check, i, j)) {
+                        return k;
+                    }
+                }
             }
         }
     }
@@ -286,7 +313,7 @@ int can_append_room(Game_World *world, Room room) {
     return -1;
 }
 
-int append_room(Game_World *world, Room room) {
+int append_room(Game_World *world, Room* room) {
     if (world == NULL) {
         return -1;
     }
@@ -297,7 +324,7 @@ int append_room(Game_World *world, Room room) {
 
     if (world->room_count >= world->room_capacity) {
         world->room_capacity *= 2;
-        Room *new_rooms = realloc(world->rooms, sizeof(Room) * world->room_capacity);
+        Room **new_rooms = realloc(world->rooms, sizeof(Room*) * world->room_capacity);
         if (!new_rooms) {
             return -1;
         }
@@ -305,30 +332,30 @@ int append_room(Game_World *world, Room room) {
         world->rooms = new_rooms;
     }
 
-    int width_need = room.x + room.width; //room.x + room.width;
-    int height_need = room.y + room.height; //room.y + room.height; //I think it to much to add
+    int width_need = room->x + room->width; //room.x + room.width;
+    int height_need = room->y + room->height; //room.y + room.height; //I think it to much to add
     if (width_need >= world->width || height_need >= world->height) {
-        append_world(world, room.width + (room.width / 2), room.height + (room.height / 2));
+        append_world(world, room->width + (room->width / 2), room->height + (room->height / 2));
     }
 
-    for (int i = room.x; i < room.x + room.width; i++) {
-        for (int j = room.y; j < room.y + room.height; j++) {
+    for (int i = room->x; i < room->x + room->width; i++) {
+        for (int j = room->y; j < room->y + room->height; j++) {
             world->chunk[i][j]->type = EMPTY;
         }
     }
 
-    for (int i = room.x; i < room.x + room.width; ++i) {
-        world->chunk[i][room.y]->type = WALL;
-        world->chunk[i][room.y + room.height - 1]->type = WALL;
+    for (int i = room->x; i < room->x + room->width; ++i) {
+        world->chunk[i][room->y]->type = WALL;
+        world->chunk[i][room->y + room->height - 1]->type = WALL;
     }
 
-    for (int i = room.y; i < room.y + room.height; ++i) {
-        world->chunk[room.x][i]->type = WALL;
-        world->chunk[room.x + room.width - 1][i]->type = WALL;
+    for (int i = room->y; i < room->y + room->height; ++i) {
+        world->chunk[room->x][i]->type = WALL;
+        world->chunk[room->x + room->width - 1][i]->type = WALL;
     }
 
     for (int i = 0; i < 4; i++) {
-        Door* door = room.doors[i];
+        Door* door = room->doors[i];
         if (door->x == -1 && door->y == -1) continue;
 
         world->chunk[door->x][door->y]->type = DOOR;
@@ -340,21 +367,21 @@ int append_room(Game_World *world, Room room) {
     return world->room_count - 1;
 }
 
-Room create_room(int width, int height, int x, int y) { //TODO Switch to pointer
-    Room room = {0};
+Room* create_room(int width, int height, int x, int y) { //TODO Switch to pointer
+    Room* room = malloc(sizeof(Room));
 
-    room.width = width;
-    room.height = height;
-    room.x = x;
-    room.y = y;
+    room->width = width;
+    room->height = height;
+    room->x = x;
+    room->y = y;
 
     Cuboid cuboid = {x, y,
                      x + width, y + height};
 
-    room.cuboid = cuboid;
+    room->cuboid = cuboid;
 
-    room.doors = malloc(4 * sizeof(Door *));
-    if (room.doors == NULL) {
+    room->doors = malloc(4 * sizeof(Door *));
+    if (room->doors == NULL) {
         return room;
     }
 
@@ -362,43 +389,41 @@ Room create_room(int width, int height, int x, int y) { //TODO Switch to pointer
         Door* door = malloc(sizeof(Door));
         if (door == NULL) {
             //TODO clean ram
-            return room;
+            return NULL;
         }
 
         door->x = -1;
         door->y = -1;
         door->is_used = false;
-        room.doors[i] = door;
+        room->doors[i] = door;
     }
 
-    room.start_door = -1;
+    room->start_door = -1;
 
-    room.is_visited = false;
+    room->is_visited = false;
 
     return room;
 }
 
-bool in_room(Room room, int x, int y) {
-    return x >= room.x && x < room.x + room.width && y >= room.y && y < room.y + room.height;
+bool in_room(Room* room, int x, int y) {
+    return x >= room->x && x < room->x + room->width && y >= room->y && y < room->y + room->height;
 }
 
-Room get_room(Game_World *world, int x, int y) {
-    Room default_room = {-1, -1, -1, -1};
-
+Room* get_room(Game_World *world, int x, int y) {
     if (world == NULL) {
-        return default_room;
+        return NULL;
     }
 
     if (world->chunk[x][y]->type == VOID) {
-        return default_room;
+        return NULL;
     }
 
     for (int i = 0; i < world->room_count; i++) {
-        Room room = world->rooms[i];
+        Room *room = world->rooms[i];
         if (in_room(room, x, y)) {
             return room;
         }
     }
 
-    return default_room;
+    return NULL;
 }

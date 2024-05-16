@@ -29,7 +29,7 @@ void base_generation(Game_World *world);
  * @param starting_room
  * @param recursion_depth
  */
-void generate_rooms(Game_World *world, Room starting_room, int recursion_depth);
+void generate_rooms(Game_World *world, Room* starting_room, int recursion_depth);
 
 /**
  * Generate a room from a door of a starting_room.
@@ -38,7 +38,7 @@ void generate_rooms(Game_World *world, Room starting_room, int recursion_depth);
  * @param door
  * @param recursion_depth
  */
-void generate_room(Game_World *world, Room starting_room, int door, int recursion_depth);
+void generate_room(Game_World *world, Room* starting_room, int door, int recursion_depth);
 
 /**
  * Resize a room to avoid conflict with another room.
@@ -48,13 +48,13 @@ void generate_room(Game_World *world, Room starting_room, int door, int recursio
  * @param door
  * @return The resized room.
  */
-Room resize_room(Room room, Room conflictRoom, int door_face, Door* door);
+Room* resize_room(Room* room, Room* conflictRoom, int door_face, Door* door);
 
 /**
  * Check if a room is valid.
  * @param room
  * @return
  */
-int is_room_valid(Room room);
+int is_room_valid(Room* room);
 
 #endif //WORLD_GENERATOR_H

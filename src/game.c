@@ -52,15 +52,19 @@ void move_player(int x, int y) {
     }
 
     if (move_callback.reason == DOOR_COLLISION) {
-        Room room = get_room(game->world, entity->x, entity->y);
-        if ((room.x != -1 && room.y != -1)) {
+        Room* room = get_room(game->world, entity->x, entity->y);
+        if (room != NULL) {
             generate_rooms(game->world, room, 1);
         }
     }
 
-    Room room = get_room(game->world, entity->x, entity->y); //TODO switch to pointer
-    if ((room.x != -1 && room.y != -1) && !room.is_visited) {
-        room.is_visited = true;
+    Room* room = get_room(game->world, entity->x, entity->y); //TODO switch to pointer
+    if (room == NULL) {
+        return;
+    }
+
+    if (!room->is_visited) {
+        room->is_visited = true;
         game->player->exp += 10;
     }
 

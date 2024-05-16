@@ -77,9 +77,16 @@ void printMap(Game_World* world, int x, int y, int dx, int dy) {
 
             for (int ix = x - dx; ix < x+ dx - 1; ix++) {
                 if (ix >= 0 && ix < world->width) {
-                    Room room = get_room(world, ix, iy);
+                    Room* room = get_room(world, ix, iy);
 
-                    if ((room.x != -1 && room.y != -1) && !room.is_visited) {
+                    if (room == NULL) {
+                        mvprintw(lignes_debut, colonnes_debut, " ");
+                        mvprintw(lignes_debut, colonnes_debut, "  ");
+                        colonnes_debut++;
+                        continue;
+                    }
+
+                    if (!room->is_visited) {
                         mvprintw(lignes_debut, colonnes_debut, " ");
                         mvprintw(lignes_debut, colonnes_debut, "  ");
                         colonnes_debut++;
@@ -88,7 +95,7 @@ void printMap(Game_World* world, int x, int y, int dx, int dy) {
 
                     Entity *entity = get_entity(ix, iy);
                     if (entity != NULL) {
-                        mvprintw(lignes_debut, colonnes_debut, "%c", entity->texture);
+                        mvprintw(lignes_debut, colonnes_debut, "%s", entity->texture);
                         colonnes_debut++;
                     } else {
                         switch (world->chunk[ix][iy]->type) {

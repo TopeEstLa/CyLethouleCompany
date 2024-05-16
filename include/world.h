@@ -61,7 +61,7 @@ typedef struct game_world {
     //    0,  1,  1,  1,  2,  1,   height
     //    0,  2,  1,  2,  2,  2,    |
     //    0], 3], 1], 3], 2], 3],   v
-    Room *rooms;
+    Room **rooms;
     int room_capacity;
     int room_count;
 } Game_World;
@@ -83,6 +83,15 @@ Game_World *create_world(int seed);
 Game_World *create_world_sized(int seed, int width, int height);
 
 /**
+ * Get the chunk at the given position.
+ * @param world
+ * @param x
+ * @param y
+ * @return
+ */
+Chunk* get_chunk(Game_World *world, int x, int y);
+
+/**
  * Add new chunks to the world. (append to the right and the bottom)
  * @param world The world to append to.
  * @param width_to_add The number of chunks to add to the width.
@@ -102,17 +111,26 @@ void prepend_world(Game_World *world, int width_to_add, int height_to_add);
  * Check if a room can be appended to the world (not crossing another room).
  * @param world The world to check.
  * @param room The room to check.
- * @return if conflicting return room_id, -1 otherwise.
+ * @return if conflicting return room id, -1 otherwise or -2 if wtf issue.
  */
-int can_append_room(Game_World *world, Room room);
+int can_append_room(Game_World *world, Room* room);
 
 /**
  * Append a room to the world.
  * @param world The world to append the room to.
  * @param room The room to append.
- * @return room if the room was appended, -1 otherwise.
+ * @return room index if the room was appended, -1 otherwise.
  */
-int append_room(Game_World *world, Room room);
+int append_room(Game_World *world, Room* room);
+
+/**
+ * Check if coordinates are in a room.
+ * @param room
+ * @param x
+ * @param y
+ * @return
+ */
+bool in_room(Room* room, int x, int y);
 
 /**
  * Create a new room with the given width and height.
@@ -123,7 +141,7 @@ int append_room(Game_World *world, Room room);
  * @param y the start y of the room.                        WALL EMPTY WALL
  * @return A pointer to the newly created room.             WALL DOOR WALL
  */
-Room create_room(int width, int height, int x, int y);
+Room* create_room(int width, int height, int x, int y);
 
 /**
  * Get the room at the given position.
@@ -132,7 +150,7 @@ Room create_room(int width, int height, int x, int y);
  * @param y
  * @return
  */
-Room get_room(Game_World *world, int x, int y);
+Room* get_room(Game_World *world, int x, int y);
 
 
 #endif //WORLD_H

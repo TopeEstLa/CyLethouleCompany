@@ -11,10 +11,10 @@ Player* create_player(Game_World* world, char* name, Class current_class) {
     player->health = 100;
     player->exp = 0;
 
-    Room room = world->rooms[0];
+    Room* room = world->rooms[0];
 
-    int roomCenterX = room.x + room.width / 2;
-    int roomCenterY = room.y + room.height / 2;
+    int roomCenterX = room->x + room->width / 2;
+    int roomCenterY = room->y + room->height / 2;
 
     add_entity(player->entity, roomCenterX, roomCenterY);
 

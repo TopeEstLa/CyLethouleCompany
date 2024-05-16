@@ -22,19 +22,19 @@ bool save_world(Game_World *world, char *filename) {
     for (int i = 0; i < world->room_count; i++) {
         cJSON *roomObj = cJSON_CreateObject();
 
-        Room room = world->rooms[i];
+        Room* room = world->rooms[i];
 
         cJSON_AddNumberToObject(roomObj, "index", i);
-        cJSON_AddNumberToObject(roomObj, "x", room.x);
-        cJSON_AddNumberToObject(roomObj, "y", room.y);
-        cJSON_AddNumberToObject(roomObj, "width", room.width);
-        cJSON_AddNumberToObject(roomObj, "height", room.height);
-        cJSON_AddBoolToObject(roomObj, "is_visited", room.is_visited);
+        cJSON_AddNumberToObject(roomObj, "x", room->x);
+        cJSON_AddNumberToObject(roomObj, "y", room->y);
+        cJSON_AddNumberToObject(roomObj, "width", room->width);
+        cJSON_AddNumberToObject(roomObj, "height", room->height);
+        cJSON_AddBoolToObject(roomObj, "is_visited", room->is_visited);
 
         cJSON *doorsArray = cJSON_CreateArray();
 
         for (int j = 0; j < 4; j++) {
-            Door *door = room.doors[j];
+            Door *door = room->doors[j];
 
             cJSON *doorObj = cJSON_CreateObject();
             cJSON_AddNumberToObject(doorObj, "index", j);
@@ -99,8 +99,8 @@ Game_World* load_world(char *filename) {
         int room_height = cJSON_GetObjectItem(roomObj, "height")->valueint;
         bool is_visited = cJSON_GetObjectItem(roomObj, "is_visited")->valueint;
 
-        Room room = create_room(room_width, room_height, x, y);
-        room.is_visited = is_visited;
+        Room* room = create_room(room_width, room_height, x, y);
+        room->is_visited = is_visited;
 
         cJSON *doorsArray = cJSON_GetObjectItem(roomObj, "doors");
 
@@ -109,12 +109,12 @@ Game_World* load_world(char *filename) {
 
             int index = cJSON_GetObjectItem(doorObj, "index")->valueint;
 
-            Door *door = room.doors[index];
+            Door *door = room->doors[index];
             door->x = cJSON_GetObjectItem(doorObj, "x")->valueint;
             door->y = cJSON_GetObjectItem(doorObj, "y")->valueint;
             door->is_used = cJSON_GetObjectItem(doorObj, "is_used")->valueint;
 
-            room.doors[j] = door;
+            room->doors[j] = door;
         }
 
         append_room(world, room);

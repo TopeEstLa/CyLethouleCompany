@@ -13,6 +13,7 @@
 #include <saves.h>
 #include <game.h>
 #include "printScreen.h"
+#include <unistd.h>
 
 
 int main() {

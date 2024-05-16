@@ -120,8 +120,14 @@ void curses_visited_map(Game_World *world) {
 
     for (int y = 0; y < world->height; y++) {
         for (int x = 0; x < world->width; x++) {
-            Room room = get_room(world, x, y);
-            if ((room.x != -1 && room.y != -1) && !room.is_visited) {
+            Room *room = get_room(world, x, y);
+            if (room == NULL) {
+                printw(" ");
+                printw("  ");
+                continue;
+            }
+
+            if (!room->is_visited) {
                 printw(" ");
                 printw("  ");
                 continue;
