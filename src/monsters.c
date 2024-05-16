@@ -1,10 +1,10 @@
 #include <monsters.h>
 
+#include <stdlib.h>
+
 #define MONSTERS_COUNT 3
 #define MAX_MONSTERS_IN_WORLD 10
 
-#include <stdlib.h>
-#include <scene/game_scene.h>
 
 Monster monsters[] = { //TODO: Add ziyad monsters
         {
@@ -91,10 +91,12 @@ void kill_monster(Living_Monster *monster) {
     }
 }
 
-void spawn_monster(Game_World *world) {
+void spawn_monster(Game_Data *gameData) {
     if (living_monsters_count >= living_monsters_capacity) {
         return;
     }
+
+    Game_World *world = gameData->world;
 
     int max_spawn_count = MAX_MONSTERS_IN_WORLD - living_monsters_count;
 

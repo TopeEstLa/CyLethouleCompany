@@ -2,6 +2,7 @@
 #define MONSTERS_H
 
 #include <entities.h>
+#include <game_controller.h>
 
 typedef struct Monster {
     char name[20];
@@ -26,7 +27,7 @@ Living_Monster *create_living_monster(Game_World* world, Monster monster, int x,
 
 void kill_monster(Living_Monster* monster);
 
-void spawn_monster(Game_World* world);
+void spawn_monster(Game_Data *game_data);
 
 
 #endif //MONSTERS_H
