@@ -47,17 +47,18 @@ Joueur *creerJoueur() {
     }
     // Create first name
     char tab[50];
-    int res = 0;
+    int reset = 0;
 
     do {
-        res = 0;
+        reset = 0;
         printf("Saissisez le nom du joueur :\n");
-        res = scanf("%[^\n]", tab);
+        reset = scanf("%50[^\n]", tab);
         flush();
         if (strlen(tab) <= 0 || strlen(tab) >= 50) {
             printf("Prenom trop long\n");
         }
-    } while (res != 1 || strlen(tab) <= 0 || strlen(tab) >= 50);
+    } while ((reset != 1)|| (strlen(tab) <= 0) || (strlen(tab) >= 50));
+
 
     (*j).nom = malloc((strlen(tab) + 1) * sizeof(char));
     if ((*j).nom == NULL) {
@@ -879,7 +880,7 @@ int main() {
 
     // test d'aller plus loin avec 4 item (ici ca a l'air de marcher avec 4 item donc bloqué ou sinon accepté un inventaire infini)
     // de notre faute si dans un scanf où il faut rentrer un chiffre, on rentre une lettre et ca full bug (ex choix de classe avec lettre)
-    // faire une page données sur le main menu pour retirer les stats des printf ici   et les mettre la bas
+    // faire une page données sur le main menu pour retirer les stats des printf ici  et les mettre la bas
     // si on écrit autre chiffre que 1 à 4 dans boutique, prends pas en compte le count1 ++
 
 
