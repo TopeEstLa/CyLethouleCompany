@@ -4,6 +4,7 @@
 #include <world.h>
 #include <world_generator.h>
 #include <curses.h>
+#include <memory_utils.h>
 
 Game_Data *game_data = NULL;
 
@@ -42,6 +43,13 @@ void create_game(int seed, char *name, Class current_class) {
 void unload_game() {
     cleanup_entities();
 
+    Game_Data *game = get_game_data();
+    if (game == NULL) {
+        return;
+    }
+
+    set_game_data(NULL);
+    free_game_data(game);
 }
 
 void move_player(int x, int y) {
@@ -75,7 +83,7 @@ void move_player(int x, int y) {
         }
     }
 
-    Room *room = get_room(game_data->world, entity->x, entity->y); //TODO switch to pointer
+    Room *room = get_room(game_data->world, entity->x, entity->y);
     if (room == NULL) {
         return;
     }

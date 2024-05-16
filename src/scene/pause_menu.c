@@ -24,6 +24,9 @@ void pause_handle_input() {
         return;
 
     switch (ch) {
+        case 27:
+            set_current_scene(GAME);
+            break;
         case KEY_UP:
             if (pause_choice > 0)
                 pause_choice--;
@@ -47,6 +50,8 @@ void pause_handle_input() {
                     break;
                 case 2:
                     //unload game
+                    unload_game();
+                    set_current_scene(MAIN_MENU);
                     break;
                 default:
                     break;
