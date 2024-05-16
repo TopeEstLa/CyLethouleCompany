@@ -4,6 +4,7 @@
 #define MAX_MONSTERS_IN_WORLD 10
 
 #include <stdlib.h>
+#include <scene/game_scene.h>
 
 Monster monsters[] = { //TODO: Add ziyad monsters
         {

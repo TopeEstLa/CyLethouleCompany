@@ -6,6 +6,7 @@
 #include <curses.h>
 #include <memory_utils.h>
 #include <monsters.h>
+#include <scene/game_scene.h>
 
 Game_Data *game_data = NULL;
 
@@ -46,18 +47,6 @@ void create_game(int seed, char *name, Class current_class) {
     game->world = world;
     game->player = player;
 
-    Room* room = get_room(world, player->entity->x, player->entity->y);
-    int roomCenterX = room->x + room->width / 2;
-    int roomCenterY = room->y + room->height / 2;
-
-    Monster monster = {
-        .name = "goblin",
-        .texture = "g",
-        .max_health = 10
-    };
-
-    create_living_monster(world, monster, roomCenterX + 2, roomCenterY + 2);
-
     set_game_data(game);
 }
 
@@ -84,14 +73,14 @@ void move_player(int x, int y) {
 
     Move_Callback move_callback = move_entity(game_data->world, entity, x, y);
 
-
     if (move_callback.reason == ENTITY_COLLISION) {
         Entity *collided_entity = move_callback.collided_entity;
         if (collided_entity == NULL) return;
 
         if (collided_entity->type == MONSTER) {
             //TODO fight
-            kill_monster(collided_entity->data);
+            Living_Monster *monster = collided_entity->data;
+            kill_monster(monster);
         } else if (collided_entity->type == ITEM) {
             //TODO PICKUP
         }
