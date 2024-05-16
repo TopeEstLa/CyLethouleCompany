@@ -36,9 +36,9 @@ void cleanup_entities();
 
 Entity *create_entity(Entity_Type type, void *data, char *texture);
 
-bool add_entity(Game_World *world, Entity *entity, int x, int y);
+int add_entity(Game_World *world, Entity *entity, int x, int y);
 
-bool remove_entity(int x, int y);
+bool remove_entity(int entity_id);
 
 Entity *get_entity(int x, int y);
 
