@@ -20,9 +20,13 @@ void init_monsters();
 
 void cleanup_monsters();
 
+Monster get_random_monster(int seed);
+
 Living_Monster *create_living_monster(Game_World* world, Monster monster, int x, int y);
 
 void kill_monster(Living_Monster* monster);
+
+void spawn_monster(Game_World* world);
 
 
 #endif //MONSTERS_H
