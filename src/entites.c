@@ -123,3 +123,11 @@ Move_Callback move_entity(Entity *entity, int new_x, int new_y) {
 
     return callback;
 }
+
+void prepend_entity(int width_to_add, int height_to_add) {
+    for (int i = entities_count - 1; i >= 0; i--) {
+        Entity *entity = entities[i];
+        entity->x += width_to_add;
+        entity->y += height_to_add;
+    }
+}

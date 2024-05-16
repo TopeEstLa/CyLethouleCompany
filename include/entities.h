@@ -42,4 +42,6 @@ Entity* get_entity(int x, int y);
 
 Move_Callback move_entity(Entity* entity, int new_x, int new_y);
 
+void prepend_entity(int width_to_add, int height_to_add);
+
 #endif //ENTITIES_H

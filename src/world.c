@@ -2,6 +2,7 @@
 #include <stdio.h>
 
 #include <world.h>
+#include <entities.h>
 #include <maths.h>
 
 Chunk *create_empty_chunk() {
@@ -265,6 +266,8 @@ void prepend_world(Game_World *world, int width_to_add, int height_to_add) {
     }
 
     free(world->chunk);
+
+    prepend_entity(width_to_add, height_to_add);
 
     world->width = new_width;
     world->height = new_height;
