@@ -19,9 +19,6 @@
 int main() {
     init_curses();
     srand(time(NULL));
-    init_game(rand() % 100, "Player", WARRIOR);
-
-    Game *game = get_game();
 
    set_current_scene(GAME);
 

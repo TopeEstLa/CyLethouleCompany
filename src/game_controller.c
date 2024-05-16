@@ -51,7 +51,7 @@ void move_player(int x, int y) {
         return;
     }
 
-    Move_Callback move_callback = move_entity(entity, x, y);
+    Move_Callback move_callback = move_entity(game_data->world, entity, x, y);
 
 
     if (!move_callback.move_made) return;

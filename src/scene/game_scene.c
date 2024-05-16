@@ -6,7 +6,7 @@
 #include <game_controller.h>
 
 void handle_game_input() {
-    Game *game = get_game();
+    Game_Data *game = get_game_data();
 
     int ch = getch();
     if (ch == ERR)
@@ -37,7 +37,7 @@ void handle_game_input() {
 }
 
 void game_scene_curses() {
-    Game *game = get_game();
+    Game_Data *game = get_game_data();
     Game_World *world = game->world;
     Entity* player = game->player->entity;
 

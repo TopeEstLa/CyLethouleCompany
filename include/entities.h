@@ -12,8 +12,8 @@ typedef enum entity_type {
 
 typedef struct entity {
     Entity_Type type;
-    void* data;
-    char* texture;
+    void *data;
+    char *texture;
     int x, y;
 } Entity;
 
@@ -25,22 +25,22 @@ typedef enum cancel_move_reason {
 } Cancel_Move_Reason;
 
 typedef struct move_callback {
-    Entity* collided_entity;
+    Entity *collided_entity;
     Cancel_Move_Reason reason;
     bool move_made;
 } Move_Callback;
 
-void init_entities(Game_World* world_ptr);
+void init_entities(Game_World *world_ptr);
 
-Entity* create_entity(Entity_Type type, void* data, char* texture);
+Entity *create_entity(Entity_Type type, void *data, char *texture);
 
-bool add_entity(Entity* entity, int x, int y);
+bool add_entity(Game_World *world, Entity *entity, int x, int y);
 
 bool remove_entity(int x, int y);
 
-Entity* get_entity(int x, int y);
+Entity *get_entity(int x, int y);
 
-Move_Callback move_entity(Entity* entity, int new_x, int new_y);
+Move_Callback move_entity(Game_World *gameWorld, Entity *entity, int new_x, int new_y);
 
 void prepend_entity(int width_to_add, int height_to_add);
 
