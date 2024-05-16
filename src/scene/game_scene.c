@@ -46,8 +46,8 @@ void game_scene_curses() {
     Game_World *world = game->world;
     Entity *player = game->player->entity;
 
-    int dx = 20;
-    int dy = 20;
+    int dx = 40;
+    int dy = 10;
     int x = player->x;
     int y = player->y;
 
