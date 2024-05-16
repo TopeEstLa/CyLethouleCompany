@@ -42,6 +42,8 @@ add_executable(CyLethouleCompany
         src/player.c
         include/game.h
         src/game.c
+        include/scene/game_scene.h
+        src/scene/game_scene.c
 )
 
 target_link_libraries(CyLethouleCompany PRIVATE

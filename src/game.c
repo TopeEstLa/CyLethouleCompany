@@ -44,7 +44,7 @@ void move_player(int x, int y) {
 
     if (move_callback.reason == ENTITY_COLLISION) {
         Entity* collided_entity = move_callback.collided_entity;
-        if (entity == NULL) return;
+        if (collided_entity == NULL) return;
 
         if (collided_entity->type == MONSTER) {
             //TODO FIGHT !

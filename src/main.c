@@ -23,43 +23,13 @@ int main() {
 
     Game *game = get_game();
 
-    while (1) {
-        //clear();
-        int ch = getch();
-        Entity *player = game->player->entity;
+    set_current_scene(GAME);
 
-        if (ch != ERR) {
-            switch (ch) {
-                case KEY_UP:
-                    move_player(player->x, player->y - 1);
-                    break;
-                case KEY_DOWN:
-                    move_player(player->x, player->y + 1);
-                    break;
-                case KEY_LEFT:
-                    move_player(player->x - 1, player->y);
-                    break;
-                case KEY_RIGHT:
-                    move_player(player->x + 1, player->y);
-                    break;
-                default:
-                    break;
-            }
-        }
-        int lignes, colonnes;
-        getmaxyx(stdscr, lignes, colonnes);
-        curses_all_map(game->world);
-        //printMap(game->world, player->x, player->y, colonnes/2, lignes/3);
-    }
-
-    /*while (get_current_scene() != QUITTING) {
-        //start_frame(); //useless lol :c (if using timeout());
+    while (get_current_scene() != QUITTING) {
         handle_input();
 
-        //curses_scene();
-
-        //end_frame();
-    }*/
+        curses_scene();
+    }
 
     endwin();
 

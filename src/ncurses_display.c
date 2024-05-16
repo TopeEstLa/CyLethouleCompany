@@ -6,6 +6,8 @@
 #include <scene/load_menu.h>
 #include <scene/create_menu.h>
 
+#include <scene/game_scene.h>
+
 Current_Scene current_scene = MAIN_MENU;
 
 void set_current_scene(Current_Scene scene) {
@@ -41,6 +43,9 @@ void handle_input() {
         case CREATE_MENU:
             create_handle_input();
             break;
+        case GAME:
+            handle_game_input();
+            break;
         default:
             break;
     }
@@ -57,6 +62,9 @@ void curses_scene() {
             break;
         case CREATE_MENU:
             create_menu_curses();
+            break;
+        case GAME:
+            game_scene_curses();
             break;
         default:
             break;
