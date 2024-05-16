@@ -11,8 +11,8 @@ Game_Data* get_game_data() {
     return game_data;
 }
 
-void set_game_data(Game_Data *game_data) {
-    game_data = game_data;
+void set_game_data(Game_Data *new_game_data) {
+    game_data = new_game_data;
 }
 
 bool is_game_loaded() {
@@ -20,7 +20,7 @@ bool is_game_loaded() {
 }
 
 
-void init_game(int seed, char* name, Class current_class) {
+void create_game(int seed, char* name, Class current_class) {
     Game_Data *game = malloc(sizeof(Game_Data));
     if (game == NULL) {
         return;
@@ -29,7 +29,7 @@ void init_game(int seed, char* name, Class current_class) {
     Game_World* world = create_world(seed);
     base_generation(world);
 
-    init_entities(world);
+    init_entities();
 
     Player* player = create_player(world, name, current_class);
 
@@ -40,6 +40,7 @@ void init_game(int seed, char* name, Class current_class) {
 }
 
 void unload_game() {
+    cleanup_entities();
 
 }
 

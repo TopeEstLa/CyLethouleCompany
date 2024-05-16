@@ -20,6 +20,10 @@ int main() {
     init_curses();
     srand(time(NULL));
 
+    create_game(rand()%1000, "test", WARRIOR);
+
+    save_game(get_game_data(), "test.sav");
+
    set_current_scene(GAME);
 
     while (get_current_scene() != QUITTING) {

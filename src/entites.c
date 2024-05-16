@@ -5,10 +5,17 @@ Entity **entities;
 int entities_count;
 int entities_capacity;
 
-void init_entities(Game_World *world_ptr) {
+void init_entities() {
     entities = malloc(sizeof(Entity *) * 10);
     entities_count = 0;
     entities_capacity = 10;
+}
+
+void cleanup_entities() {
+    for (int i = 0; i < entities_count; i++) {
+        free(entities[i]);
+    }
+    free(entities);
 }
 
 Entity *create_entity(Entity_Type type, void *data, char *texture) {

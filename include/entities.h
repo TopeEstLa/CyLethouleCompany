@@ -30,7 +30,9 @@ typedef struct move_callback {
     bool move_made;
 } Move_Callback;
 
-void init_entities(Game_World *world_ptr);
+void init_entities();
+
+void cleanup_entities();
 
 Entity *create_entity(Entity_Type type, void *data, char *texture);
 
