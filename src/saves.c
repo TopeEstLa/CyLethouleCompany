@@ -88,6 +88,7 @@ bool save_game(Game_Data *game, char *save_name) {
     cJSON_AddStringToObject(playerObj, "name", player->name);
     cJSON_AddNumberToObject(playerObj, "class", player->current_class);
     cJSON_AddNumberToObject(playerObj, "health", player->health);
+    cJSON_AddNumberToObject(playerObj, "max_health", player->max_health);
     cJSON_AddNumberToObject(playerObj, "exp", player->exp);
     cJSON_AddNumberToObject(playerObj, "x", player->entity->x);
     cJSON_AddNumberToObject(playerObj, "y", player->entity->y);
@@ -134,8 +135,6 @@ Game_World *load_world_from_json(cJSON *worldObj) {
             door->x = cJSON_GetObjectItem(doorObj, "x")->valueint;
             door->y = cJSON_GetObjectItem(doorObj, "y")->valueint;
             door->is_used = cJSON_GetObjectItem(doorObj, "is_used")->valueint;
-
-            room->doors[j] = door;
         }
 
         append_room(world, room);
@@ -208,11 +207,12 @@ Game_Data *load_game(char *save_name) {
     char *name = cJSON_GetObjectItem(playerObj, "name")->valuestring;
     Class current_class = cJSON_GetObjectItem(playerObj, "class")->valueint;
     int health = cJSON_GetObjectItem(playerObj, "health")->valueint;
+    int max_health = cJSON_GetObjectItem(playerObj, "max_health")->valueint;
     int exp = cJSON_GetObjectItem(playerObj, "exp")->valueint;
     int x = cJSON_GetObjectItem(playerObj, "x")->valueint;
     int y = cJSON_GetObjectItem(playerObj, "y")->valueint;
 
-    Player *player = load_player(world, name, current_class, health, exp, x, y);
+    Player *player = load_player(world, name, current_class, health, max_health, exp, x, y);
 
     Game_Data *game = malloc(sizeof(Game_Data));
     game->world = world;

@@ -37,9 +37,9 @@ cJSON *load_json(char *filename) {
         return NULL;
     }
 
-    fseek(file, 0, SEEK_END);
-    long length = ftell(file);
-    fseek(file, 0, SEEK_SET);
+    fseek(file, 0, SEEK_END); //set read pointer to end of file
+    long length = ftell(file); //get last position and thus the length of the file
+    fseek(file, 0, SEEK_SET); //set read pointer to start of file
 
     char *buffer = (char *) malloc(length + 1);
     if (buffer == NULL) {
@@ -107,4 +107,19 @@ char **list_files(char *directory, int *count) {
     *count = files_count;
 
     return files;
+}
+
+char* get_file_path(char* directory, char* file_name, char* extension) {
+    int total_length = strlen(directory) + strlen(file_name) + strlen(extension) + 1;
+    char* filename = malloc(sizeof(char) * total_length);
+
+    if (filename == NULL) {
+        return NULL;
+    }
+
+    strcpy(filename, directory);
+    strcat(filename, file_name);
+    strcat(filename, extension);
+
+    return filename;
 }

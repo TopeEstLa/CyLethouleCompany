@@ -2,6 +2,8 @@
 
 #include <ncurses_display.h>
 
+#include <game_controller.h>
+
 char *menu_options[] = {
         "Charger une partie",
         "Commencer une nouvelle partie",
@@ -33,7 +35,8 @@ void main_handle_input() {
                     set_current_scene(LOAD_MENU);
                     break;
                 case 1:
-                    //set_current_scene(GAME);
+                    create_game(50, "coucou", WARRIOR);
+                    set_current_scene(GAME);
                     break;
                 case 2:
                     break;

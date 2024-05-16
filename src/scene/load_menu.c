@@ -31,14 +31,17 @@ void load_saves_handle_input() {
             }
 
             char *save = saves[current_saves];
-            Game_Data *game = load_game(save);
+            char* filename = get_file_path(SAVES_FOLDER, save, "");
+
+            prepare_game();
+            Game_Data *game = load_game(filename);
 
             if (game == NULL) {
                 set_current_scene(MAIN_MENU);
                 break;
             }
 
-            set_game_data(game);
+            loaded_game(game);
             set_current_scene(GAME);
             break;
         case 27:
@@ -88,8 +91,6 @@ void load_saves_menu_curses() {
 
     printw("[%c] %s\n", a, "Retour");
     attroff(A_REVERSE);
-
-
 }
 
 
