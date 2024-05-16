@@ -44,6 +44,8 @@ add_executable(CyLethouleCompany
         src/game.c
         include/scene/game_scene.h
         src/scene/game_scene.c
+        include/scene/pause_menu.h
+        src/scene/pause_menu.c
 )
 
 target_link_libraries(CyLethouleCompany PRIVATE
