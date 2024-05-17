@@ -46,7 +46,21 @@ Joueur *creerJoueur() {
         exit(1);
     }
     // Create first name
-    char tab[50];
+
+      // A voir (permet de verifier si tout est un espace)
+    /* 
+    
+    void is_all_spaces(char str) {
+    while (str) {
+        if (!isspace((char)*str)) {
+            return 0;
+        }
+        str++;
+    }
+}
+*/
+
+    char tab[51];
     int reset = 0;
 
     do {
@@ -54,10 +68,10 @@ Joueur *creerJoueur() {
         printf("Saissisez le nom du joueur :\n");
         reset = scanf("%50[^\n]", tab);
         flush();
-        if (strlen(tab) <= 0 || strlen(tab) >= 50) {
-            printf("Prenom trop long\n");
+        if (strlen(tab) <= 0 || strlen(tab) >= 50 || isspace(tab)) {
+            printf("Prenom incorrect\n");
         }
-    } while ((reset != 1)|| (strlen(tab) <= 0) || (strlen(tab) >= 50));
+    } while ((reset != 1)|| (strlen(tab) <= 0) || (strlen(tab) >= 50) || isspace(tab));
 
 
     (*j).nom = malloc((strlen(tab) + 1) * sizeof(char));
