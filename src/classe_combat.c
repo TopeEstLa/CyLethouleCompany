@@ -603,7 +603,7 @@ void combatBoss1(Joueur *a, Joueur *b, int N, Inventaire *i1) {
                 printf("Veuillez choisir un nombre entre 1 et 3\n");
                 flush();
             } 
-    } while (res != 1 || N < 1 || N > 3 || sizeof(N) != 4);choixClasse(N);
+    } while (res != 1 || N < 1 || N > 3 || sizeof(N) != 4);
 
     switch (N) {
         case 1:
