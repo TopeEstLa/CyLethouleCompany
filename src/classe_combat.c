@@ -435,7 +435,7 @@ void shopExp(Joueur *a, Joueur *b) {
         printf("Choisissez le numero correspondant au service voulu :");
         res = scanf("%d", &C);
             if (res != 1 || C < 1 || C > 4) {
-                printf("Veuillez entrer un chiffre entre 1 et 3\n");
+                printf("Veuillez entrer un chiffre entre 1 et 4\n");
                 flush();  
             } 
         
@@ -450,7 +450,7 @@ void shopExp(Joueur *a, Joueur *b) {
             printf("Choisissez le numero correspondant au service voulu :");
             res = scanf("%d", &C);
               if (res != 1 || C < 1 || C > 4) {
-                printf("Veuillez entrer un chiffre entre 1 et 3\n");
+                printf("Veuillez entrer un chiffre entre 1 et 4\n");
                 flush();
             } 
         }
