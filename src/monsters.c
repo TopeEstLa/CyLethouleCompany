@@ -9,17 +9,17 @@
 Monster monsters[] = { //TODO: Add ziyad monsters
         {
                 .name = "Goblin",
-                .texture = "g",
+                .texture = "ఠ",
                 .max_health = 10
         },
         {
                 .name = "Orc",
-                .texture = "o",
+                .texture = "ద",
                 .max_health = 20
         },
         {
                 .name = "Troll",
-                .texture = "t",
+                .texture = "ௐ",
                 .max_health = 30
         }
 };
