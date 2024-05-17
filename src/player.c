@@ -20,10 +20,10 @@ Player *create_player(Game_World *world, char *name, Class current_class) {
     int roomCenterY = room->y + room->height / 2;
 
     int id = add_entity(world, player->entity, roomCenterX, roomCenterY);
-    
+
     if (id == -1) {
         free(player);
-        return NUL;
+        return NULL;
     }
 
     player->entity_id = id;
@@ -45,7 +45,7 @@ Player *load_player(Game_World *world, char *name, Class current_class, int heal
 
     if (id == -1) {
         free(player);
-        return NUL;
+        return NULL;
     }
 
     player->entity_id = id;
