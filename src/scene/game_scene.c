@@ -70,15 +70,15 @@ void game_scene_curses() {
                     Room *room = get_room(world, ix, iy);
 
                     if (room == NULL) {
-                        mvprintw(lignes_debut, colonnes_debut, "  ");
-                        mvprintw(lignes_debut, colonnes_debut, "   ");
+                        mvprintw(lignes_debut, colonnes_debut, " ");
+                      //  mvprintw(lignes_debut, colonnes_debut, "   ");
                         colonnes_debut++;
                         continue;
                     }
 
                     if (!room->is_visited) {
-                        mvprintw(lignes_debut, colonnes_debut, "  ");
-                        mvprintw(lignes_debut, colonnes_debut, "   ");
+                        mvprintw(lignes_debut, colonnes_debut, " ");
+                        //mvprintw(lignes_debut, colonnes_debut, "   ");
                         colonnes_debut++;
                         continue;
                     }
@@ -90,23 +90,23 @@ void game_scene_curses() {
                     } else {
                         switch (world->chunk[ix][iy]->type) {
                             case DOOR :
-                                mvprintw(lignes_debut, colonnes_debut, "🚪 ");
+                                mvprintw(lignes_debut, colonnes_debut, "D");
                                 colonnes_debut++;
                                 break;
                             case WALL :
-                                mvprintw(lignes_debut, colonnes_debut, "\xF0\x9F\x8C\x8D ");
+                                mvprintw(lignes_debut, colonnes_debut, "|");
                                 colonnes_debut++;
                                 break;
                             case VOID :
-                                mvprintw(lignes_debut, colonnes_debut, "  ");
+                                mvprintw(lignes_debut, colonnes_debut, " ");
                                 colonnes_debut++;
                                 break;
                             case EMPTY :
-                                mvprintw(lignes_debut, colonnes_debut, "  ");
+                                mvprintw(lignes_debut, colonnes_debut, " ");
                                 colonnes_debut++;
                                 break;
                             default :
-                                mvprintw(lignes_debut, colonnes_debut, "? ");
+                                mvprintw(lignes_debut, colonnes_debut, "?");
                                 colonnes_debut++;
                                 break;
                         }
@@ -120,7 +120,7 @@ void game_scene_curses() {
         for (int i = y - dy; i < y + dy; i++) {
             for (int j = x - dx; j < x + dx; j++) {
                 if (j == x - dx || j == x + dx - 1) {
-                    mvprintw(lignes_debut, colonnes_debut, "%| ");
+                    mvprintw(lignes_debut, colonnes_debut, "| ");
                     colonnes_debut++;
                 } else if (i == y - dy || i == y + dy - 1) {
                     mvprintw(lignes_debut, colonnes_debut, "- ");
