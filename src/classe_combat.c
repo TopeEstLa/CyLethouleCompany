@@ -430,12 +430,11 @@ void shopExp(Joueur *a, Joueur *b) {
     int C = 0;
     int ran = 0;
     int count1 = 0;
-  do {
+   do {
         printf("Choisissez le numero correspondant au service voulu :\n");
         res = scanf("%d", &C);
          if(res != 1 || sizeof(C) != 4 || C < 1 || C > 4){
                 printf("Veuillez entrer un chiffre entre 1 et 4\n");
-                flush();
                 count1++;
 
                 if (count1 == 5) {
@@ -443,9 +442,9 @@ void shopExp(Joueur *a, Joueur *b) {
                         printf("Ame(s) de Morlok restant: %d\n", a->exp);
                         break;
                     }   
-    
+            flush();
             }
-           if((C == 1 && a->exp < 10) || (C == 2 && a->exp < 15) || (C == 3 && a->exp < 150)) {
+           else if((C == 1 && a->exp < 10) || (C == 2 && a->exp < 15) || (C == 3 && a->exp < 150)) {
                 printf("Ame(s) de Morlok insuffisante(s)\n");
                 count1++;
 
@@ -453,7 +452,8 @@ void shopExp(Joueur *a, Joueur *b) {
                         printf("Garedon n'aime pas perdre son temps. La boutique est fermé\n");
                         printf("Ame(s) de Morlok restant: %d\n", a->exp);
                         break;
-                    }   
+                    }  
+            flush();
             }   
     } while (res != 1 || C < 1 || C > 4 || sizeof(C) != 4 || (C == 1 && a->exp < 10) || (C == 2 && a->exp < 15) || (C == 3 && a->exp < 150));
 
