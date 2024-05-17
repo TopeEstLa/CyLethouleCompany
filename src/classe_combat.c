@@ -920,7 +920,9 @@ int main() {
 
 
     // pour (E) probleme regler donc suffit de faire pareil avec autre scanf
+    // voir si c'est un soucis de mettre des espaces 
     // (E) = rendre robuste tous les scanf (exemple avec classe qui accepte 3iegigei3 car chiffre trois seul dispo)
+    
     // tester n'importe comment tous les scanf
     // rendre robuste TOUS LES SCANF.....
 
