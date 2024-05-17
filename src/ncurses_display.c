@@ -11,7 +11,7 @@
 
 #include <locale.h>
 
-Current_Scene current_scene = GAME;
+Current_Scene current_scene = MAIN_MENU;
 
 void set_current_scene(Current_Scene scene) {
     current_scene = scene;
@@ -22,7 +22,6 @@ Current_Scene get_current_scene() {
 }
 
 void init_curses() {
-    current_scene = GAME;
     setlocale(LC_ALL, "");
     initscr();
 
@@ -80,8 +79,6 @@ void curses_scene() {
         default:
             break;
     }
-    game_scene_curses();
-
     refresh();
 }
 
