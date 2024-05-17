@@ -191,6 +191,8 @@ typedef enum material {
     COUPE,
     EPEE,
     CRANE,
+    ITEM4,
+    ITEM5,
 } Material;
 
 
@@ -397,6 +399,12 @@ void shopExp(Joueur *a, Joueur *b) {
         res = 0;
         printf("Choisissez le numero correspondant au service voulu :");
         res = scanf("%d", &C);
+        if (res != 1) {
+                printf("Caractère interdit\n");
+            } 
+            else if (C < 1 || C > 4) {
+                printf("Veuillez entrer un chiffre entre 1 et 3\n");
+            }
         while ((C == 1 && a->exp < 10) || (C == 2 && a->exp < 15) || (C == 3 && a->exp < 150)) {
             printf("Ame(s) de Morlok insuffisante(s)\n");
             count1++;
@@ -407,6 +415,12 @@ void shopExp(Joueur *a, Joueur *b) {
             }
             printf("Choisissez le numero correspondant au service voulu :");
             res = scanf("%d", &C);
+              if (res != 1) {
+                printf("Caractère interdit\n");
+            } 
+            else if (C < 1 || C > 4) {
+                printf("Veuillez entrer un chiffre entre 1 et 3\n");
+            }
 
         }
 
@@ -480,8 +494,15 @@ void combat(Joueur *a, Joueur *b, int N) {
         res = 0;
         printf("Quelle classe voulez-vous choisir ? : ");
         res = scanf("%d", &N);
+        
         flush();
-    } while (res != 1 || N < 1 || N > 3);
+            if (res != 1 || sizeof(N) != 1) {
+                printf("Caractère interdit\n");
+            } 
+            else if (N < 1 || N > 3) {
+                printf("Veuillez entrer un chiffre entre 1 et 3\n");
+            }
+    } while (res != 1 || N < 1 || N > 3 || sizeof(N) != 1);
 
     switch (N) {
         case 1:
@@ -872,9 +893,9 @@ int main() {
     j4 = creerBoss2();
     j5 = creerBoss3();
 
-    //combat(j1, j2, N);
-    combatBoss1(j1, j3, N, i1);
-    combatBoss2(j1, j4, N, i1);
+    combat(j1, j2, N);
+    //combatBoss1(j1, j3, N, i1);
+    //combatBoss2(j1, j4, N, i1);
     //combatBoss3(j1, j5, N, i1);
 
 
@@ -882,6 +903,13 @@ int main() {
     // de notre faute si dans un scanf où il faut rentrer un chiffre, on rentre une lettre et ca full bug (ex choix de classe avec lettre)
     // faire une page données sur le main menu pour retirer les stats des printf ici  et les mettre la bas
     // si on écrit autre chiffre que 1 à 4 dans boutique, prends pas en compte le count1 ++
+
+
+    // pour (E) probleme regler donc suffit de faire pareil avec autre scanf
+    // (E) = rendre robuste tous les scanf (exemple avec classe qui accepte 3iegigei3 car chiffre trois seul dispo)
+    // tester n'importe comment tous les scanf
+    // rendre robuste TOUS LES SCANF.....
+
 
 
     free(j1->nom);
