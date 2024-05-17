@@ -11,6 +11,7 @@ typedef enum class {
 
 typedef struct player {
     Entity* entity;
+    int entity_id;
     char* name;
     Class current_class;
     int health;
