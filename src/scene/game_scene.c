@@ -182,7 +182,7 @@ void game_scene_curses() {
                                 mvprintw(lignes_debut, current_colonnes, "۩");
                                 break;
                             case WALL:
-                                mvprintw(lignes_debut, current_colonnes, "॥");
+                                mvprintw(lignes_debut, current_colonnes, "║");
                                 break;
                             case VOID:
                             case EMPTY:
