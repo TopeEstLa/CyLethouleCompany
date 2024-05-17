@@ -183,6 +183,7 @@ void game_scene_curses() {
                                 break;
                             case WALL:
                                 mvprintw(lignes_debut, current_colonnes, "║");
+                                //NE PAS SUPPRIMER ‼️⚠️mvprintw(lignes_debut, current_colonnes, "═");
                                 break;
                             case VOID:
                             case EMPTY:
