@@ -7,6 +7,7 @@
 #include <memory_utils.h>
 #include <monsters.h>
 #include <scene/game_scene.h>
+#include <ncurses_display.h>
 
 Game_Data *game_data = NULL;
 
@@ -61,6 +62,13 @@ void unload_game() {
 
     set_game_data(NULL);
     free_game_data(game);
+}
+
+void update_game() {
+    if (get_current_scene() != GAME) return;
+    if (!is_game_loaded()) return;
+
+    spawn_monster(get_game_data());
 }
 
 void move_player(int x, int y) {

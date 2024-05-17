@@ -25,6 +25,8 @@ void create_game(int seed, char* name, Class current_class);
 
 void unload_game();
 
+void update_game();
+
 void move_player(int x, int y);
 
 #endif //GAME_H
