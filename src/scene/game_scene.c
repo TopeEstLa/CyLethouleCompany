@@ -5,7 +5,10 @@
 
 #include <game_controller.h>
 
+#include <locale.h>
+
 void handle_game_input() {
+
     Game_Data *game = get_game_data();
 
     int ch = getch();
@@ -37,6 +40,12 @@ void handle_game_input() {
 }
 
 void game_scene_curses() {
+    char* door[] ={
+            "U+1F6AA",
+    };
+
+    setlocale(LC_ALL, "");
+    printw("🚪");
     if (!is_game_loaded()) {
         set_current_scene(MAIN_MENU);
         return;
@@ -46,7 +55,7 @@ void game_scene_curses() {
     Game_World *world = game->world;
     Entity *player = game->player->entity;
 
-    int dx = 40;
+    int dx = 100;
     int dy = 10;
     int x = player->x;
     int y = player->y;
@@ -81,7 +90,7 @@ void game_scene_curses() {
 
                     Entity *entity = get_entity(ix, iy);
                     if (entity != NULL) {
-                        mvprintw(lignes_debut, colonnes_debut, "%s", entity->texture);
+                        mvprintw(lignes_debut, colonnes_debut, "%s", door[0]);
                         colonnes_debut++;
                     } else {
                         switch (world->chunk[ix][iy]->type) {

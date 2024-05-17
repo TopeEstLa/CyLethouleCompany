@@ -9,6 +9,8 @@
 
 #include <scene/game_scene.h>
 
+#include <locale.h>
+
 Current_Scene current_scene = MAIN_MENU;
 
 void set_current_scene(Current_Scene scene) {
@@ -20,7 +22,7 @@ Current_Scene get_current_scene() {
 }
 
 void init_curses() {
-    current_scene = MAIN_MENU;
+    current_scene = GAME;
 
     initscr();
     cbreak();
@@ -56,6 +58,7 @@ void handle_input() {
 }
 
 void curses_scene() {
+
     clear();
     switch (current_scene) {
         case MAIN_MENU:
@@ -76,6 +79,7 @@ void curses_scene() {
         default:
             break;
     }
+    game_scene_curses();
 
     refresh();
 }
