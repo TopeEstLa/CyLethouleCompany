@@ -11,7 +11,7 @@
 
 #include <locale.h>
 
-Current_Scene current_scene = MAIN_MENU;
+Current_Scene current_scene = GAME;
 
 void set_current_scene(Current_Scene scene) {
     current_scene = scene;
@@ -23,8 +23,9 @@ Current_Scene get_current_scene() {
 
 void init_curses() {
     current_scene = GAME;
-
+    setlocale(LC_ALL, "");
     initscr();
+
     cbreak();
     noecho();
     keypad(stdscr, TRUE);

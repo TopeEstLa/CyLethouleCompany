@@ -40,28 +40,22 @@ void handle_game_input() {
 }
 
 void game_scene_curses() {
-    char* door[] ={
-            "U+1F6AA",
-    };
-
-    setlocale(LC_ALL, "");
-    printw("🚪");
     if (!is_game_loaded()) {
         set_current_scene(MAIN_MENU);
         return;
     }
-
     Game_Data *game = get_game_data();
     Game_World *world = game->world;
     Entity *player = game->player->entity;
 
-    int dx = 100;
-    int dy = 10;
+
     int x = player->x;
     int y = player->y;
 
 
     int lignes, colonnes;
+    int dx = colonnes/2;
+    int dy = 20;
     getmaxyx(stdscr, lignes, colonnes);
     int colonnes_text = dx * 2;
     int colonnes_debut = (colonnes - colonnes_text) / 2;
@@ -90,7 +84,7 @@ void game_scene_curses() {
 
                     Entity *entity = get_entity(ix, iy);
                     if (entity != NULL) {
-                        mvprintw(lignes_debut, colonnes_debut, "%s", door[0]);
+                        mvprintw(lignes_debut, colonnes_debut, "x");
                         colonnes_debut++;
                     } else {
                         switch (world->chunk[ix][iy]->type) {
@@ -125,7 +119,7 @@ void game_scene_curses() {
         for (int i = y - dy; i < y + dy; i++) {
             for (int j = x - dx; j < x + dx; j++) {
                 if (j == x - dx || j == x + dx - 1) {
-                    mvprintw(lignes_debut, colonnes_debut, "|");
+                    mvprintw(lignes_debut, colonnes_debut, "%|");
                     colonnes_debut++;
                 } else if (i == y - dy || i == y + dy - 1) {
                     mvprintw(lignes_debut, colonnes_debut, "-");
