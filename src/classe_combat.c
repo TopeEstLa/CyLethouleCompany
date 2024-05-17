@@ -80,7 +80,7 @@ Joueur *creerJoueur() {
     }
     strcpy((*j).nom, tab);
     // Vie
-    j->vie = 125;
+    j->vie = 1250;
     // Exp
     j->exp = 30;
     // Return result
@@ -406,8 +406,12 @@ void shopExp(Joueur *a, Joueur *b) {
     int C = 0;
     int ran = 0;
     int count1 = 0;
+
+    flush();
     
     do {
+
+        res = 0;
         printf("Choisissez le numero correspondant au service voulu :\n");
         res = scanf("%d", &C);
          if(res != 1 || sizeof(C) != 4 || C < 1 || C > 4){
@@ -499,6 +503,7 @@ void combat(Joueur *a, Joueur *b, int N) {
     int res = 0;
     N = 0;
     do {
+        res = 0;
         printf("Quelle classe voulez-vous choisir ? : ");
         res = scanf("%d", &N);
             if (res != 1 || N < 1 || N > 3 || sizeof(N) != 4) {
@@ -597,6 +602,7 @@ void combatBoss1(Joueur *a, Joueur *b, int N, Inventaire *i1) {
     int res = 0;
     N = 0;
     do {
+        res = 0;
         printf("Quelle classe voulez-vous choisir ? : ");
         res = scanf("%d", &N);
             if (res != 1 || N < 1 || N > 3 || sizeof(N) != 4) {
@@ -696,6 +702,7 @@ void combatBoss2(Joueur *a, Joueur *b, int N, Inventaire *i1) {
     int res = 0;
     N = 0;
     do {
+        res = 0;
         printf("Quelle classe voulez-vous choisir ? : ");
         res = scanf("%d", &N);
             if (res != 1 || N < 1 || N > 3 || sizeof(N) != 4) {
@@ -792,6 +799,7 @@ void combatBoss3(Joueur *a, Joueur *b, int N, Inventaire *i1) {
     int res = 0;
     N = 0;
     do {
+        res = 0;
         printf("Quelle classe voulez-vous choisir ? : ");
         res = scanf("%d", &N);
             if (res != 1 || N < 1 || N > 3 || sizeof(N) != 4) {
@@ -895,9 +903,9 @@ int main() {
     j5 = creerBoss3();
 
     combat(j1, j2, N);
-    //combatBoss1(j1, j3, N, i1);
-    //combatBoss2(j1, j4, N, i1);
-    //combatBoss3(j1, j5, N, i1);
+    combatBoss1(j1, j3, N, i1);
+    combatBoss2(j1, j4, N, i1);
+    combatBoss3(j1, j5, N, i1);
 
 
     // test d'aller plus loin avec 4 item (ici ca a l'air de marcher avec 4 item donc bloqué ou sinon accepté un inventaire infini)
@@ -907,7 +915,7 @@ int main() {
 
 
     // pour (E) probleme regler donc suffit de faire pareil avec autre scanf
-    // bug avec exp (si on a que 30 exp mais qu'on prend 150(abilité3) alors ca marche et donne exp negatif)
+   
     // gerer soucis si 2gzgzgzgz marche car première lettre 2 (pas de notre faute au final)
     // voir si c'est un soucis de mettre des espaces 
     // (E) = rendre robuste tous les scanf (exemple avec classe qui accepte 3iegigei3 car chiffre trois seul dispo)
