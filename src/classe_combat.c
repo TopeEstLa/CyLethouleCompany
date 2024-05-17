@@ -68,10 +68,10 @@ Joueur *creerJoueur() {
         printf("Saissisez le nom du joueur :\n");
         reset = scanf("%50[^\n]", tab);
         flush();
-        if (strlen(tab) <= 0 || strlen(tab) >= 50 || isspace(tab)) {
+        if (strlen(tab) <= 0 || strlen(tab) >= 50) {
             printf("Prenom incorrect\n");
         }
-    } while ((reset != 1)|| (strlen(tab) <= 0) || (strlen(tab) >= 50) || isspace(tab));
+    } while ((reset != 1)|| (strlen(tab) <= 0) || (strlen(tab) >= 50));
 
 
     (*j).nom = malloc((strlen(tab) + 1) * sizeof(char));
@@ -382,7 +382,28 @@ void resetBoss3(Joueur *b) {
 
 }
 
+// choix classe
 
+void choixClasse(){
+    printf("Voici les différentes classes :\n");
+    printf("1 : Archer :\n Attaque : 5 à 7\n Defense : 2 à 5\n Esquive: 2 à 7\n");
+    printf("2 : Sorcier :\n Attaque : 3 à 5\n Defense : 4 à 7\n Esquive: 4 à 12\n");
+    printf("3 : Guerrier :\n Attaque : 7 à 11\n Defense : 0\n Esquive: 0\n");
+
+
+    int res = 0;
+    int N = 0;
+    do {
+        res = 0;
+        printf("Quelle classe voulez-vous choisir ? : ");
+        res = scanf("%d", &N);
+            if (res != 1 || sizeof(N) != 4 || N < 1 || N > 3) {
+                printf("Veuillez choisir un nombre entre 1 et 3\n");
+            flush();
+            } 
+    } while (res != 1 || N < 1 || N > 3 || sizeof(N) != 4);
+    
+}
 
 
 // fonction shop 
@@ -497,26 +518,7 @@ void combat(Joueur *a, Joueur *b, int N) {
     if (a == NULL || b == NULL) {
         exit(1);
     }
-    printf("Voici les différentes classes :\n");
-    printf("1 : Archer :\n Attaque : 5 à 7\n Defense : 2 à 5\n Esquive: 2 à 7\n");
-    printf("2 : Sorcier :\n Attaque : 3 à 5\n Defense : 4 à 7\n Esquive: 4 à 12\n");
-    printf("3 : Guerrier :\n Attaque : 7 à 11\n Defense : 0\n Esquive: 0\n");
-
-
-    int res = 0;
-    do {
-        res = 0;
-        printf("Quelle classe voulez-vous choisir ? : ");
-        res = scanf("%d", &N);
-        
-        flush();
-            if (res != 1 || sizeof(N) != 1) {
-                printf("Caractère interdit\n");
-            } 
-            else if (N < 1 || N > 3) {
-                printf("Veuillez entrer un chiffre entre 1 et 3\n");
-            }
-    } while (res != 1 || N < 1 || N > 3 || sizeof(N) != 1);
+    choixClasse();
 
     switch (N) {
         case 1:
@@ -531,9 +533,6 @@ void combat(Joueur *a, Joueur *b, int N) {
             resetGuerrier(a);
             resetCradorien(b);
             break;
-        default:
-            printf("Choix inexistant\n");
-            return;
     }
 
     shopExp(a, b);
@@ -600,18 +599,7 @@ void combatBoss1(Joueur *a, Joueur *b, int N, Inventaire *i1) {
     if (a == NULL || b == NULL || i1 == NULL) {
         exit(404);
     }
-    printf("Voici les différentes classes :\n");
-    printf("1 : Archer :\n Attaque : 5 à 7\n Defense : 2 à 5\n Esquive: 2 à 7\n");
-    printf("2 : Sorcier :\n Attaque : 3 à 5\n Defense : 4 à 7\n Esquive: 4 à 12\n");
-    printf("3 : Guerrier :\n Attaque : 7 à 11\n Defense : 0\n Esquive: 0\n");
-
-
-    int res = 0;
-    do {
-        res = 0;
-        printf("Quelle classe voulait vous choisir ? : ");
-        res = scanf("%d", &N);
-    } while (res != 1 || N < 1 || N > 3);
+    choixClasse();
 
     switch (N) {
         case 1:
@@ -626,9 +614,7 @@ void combatBoss1(Joueur *a, Joueur *b, int N, Inventaire *i1) {
             resetGuerrier(a);
             resetBoss1(b);
             break;
-        default:
-            printf("Choix inexistant\n");
-            return;
+
     }
 
     shopExp(a, b);
@@ -697,21 +683,7 @@ void combatBoss2(Joueur *a, Joueur *b, int N, Inventaire *i1) {
     if (a == NULL || b == NULL || i1 == NULL) {
         exit(1);
     }
-    if (a->nom == NULL || b->nom == NULL) {
-        exit(1);
-    }
-    printf("Voici les différentes classes :\n");
-    printf("1 : Archer :\n Attaque : 5 à 7\n Defense : 2 à 5\n Esquive: 2 à 7\n");
-    printf("2 : Sorcier :\n Attaque : 3 à 5\n Defense : 4 à 7\n Esquive: 4 à 12\n");
-    printf("3 : Guerrier :\n Attaque : 7 à 11\n Defense : 0\n Esquive: 0\n");
-
-
-    int res = 0;
-    do {
-        res = 0;
-        printf("Quelle classe voulait vous choisir ? : ");
-        res = scanf("%d", &N);
-    } while (res != 1 || N < 1 || N > 3);
+    choixClasse();
 
     switch (N) {
         case 1:
@@ -726,9 +698,6 @@ void combatBoss2(Joueur *a, Joueur *b, int N, Inventaire *i1) {
             resetGuerrier(a);
             resetBoss2(b);
             break;
-        default:
-            printf("Choix inexistant\n");
-            return;
     }
 
     shopExp(a, b);
@@ -794,21 +763,8 @@ void combatBoss3(Joueur *a, Joueur *b, int N, Inventaire *i1) {
     if (a == NULL || b == NULL || i1 == NULL) {
         exit(1);
     }
-    if (a->nom == NULL || b->nom == NULL) {
-        exit(1);
-    }
-    printf("Voici les différentes classes :\n");
-    printf("1 : Archer :\n Attaque : 5 à 7\n Defense : 2 à 5\n Esquive: 2 à 7\n");
-    printf("2 : Sorcier :\n Attaque : 3 à 5\n Defense : 4 à 7\n Esquive: 4 à 12\n");
-    printf("3 : Guerrier :\n Attaque : 7 à 11\n Defense : 0\n Esquive: 0\n");
-
-
-    int res = 0;
-    do {
-        res = 0;
-        printf("Quelle classe voulait vous choisir ? : ");
-        res = scanf("%d", &N);
-    } while (res != 1 || N < 1 || N > 3);
+ 
+    choixClasse();
 
     switch (N) {
         case 1:
@@ -820,9 +776,6 @@ void combatBoss3(Joueur *a, Joueur *b, int N, Inventaire *i1) {
         case 3:
             resetGuerrier(a);
             break;
-        default:
-            printf("Choix inexistant\n");
-            return;
     }
 
     shopExp(a, b);
@@ -907,8 +860,8 @@ int main() {
     j4 = creerBoss2();
     j5 = creerBoss3();
 
-    combat(j1, j2, N);
-    //combatBoss1(j1, j3, N, i1);
+    //combat(j1, j2, N);
+    combatBoss1(j1, j3, N, i1);
     //combatBoss2(j1, j4, N, i1);
     //combatBoss3(j1, j5, N, i1);
 
