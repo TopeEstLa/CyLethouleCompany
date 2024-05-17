@@ -870,6 +870,7 @@ int main() {
 
 
     // pour (E) probleme regler donc suffit de faire pareil avec autre scanf
+    // bug avec exp (si on a que 30 exp mais qu'on prend 150(abilité3) alors ca marche et donne exp negatif)
     // gerer soucis si 2gzgzgzgz marche car première lettre 2 (pas de notre faute au final)
     // voir si c'est un soucis de mettre des espaces 
     // (E) = rendre robuste tous les scanf (exemple avec classe qui accepte 3iegigei3 car chiffre trois seul dispo)
@@ -893,3 +894,4 @@ int main() {
     return 0;
 
 }
+  
