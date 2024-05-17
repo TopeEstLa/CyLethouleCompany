@@ -200,7 +200,6 @@ void game_scene_curses() {
         }
     }
 
-    // Dessiner le cadre
     lignes_debut = 6;
     colonnes_text = dx*2;
     colonnes_debut = (colonnes - colonnes_text) / 2;
