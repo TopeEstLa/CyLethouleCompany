@@ -397,7 +397,7 @@ void choixClasse(){
         res = 0;
         printf("Quelle classe voulez-vous choisir ? : ");
         res = scanf("%d", &N);
-            if (res != 1 || sizeof(N) != 4 || N < 1 || N > 3) {
+            if (res != 1 || N < 1 || N > 3 || sizeof(N) != 4) {
                 printf("Veuillez choisir un nombre entre 1 et 3\n");
             flush();
             } 
@@ -432,30 +432,31 @@ void shopExp(Joueur *a, Joueur *b) {
     int count1 = 0;
     do {
         res = 0;
-        printf("Choisissez le numero correspondant au service voulu :");
+        printf("Choisissez le numero correspondant au service voulu :\n");
         res = scanf("%d", &C);
-            if (res != 1 || C < 1 || C > 4) {
+            if(res != 1){
                 printf("Veuillez entrer un chiffre entre 1 et 4\n");
-                flush();  
-            } 
-        
-        while ((C == 1 && a->exp < 10) || (C == 2 && a->exp < 15) || (C == 3 && a->exp < 150)) {
-            printf("Ame(s) de Morlok insuffisante(s)\n");
-            count1++;
-            if (count1 == 5) {
-                printf("Garedon n'aime pas perdre son temps. La boutique est fermé\n");
-                printf("Ame(s) de Morlok restant: %d\n", a->exp);
-                break;
+                flush();
             }
-            printf("Choisissez le numero correspondant au service voulu :");
-            res = scanf("%d", &C);
-              if (res != 1 || C < 1 || C > 4) {
+            else if( sizeof(C) != 4 || C < 1 || C > 4) {
                 printf("Veuillez entrer un chiffre entre 1 et 4\n");
                 flush();
             } 
-        }
+        
+            if((C == 1 && a->exp < 10) || (C == 2 && a->exp < 15) || (C == 3 && a->exp < 150)) {
+            printf("Ame(s) de Morlok insuffisante(s)\n");
+            count1++;
+            flush();
+                if (count1 == 5) {
+                    printf("Garedon n'aime pas perdre son temps. La boutique est fermé\n");
+                    printf("Ame(s) de Morlok restant: %d\n", a->exp);
+                    break;
+                    }   
+           
+            } 
+        
 
-    } while (res != 1 || C < 1 || C > 4);
+    } while (res != 1 || C < 1 || C > 4 || sizeof(C) != 4);
 
 
     switch (C) {
@@ -869,6 +870,7 @@ int main() {
 
 
     // pour (E) probleme regler donc suffit de faire pareil avec autre scanf
+    // gerer soucis si 2gzgzgzgz marche car première lettre 2 (pas de notre faute au final)
     // voir si c'est un soucis de mettre des espaces 
     // (E) = rendre robuste tous les scanf (exemple avec classe qui accepte 3iegigei3 car chiffre trois seul dispo)
     
