@@ -829,7 +829,7 @@ void combatBoss3(Joueur *a, Joueur *b, int N, Inventaire *i1) {
     printf("Debut du combat ! :\n");
 
 
-    while (a->vie > 0 && b->vie > 0) {
+    while (a->vie > 0 && b->vie >= 0) {
 
         usleep(800000);
         resetData(a);
