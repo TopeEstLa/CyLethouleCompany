@@ -476,6 +476,11 @@ void shopExp(Joueur *a, Joueur *b) {
             b->vie = 0;
             a->exp -= 150;
             printf("Ame(s) de Morlok restant(s) : %d\n", a->exp);
+            for (int i = 0; i <= 5; i++){
+                printf("Invocation en cours : %d%% \n", 20*i);
+                sleep(1);
+            }
+            printf("Invocation prête !\n");
             break;
         case 4:
             if (count1 == 5) {
@@ -485,6 +490,7 @@ void shopExp(Joueur *a, Joueur *b) {
     }
 
 }
+
 
 
 
