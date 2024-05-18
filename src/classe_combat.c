@@ -82,7 +82,7 @@ Joueur *creerJoueur() {
     // Vie
     j->vie = 1250;
     // Exp
-    j->exp = 30;
+    j->exp = 2000;
     // Return result
     return j;
 }
@@ -205,16 +205,20 @@ typedef enum material {
     COUPE,
     EPEE,
     CRANE,
-    ITEM4,
+    TETE_DE_CRADORIEN,
     ITEM5,
 } Material;
 
+typedef struct {
+    Material materials;
+    int quantite;
+} Item;
+
 
 typedef struct {
-    char *name;
     int capacite;
     int quantite;
-    Material *material;
+    Item *item;
 } Inventaire;
 
 
@@ -229,8 +233,8 @@ Inventaire *initialiserInv() {
     }
     p->capacite = 3;
     p->quantite = 0;
-    p->material = malloc(sizeof(Material) * p->capacite);
-    if (p->material == NULL) {
+    p->item = malloc(sizeof(Item) * p->capacite);
+    if (p->item == NULL) {
         exit(3);
     }
     return p;
@@ -240,14 +244,22 @@ Inventaire *initialiserInv() {
 // FOnction pour ajouter item
 
 void ajoutItem(Inventaire *p, Material material) {
-    if (p == NULL || p->material == NULL) {
+    if (p == NULL || p->item == NULL) {
         exit(1);
     }
-    if (p->quantite <= p->capacite) {
-        p->material[p->quantite] = material;
+    for (int i = 0; i < p->quantite; i++){
+        if (p->item[i].materials == material) {
+                p->item[i].quantite ++;
+                return;
+            }
+        }
+ 
+    if (p->quantite < p->capacite) {
+        p->item[p->quantite].materials = material;
+        p->item[p->quantite].quantite = 1;
         p->quantite++;
     } else {
-        printf("Inventaire rempli !");
+        printf("Inventaire rempli !\n");
     }
 }
 
@@ -255,12 +267,12 @@ void ajoutItem(Inventaire *p, Material material) {
 //Fonction pour verifier son inventaire
 
 void afficheInv(Inventaire *p) {
-    if (p == NULL || p->material == NULL) {
+    if (p == NULL || p->item == NULL) {
         exit(1);
     }
     printf("Voici votre inventaire :\n");
     for (int i = 0; i < p->quantite; i++) {
-        switch (p->material[i]) {
+        switch (p->item[i].materials) {
             case COUPE:
                 printf("COUPE\n");
                 break;
@@ -269,6 +281,12 @@ void afficheInv(Inventaire *p) {
                 break;
             case CRANE:
                 printf("CRANE\n");
+                break;
+            case TETE_DE_CRADORIEN:
+                printf("TETE DE CRADORIEN x%d\n", p->item[i].quantite);
+                break;
+            case ITEM5 :
+                printf("ITEM5\n");
                 break;
             default:
                 printf("Item inconnu\n");
@@ -409,7 +427,7 @@ void shopExp(Joueur *a, Joueur *b) {
 
     flush();
     count1 = 0;
-     do {
+    do {
 
         res = 0;
         printf("Choisissez le numero correspondant au service voulu :\n");
@@ -446,12 +464,16 @@ void shopExp(Joueur *a, Joueur *b) {
             if (count1 == 5) {
                 break;
             }
-            printf("Point de vie : %d\n", a->vie);
-            sleep(1);
-            printf("Fiole consommé\n");
-            a->vie += 100;
             a->exp -= 10;
             printf("Ame(s) de Morlok restant(s) : %d\n", a->exp);
+            printf("Point de vie : %d\n", a->vie);
+            sleep(1);
+            for (int i = 0; i <= 5; i++){
+                printf("Consommation de la fiole : %d%% \n", 20*i);
+                sleep(1);
+            }
+            a->vie += 100;
+            printf("Fiole consommé !\n");
             break;
         case 2:
             if (count1 == 5) {
@@ -486,18 +508,22 @@ void shopExp(Joueur *a, Joueur *b) {
             if (count1 == 5) {
                 break;
             }
-            printf("Un vrai guerrier se doit de gagner des ames de Morlok...\n");
+            if(a->exp <10){
+                printf("Un vrai guerrier se doit de gagner des ames de Morlok...\n");
+            }
+            else{
+                printf("Un vrai guerrier se doit d'utiliser ses ames de Morlok...\N");
+            }
     }
 
 }
 
 
 
-
 // Creation Combat
 
 
-void combat(Joueur *a, Joueur *b, int N) {
+void combat(Joueur *a, Joueur *b, int N, Inventaire *i1) {
     if (a == NULL || b == NULL) {
         exit(1);
     }
@@ -556,6 +582,8 @@ void combat(Joueur *a, Joueur *b, int N) {
             printf("%s tombe, %s gagne le combat!\n", b->nom, a->nom);
             a->exp += 2;
             printf("Ame(s) de Morlok : %d\n", a->exp);
+            ajoutItem(i1, TETE_DE_CRADORIEN);
+            afficheInv(i1);
             break;
         }
 
@@ -573,6 +601,8 @@ void combat(Joueur *a, Joueur *b, int N) {
             printf("%s tombe, %s gagne le combat!\n", b->nom, a->nom);
             a->exp += 2;
             printf("Ame(s) de Morlok : %d\n", a->exp);
+            ajoutItem(i1, TETE_DE_CRADORIEN);
+            afficheInv(i1);
             break;
         }
 
@@ -651,8 +681,8 @@ void combatBoss1(Joueur *a, Joueur *b, int N, Inventaire *i1) {
 
         if (b->vie <= 0) {
             printf("%s tombe, %s gagne le combat!\n", b->nom, a->nom);
-            ajoutItem(i1, COUPE);
             printf("Ame(s) de Morlok : %d\n", a->exp);
+            ajoutItem(i1, COUPE);
             afficheInv(i1);
             break;
         }
@@ -668,9 +698,9 @@ void combatBoss1(Joueur *a, Joueur *b, int N, Inventaire *i1) {
 
         if (b->vie <= 0) {
             printf("%s tombe, %s gagne le combat!\n", b->nom, a->nom);
-            ajoutItem(i1, COUPE);
             a->exp += 10;
             printf("Ame(s) de Morlok : %d\n", a->exp);
+            ajoutItem(i1, COUPE);
             afficheInv(i1);
             break;
         }
@@ -750,9 +780,9 @@ void combatBoss2(Joueur *a, Joueur *b, int N, Inventaire *i1) {
 
         if (b->vie <= 0) {
             printf("%s tombe, %s gagne le combat!\n", b->nom, a->nom);
-            ajoutItem(i1, EPEE);
             a->exp += 30;
             printf("Ame(s) de Morlok : %d\n", a->exp);
+            ajoutItem(i1, EPEE);
             afficheInv(i1);
             break;
         }
@@ -769,9 +799,9 @@ void combatBoss2(Joueur *a, Joueur *b, int N, Inventaire *i1) {
 
         if (b->vie <= 0) {
             printf("%s tombe, %s gagne le combat!\n", b->nom, a->nom);
-            ajoutItem(i1, EPEE);
             a->exp += 30;
             printf("Ame(s) de Morlok : %d\n", a->exp);
+            ajoutItem(i1, EPEE);
             afficheInv(i1);
             break;
         }
@@ -845,9 +875,9 @@ void combatBoss3(Joueur *a, Joueur *b, int N, Inventaire *i1) {
 
         if (b->vie <= 0) {
             printf("%s tombe, %s gagne le combat!\n", b->nom, a->nom);
-            ajoutItem(i1, CRANE);
             a->exp += 60;
             printf("Ame(s) de Morlok : %d\n", a->exp);
+            ajoutItem(i1, CRANE);
             afficheInv(i1);
             break;
         }
@@ -864,9 +894,9 @@ void combatBoss3(Joueur *a, Joueur *b, int N, Inventaire *i1) {
 
         if (b->vie <= 0) {
             printf("%s tombe, %s gagne le combat!\n", b->nom, a->nom);
-            ajoutItem(i1, CRANE);
             a->exp += 60;
             printf("Ame(s) de Morlok : %d\n", a->exp);
+            ajoutItem(i1, CRANE);
             afficheInv(i1);
             break;
         }
@@ -899,6 +929,7 @@ int main() {
     Joueur *j3 = NULL;
     Joueur *j4 = NULL;
     Joueur *j5 = NULL;
+    Joueur *j8 = NULL;
     int degats = 0;
     int N = 0;
 
@@ -910,19 +941,22 @@ int main() {
     j4 = creerBoss2();
     j5 = creerBoss3();
 
-    combat(j1, j2, N);
+    combat(j1, j2, N, i1);
     combatBoss1(j1, j3, N, i1);
     combatBoss2(j1, j4, N, i1);
     combatBoss3(j1, j5, N, i1);
 
 
-    // test d'aller plus loin avec 4 item (ici ca a l'air de marcher avec 4 item donc bloqué ou sinon accepté un inventaire infini)
-    // de notre faute si dans un scanf où il faut rentrer un chiffre, on rentre une lettre et ca full bug (ex choix de classe avec lettre)
     // faire une page données sur le main menu pour retirer les stats des printf ici  et les mettre la bas
-    // si on écrit autre chiffre que 1 à 4 dans boutique, prends pas en compte le count1 ++
-   
-    // gerer soucis si 2gzgzgzgz marche car première lettre 2 (pas de notre faute au final)
-    // voir si c'est un soucis de mettre des espaces 
+
+
+
+    /* 
+     Problemes reglés mais à voir en groupe :
+     - gerer soucis si 2gzgzgzgz marche car première lettre 2 (pas de notre faute au final car printf(%d) affiche que le chiffre) ET AUSSI 3 espace 2 marche passe aussi (3 2)
+     - voir si c'est un soucis de mettre des espaces 
+     
+    */
     
 
     free(j1->nom);
@@ -935,6 +969,8 @@ int main() {
     free(j3);
     free(j4);
     free(j5);
+    free(i1->item);
+    free(i1);
 
     return 0;
 
