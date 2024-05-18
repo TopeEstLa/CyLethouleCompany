@@ -409,15 +409,18 @@ void shopExp(Joueur *a, Joueur *b) {
 
     flush();
     count1 = 0;
-    do {
+     do {
 
         res = 0;
         printf("Choisissez le numero correspondant au service voulu :\n");
         res = scanf("%d", &C);
             if(res != 1 || sizeof(C) != 4 || C < 1 || C > 4){
+                if(count1 != 5 && count1 != 4){
                 printf("Veuillez entrer un chiffre entre 1 et 4\n");
-                flush();
+                }
                 count1++;
+                
+                flush();
             }
             else if((C == 1 && a->exp < 10) || (C == 2 && a->exp < 15) || (C == 3 && a->exp < 150)) {
                     printf("Ame(s) de Morlok insuffisante(s)\n");
