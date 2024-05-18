@@ -408,34 +408,33 @@ void shopExp(Joueur *a, Joueur *b) {
     int count1 = 0;
 
     flush();
-    
+    count1 = 0;
     do {
 
         res = 0;
         printf("Choisissez le numero correspondant au service voulu :\n");
         res = scanf("%d", &C);
-         if(res != 1 || sizeof(C) != 4 || C < 1 || C > 4){
+            if(res != 1 || sizeof(C) != 4 || C < 1 || C > 4){
                 printf("Veuillez entrer un chiffre entre 1 et 4\n");
+                flush();
                 count1++;
-
-                if (count1 == 5) {
-                        printf("Garedon n'aime pas perdre son temps. La boutique est fermé\n");
-                        printf("Ame(s) de Morlok restant: %d\n", a->exp);
-                        break;
-                    }   
-            flush();
             }
-           else if((C == 1 && a->exp < 10) || (C == 2 && a->exp < 15) || (C == 3 && a->exp < 150)) {
-                printf("Ame(s) de Morlok insuffisante(s)\n");
-                count1++;
+            else if((C == 1 && a->exp < 10) || (C == 2 && a->exp < 15) || (C == 3 && a->exp < 150)) {
+                    printf("Ame(s) de Morlok insuffisante(s)\n");
+                    flush();
+                    count1++;
+            }
+            
+            
 
-                if (count1 == 5) {
-                        printf("Garedon n'aime pas perdre son temps. La boutique est fermé\n");
-                        printf("Ame(s) de Morlok restant: %d\n", a->exp);
-                        break;
-                    }  
-            flush();
+            if (count1 == 5) {
+                    printf("Garedon n'aime pas perdre son temps. La boutique est fermé\n");
+                    printf("Ame(s) de Morlok restant: %d\n", a->exp);
+                    break;
+                    flush();
             }   
+
+             
     } while (res != 1 || C < 1 || C > 4 || sizeof(C) != 4 || (C == 1 && a->exp < 10) || (C == 2 && a->exp < 15) || (C == 3 && a->exp < 150));
 
 
@@ -912,18 +911,10 @@ int main() {
     // de notre faute si dans un scanf où il faut rentrer un chiffre, on rentre une lettre et ca full bug (ex choix de classe avec lettre)
     // faire une page données sur le main menu pour retirer les stats des printf ici  et les mettre la bas
     // si on écrit autre chiffre que 1 à 4 dans boutique, prends pas en compte le count1 ++
-
-
-    // pour (E) probleme regler donc suffit de faire pareil avec autre scanf
    
     // gerer soucis si 2gzgzgzgz marche car première lettre 2 (pas de notre faute au final)
     // voir si c'est un soucis de mettre des espaces 
-    // (E) = rendre robuste tous les scanf (exemple avec classe qui accepte 3iegigei3 car chiffre trois seul dispo)
     
-    // tester n'importe comment tous les scanf
-    // rendre robuste TOUS LES SCANF.....
-
-
 
     free(j1->nom);
     free(j2->nom);
