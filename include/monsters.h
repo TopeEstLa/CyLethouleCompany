@@ -29,5 +29,7 @@ void kill_monster(Living_Monster* monster);
 
 void spawn_monster(Game_Data *game_data);
 
+void move_monster(Game_Data *game_data);
+
 
 #endif //MONSTERS_H
