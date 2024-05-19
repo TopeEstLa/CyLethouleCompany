@@ -26,8 +26,6 @@ Player *create_player(Game_World *world, char *name, Class current_class) {
         return NULL;
     }
 
-    player->entity_id = id;
-
     return player;
 }
 
@@ -47,8 +45,6 @@ Player *load_player(Game_World *world, char *name, Class current_class, int heal
         free(player);
         return NULL;
     }
-
-    player->entity_id = id;
 
     return player;
 }

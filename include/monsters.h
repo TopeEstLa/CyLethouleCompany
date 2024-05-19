@@ -12,8 +12,8 @@ typedef struct Monster {
 
 typedef struct Living_Monster {
     Monster monster;
+    int living_id;
     Entity* entity;
-    int entity_id;
     int health;
 } Living_Monster;
 

@@ -1,5 +1,11 @@
 #include <entities.h>
 #include <stdlib.h>
+#include <string.h>
+
+#include <scene/game_scene.h>
+
+#include <monsters.h>
+#include <player.h>
 
 Entity **entities = NULL;
 int entities_count = 0;
@@ -29,6 +35,7 @@ Entity *create_entity(Entity_Type type, void *data, char *texture) {
     entity->texture = texture;
     entity->x = -1;
     entity->y = -1;
+    entity->index = -1;
     return entity;
 }
 
@@ -60,6 +67,7 @@ int add_entity(Game_World *world, Entity *entity, int x, int y) {
     entity->x = x;
     entity->y = y;
     int index = entities_count;
+    entity->index = index;
     entities[index] = entity;
     entities_count++;
 
@@ -74,6 +82,7 @@ bool remove_entity(int index) {
     free(entities[index]);
     for (int i = index; i < entities_count - 1; i++) {
         entities[i] = entities[i + 1];
+        entities[i]->index = i;
     }
 
     entities_count--;

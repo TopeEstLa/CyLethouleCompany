@@ -1,11 +1,12 @@
 #include <monsters.h>
 
 #include <stdlib.h>
+#include <string.h>
 
+#include <scene/game_scene.h>
 #include <curses.h>
 
 #define MONSTERS_COUNT 3
-#define MAX_MONSTERS_IN_WORLD 10
 
 
 Monster monsters[] = { //TODO: Add ziyad monsters
@@ -31,8 +32,8 @@ int living_monsters_count = 0;
 int living_monsters_capacity = 0;
 
 void init_monsters() {
-    living_monsters = malloc(sizeof(Living_Monster *) * MAX_MONSTERS_IN_WORLD);
-    living_monsters_capacity = MAX_MONSTERS_IN_WORLD;
+    living_monsters = malloc(sizeof(Living_Monster *) * 10);
+    living_monsters_capacity = 10;
     living_monsters_count = 0;
 }
 
@@ -71,67 +72,41 @@ Living_Monster *create_living_monster(Game_World *world, Monster monster, int x,
     }
 
     living_monster->entity = entity;
-    living_monster->entity_id = entity_id;
 
     if (living_monsters_count >= living_monsters_capacity) {
         free(living_monster);
         return NULL;
     }
 
-    living_monsters[living_monsters_count++] = living_monster;
+    living_monster->living_id = living_monsters_count;
+    living_monsters[living_monsters_count] = living_monster;
+    living_monsters_count++;
 
     return living_monster;
 }
 
 void kill_monster(Living_Monster *monster) {
-    bool entity_removed = remove_entity(monster->entity_id);
+    bool entity_removed = remove_entity(monster->entity->index);
 
     if (!entity_removed) {
         return;
     }
 
-    for (int i = 0; i < living_monsters_count; i++) {
-        if (living_monsters[i] == monster) {
-            free(monster);
-            living_monsters[i] = living_monsters[--living_monsters_count];
-            return;
-        }
+    int index = monster->living_id;
+    free(living_monsters[index]);
+    for (int i = index; i < living_monsters_count - 1; i++) {
+        living_monsters[i] = living_monsters[i + 1];
+        living_monsters[i]->living_id = i;
     }
+
+    living_monsters_count--;
 }
 
 void spawn_monster(Game_Data *gameData) {
-    if (living_monsters_count >= living_monsters_capacity) {
+    if (living_monsters_count >= 10) {
         return;
     }
 
     Game_World *world = gameData->world;
 
-    int max_spawn_count = MAX_MONSTERS_IN_WORLD - living_monsters_count;
-
-    int spawn_count = random_int(world->seed + gameData->frame_count, 0, max_spawn_count);
-
-    for (int i = 0; i < spawn_count; ++i) {
-        if (living_monsters_count >= living_monsters_capacity) {
-            return;
-        }
-
-        int room_index = random_int(world->seed + max_spawn_count + gameData->frame_count + i, 0,
-                                    world->room_count - 1);
-
-        Room *room = world->rooms[room_index];
-
-        int x = random_int(world->seed + max_spawn_count + gameData->frame_count + i + room_index, room->x+1,
-                           room->x + room->width - 1);
-
-        int y = random_int(world->seed + max_spawn_count + gameData->frame_count + i + room_index + x, room->y+1
-                             , room->y + room->height - 1);
-
-        Entity* entity = get_entity(x, y);
-        if (entity != NULL) {
-            continue;
-        }
-
-        Monster monster = get_random_monster(world->seed + max_spawn_count + living_monsters_count + i + room_index + x + y + gameData->frame_count);
-        create_living_monster(world, monster, x, y);
-    }
 }

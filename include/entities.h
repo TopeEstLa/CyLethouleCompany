@@ -14,6 +14,7 @@ typedef struct entity {
     Entity_Type type;
     void *data;
     char *texture;
+    int index;
     int x, y;
 } Entity;
 

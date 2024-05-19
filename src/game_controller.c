@@ -6,7 +6,6 @@
 #include <curses.h>
 #include <memory_utils.h>
 #include <monsters.h>
-#include <scene/game_scene.h>
 #include <ncurses_display.h>
 
 Game_Data *game_data = NULL;
