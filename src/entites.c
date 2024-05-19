@@ -61,12 +61,11 @@ int add_entity(Game_World *world, Entity *entity, int x, int y) {
 
     entity->x = x;
     entity->y = y;
-    int index = entities_count;
-    entity->index = index;
-    entities[index] = entity;
+    entity->index = entities_count;
+    entities[entities_count] = entity;
     entities_count++;
 
-    return index;
+    return entity->index;
 }
 
 bool remove_entity(int index) {
@@ -75,7 +74,7 @@ bool remove_entity(int index) {
     }
 
     free(entities[index]);
-    for (int i = index; i < entities_count - 1; i++) {
+    for (int i = index; i < entities_count-1; i++) {
         entities[i] = entities[i + 1];
         entities[i]->index = i;
     }

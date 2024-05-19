@@ -67,6 +67,7 @@ Living_Monster *create_living_monster(Game_World *world, World_Monster *world_mo
         }
     }
 
+    living_monster->living_id = world_monster->living_monsters_count;
     world_monster->living_monsters[world_monster->living_monsters_count] = living_monster;
     world_monster->living_monsters_count++;
 

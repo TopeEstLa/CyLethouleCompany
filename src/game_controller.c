@@ -8,6 +8,8 @@
 #include <monsters.h>
 #include <ncurses_display.h>
 
+#include <curses.h>
+
 Game_Data *game_data = NULL;
 
 Game_Data *get_game_data() {
