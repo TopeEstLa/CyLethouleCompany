@@ -53,5 +53,5 @@ add_executable(CyLethouleCompany
 )
 
 target_link_libraries(CyLethouleCompany PRIVATE
-        ncurses
+        ncursesw
 )
