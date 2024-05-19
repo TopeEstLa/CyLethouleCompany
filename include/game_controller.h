@@ -7,6 +7,7 @@
 #include <player.h>
 
 typedef struct game_data {
+    int frame_count;
     Game_World *world;
     Player *player;
 } Game_Data;

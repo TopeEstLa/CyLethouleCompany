@@ -2,6 +2,7 @@
 
 #include <curses.h>
 #include <ncurses_display.h>
+#include <string.h>
 
 #include <game_controller.h>
 
@@ -135,5 +136,11 @@ void game_scene_curses() {
             current_colonnes++;
         }
         lignes_debut++;
+    }
+
+    if (notif != NULL) {
+        for (int i = 0; i < cur_index; ++i) {
+            printw("%s\n", notif[i]);
+        }
     }
 }

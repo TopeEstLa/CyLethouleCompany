@@ -9,10 +9,12 @@ int main() {
 
     while (get_current_scene() != QUITTING) {
         handle_input();
+        clear();
 
         update_game();
 
         curses_scene();
+        refresh();
     }
 
     endwin();

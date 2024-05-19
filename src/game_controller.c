@@ -68,6 +68,8 @@ void update_game() {
     if (get_current_scene() != GAME) return;
     if (!is_game_loaded()) return;
 
+    game_data->frame_count++;
+
     spawn_monster(get_game_data());
 }
 

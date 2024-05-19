@@ -2,6 +2,8 @@
 
 #include <stdlib.h>
 
+#include <curses.h>
+
 #define MONSTERS_COUNT 3
 #define MAX_MONSTERS_IN_WORLD 10
 
@@ -54,6 +56,12 @@ Living_Monster *create_living_monster(Game_World *world, Monster monster, int x,
     living_monster->monster = monster;
     living_monster->health = monster.max_health;
 
+    Entity* placed_entity = get_entity(x, y);
+    if (placed_entity != NULL) {
+        free(living_monster);
+        return NULL;
+    }
+
     Entity *entity = create_entity(MONSTER, living_monster, monster.texture);
     int entity_id = add_entity(world, entity, x, y);
 
@@ -100,26 +108,30 @@ void spawn_monster(Game_Data *gameData) {
 
     int max_spawn_count = MAX_MONSTERS_IN_WORLD - living_monsters_count;
 
-    int spawn_count = random_int(world->seed + max_spawn_count + living_monsters_count, 0, max_spawn_count);
+    int spawn_count = random_int(world->seed + gameData->frame_count, 0, max_spawn_count);
 
     for (int i = 0; i < spawn_count; ++i) {
         if (living_monsters_count >= living_monsters_capacity) {
             return;
         }
 
-        int room_index = random_int(world->seed + max_spawn_count + living_monsters_count + i, 0,
+        int room_index = random_int(world->seed + max_spawn_count + gameData->frame_count + i, 0,
                                     world->room_count - 1);
 
         Room *room = world->rooms[room_index];
 
-        int x = random_int(world->seed + max_spawn_count + living_monsters_count + i + room_index, room->x+1,
+        int x = random_int(world->seed + max_spawn_count + gameData->frame_count + i + room_index, room->x+1,
                            room->x + room->width - 1);
 
-        int y = random_int(world->seed + max_spawn_count + living_monsters_count + i + room_index + x, room->y+1
+        int y = random_int(world->seed + max_spawn_count + gameData->frame_count + i + room_index + x, room->y+1
                              , room->y + room->height - 1);
 
+        Entity* entity = get_entity(x, y);
+        if (entity != NULL) {
+            continue;
+        }
 
-        Monster monster = get_random_monster(world->seed + max_spawn_count + living_monsters_count + i + room_index + x + y);
+        Monster monster = get_random_monster(world->seed + max_spawn_count + living_monsters_count + i + room_index + x + y + gameData->frame_count);
         create_living_monster(world, monster, x, y);
     }
 }

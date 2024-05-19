@@ -58,8 +58,7 @@ void handle_input() {
 }
 
 void curses_scene() {
-
-    clear();
+    //clear();
     switch (current_scene) {
         case MAIN_MENU:
             main_menu_curses();
@@ -79,7 +78,7 @@ void curses_scene() {
         default:
             break;
     }
-    refresh();
+    //refresh();
 }
 
 void curses_all_map(Game_World *world) {
