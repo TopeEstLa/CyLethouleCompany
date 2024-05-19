@@ -5,10 +5,12 @@
 
 #include <world.h>
 #include <player.h>
+#include <monsters.h>
 
 typedef struct game_data {
     int frame_count;
     Game_World *world;
+    World_Monster *world_monster;
     Player *player;
 } Game_Data;
 

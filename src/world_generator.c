@@ -1,10 +1,10 @@
 #include <world_generator.h>
 
-#include <stdlib.h>
 #include <stdio.h>
 #include <maths.h>
 
 #include <world.h>
+#include <monsters.h>
 
 void base_generation(Game_World *world) {
     if (world == NULL) {

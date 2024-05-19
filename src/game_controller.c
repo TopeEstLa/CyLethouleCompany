@@ -24,7 +24,6 @@ bool is_game_loaded() {
 
 void prepare_game() {
     init_entities();
-    init_monsters();
 }
 
 void loaded_game(Game_Data *new_game_data) {
@@ -43,16 +42,17 @@ void create_game(int seed, char *name, Class current_class) {
     base_generation(world);
 
     Player *player = create_player(world, name, current_class);
+    World_Monster* world_monster = init_world_monster();
 
     game->world = world;
     game->player = player;
+    game->world_monster = world_monster;
 
     set_game_data(game);
 }
 
 void unload_game() {
     cleanup_entities();
-    cleanup_monsters();
 
     Game_Data *game = get_game_data();
     if (game == NULL) {
@@ -68,8 +68,6 @@ void update_game() {
     if (!is_game_loaded()) return;
 
     game_data->frame_count++;
-
-    spawn_monster(get_game_data());
 }
 
 void move_player(int x, int y) {
@@ -89,7 +87,7 @@ void move_player(int x, int y) {
         if (collided_entity->type == MONSTER) {
             //TODO fight
             Living_Monster *monster = collided_entity->data;
-            kill_monster(monster);
+            kill_monster(game_data->world_monster, monster->living_id);
         } else if (collided_entity->type == ITEM) {
             //TODO PICKUP
         }
@@ -113,6 +111,7 @@ void move_player(int x, int y) {
 
     if (!room->is_visited) {
         room->is_visited = true;
+        spawn_monster(game_data->world_monster, game_data->world, room);
         game_data->player->exp += 10;
     }
 

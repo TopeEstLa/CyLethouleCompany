@@ -2,11 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <scene/game_scene.h>
-
-#include <monsters.h>
-#include <player.h>
-
 Entity **entities = NULL;
 int entities_count = 0;
 int entities_capacity = 0;

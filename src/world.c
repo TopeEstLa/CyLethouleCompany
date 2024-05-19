@@ -76,6 +76,8 @@ Game_World *create_world(int seed) {
     world->room_capacity = 10;
     world->room_count = 0;
 
+//    world->monsters = init_world_monster();
+
     return world;
 }
 
@@ -138,6 +140,8 @@ Game_World *create_world_sized(int seed, int width, int height) {
 
     world->room_capacity = 10;
     world->room_count = 0;
+
+ //   world->monsters = init_world_monster();
 
     return world;
 }
