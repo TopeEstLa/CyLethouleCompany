@@ -12,6 +12,7 @@ Chunk *create_empty_chunk() {
     }
 
     chunk->type = VOID;
+    chunk->direction = NONE;
 
     return chunk;
 }
@@ -380,14 +381,29 @@ int append_room(Game_World *world, Room *room) {
     }
 
     for (int i = room->x; i < room->x + room->width; ++i) {
-        world->chunk[i][room->y]->type = WALL;
-        world->chunk[i][room->y + room->height - 1]->type = WALL;
+        Chunk *chunk = world->chunk[i][room->y];
+        chunk->type = WALL;
+        chunk->direction = NORTH;
+
+        Chunk *chunk2 = world->chunk[i][room->y + room->height - 1];
+        chunk2->type = WALL;
+        chunk2->direction = SOUTH;
     }
 
     for (int i = room->y; i < room->y + room->height; ++i) {
-        world->chunk[room->x][i]->type = WALL;
-        world->chunk[room->x + room->width - 1][i]->type = WALL;
+        Chunk *chunk = world->chunk[room->x][i];
+        chunk->type = WALL;
+        chunk->direction = WEST;
+
+        Chunk *chunk2 = world->chunk[room->x + room->width - 1][i];
+        chunk2->type = WALL;
+        chunk2->direction = EAST;
     }
+
+    world->chunk[room->x][room->y]->direction = NORTH_WEST;
+    world->chunk[room->x + room->width - 1][room->y]->direction = NORTH_EAST;
+    world->chunk[room->x][room->y + room->height - 1]->direction = SOUTH_WEST;
+    world->chunk[room->x + room->width - 1][room->y + room->height - 1]->direction = SOUTH_EAST;
 
     for (int i = 0; i < 4; i++) {
         Door *door = room->doors[i];

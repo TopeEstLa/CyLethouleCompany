@@ -58,7 +58,7 @@ void game_scene_curses() {
     getmaxyx(stdscr, lignes, colonnes);
 
     int colonnes_text = dx * 2;
-    int colonnes_debut = (colonnes - colonnes_text/2) / 2;
+    int colonnes_debut = (colonnes - colonnes_text / 2) / 2;
     int lignes_debut = 6;
 
     for (int iy = y - dy; iy < y + dy - 1; iy++) {
@@ -78,13 +78,32 @@ void game_scene_curses() {
                     if (entity != NULL) {
                         mvprintw(lignes_debut, current_colonnes, "%s", entity->texture);
                     } else {
-                        switch (world->chunk[ix][iy]->type) {
+                        Chunk *chunk = get_chunk(world, ix, iy);
+
+                        if (chunk == NULL) {
+                            mvprintw(lignes_debut, current_colonnes, " ");
+                            current_colonnes++;
+                            continue;
+                        }
+
+                        switch (chunk->type) {
                             case DOOR:
                                 mvprintw(lignes_debut, current_colonnes, "۩");
                                 break;
                             case WALL:
-                                mvprintw(lignes_debut, current_colonnes, "║");
-                                //NE PAS SUPPRIMER ‼️⚠️mvprintw(lignes_debut, current_colonnes, "═");
+                                if (chunk->direction == EAST || chunk->direction == WEST) {
+                                    mvprintw(lignes_debut, current_colonnes, "║");
+                                } else if (chunk->direction == NORTH || chunk->direction == SOUTH) {
+                                    mvprintw(lignes_debut, current_colonnes, "═");
+                                } else if (chunk->direction == NORTH_WEST) {
+                                    mvprintw(lignes_debut, current_colonnes, "╔");
+                                } else if (chunk->direction == NORTH_EAST) {
+                                    mvprintw(lignes_debut, current_colonnes, "╗");
+                                } else if (chunk->direction == SOUTH_WEST) {
+                                    mvprintw(lignes_debut, current_colonnes, "╚");
+                                } else if (chunk->direction == SOUTH_EAST) {
+                                    mvprintw(lignes_debut, current_colonnes, "╝");
+                                }
                                 break;
                             case VOID:
                             case EMPTY:
@@ -103,7 +122,7 @@ void game_scene_curses() {
     }
 
     lignes_debut = 6;
-    colonnes_text = dx*2;
+    colonnes_text = dx * 2;
     colonnes_debut = (colonnes - colonnes_text) / 2;
     for (int i = y - dy; i < y + dy; i++) {
         int current_colonnes = colonnes_debut;
