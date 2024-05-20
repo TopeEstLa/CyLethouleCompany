@@ -48,6 +48,8 @@ add_executable(CyLethouleCompany
         src/memory_utils.c
         include/monsters.h
         src/monsters.c
+        include/items.h
+        src/items.c
 )
 
 target_link_libraries(CyLethouleCompany PRIVATE

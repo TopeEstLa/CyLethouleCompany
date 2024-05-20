@@ -92,6 +92,14 @@ void kill_monster(World_Monster *world_monster, int monster_id) {
     Living_Monster *living_monster = world_monster->living_monsters[monster_id];
     Entity *living_entity = living_monster->entity;
 
+    if (living_entity == NULL) {
+        return;
+    }
+
+    if (living_entity->index < 0 && living_entity->index >= world_monster->living_monsters_count) {
+        return;
+    }
+
     bool removed = remove_entity(living_entity->index);
 
     if (removed) {

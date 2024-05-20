@@ -41,14 +41,31 @@ void create_game(int seed, char *name, Class current_class) {
     }
 
     Game_World *world = create_world(seed);
+    if (world == NULL) {
+        return;
+    }
+
     base_generation(world);
 
     Player *player = create_player(world, name, current_class);
+    if (player == NULL) {
+        return;
+    }
+
     World_Monster* world_monster = init_world_monster();
+    if (world_monster == NULL) {
+        return;
+    }
+
+    World_Item *world_item = init_world_item();
+    if (world_item == NULL) {
+        return;
+    }
 
     game->world = world;
     game->player = player;
     game->world_monster = world_monster;
+    game->world_item = world_item;
 
     set_game_data(game);
 }
@@ -91,7 +108,8 @@ void move_player(int x, int y) {
             Living_Monster *monster = collided_entity->data;
             kill_monster(game_data->world_monster, monster->living_id);
         } else if (collided_entity->type == ITEM) {
-            //TODO PICKUP
+            Dropped_Item* item = collided_entity->data;
+            Item_Stack* item_stack = pickup_item(game_data->world_item, item->dropped_id);
         }
     }
 
@@ -114,6 +132,7 @@ void move_player(int x, int y) {
     if (!room->is_visited) {
         room->is_visited = true;
         spawn_monster(game_data->world_monster, game_data->world, room);
+        spawn_item(game_data->world_item, game_data->world, room);
         game_data->player->exp += 10;
     }
 

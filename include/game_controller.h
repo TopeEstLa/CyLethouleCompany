@@ -6,11 +6,13 @@
 #include <world.h>
 #include <player.h>
 #include <monsters.h>
+#include <items.h>
 
 typedef struct game_data {
     int frame_count;
     Game_World *world;
     World_Monster *world_monster;
+    World_Item *world_item;
     Player *player;
 } Game_Data;
 
