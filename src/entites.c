@@ -39,11 +39,16 @@ int add_entity(Game_World *world, Entity *entity, int x, int y) {
         return -1;
     }
 
-    Chunk *chunk = world->chunk[x][y];
-
-    if (chunk->type != EMPTY) {
+    Chunk *chunk = get_chunk(world, x, y);
+    if (chunk == NULL) {
         return -1;
     }
+
+    if (chunk->type != EMPTY && (chunk->type != DOOR && entity->type == PLAYER)) {
+        return -1;
+    }
+
+
 
     Entity *existing_entity = get_entity(x, y);
 

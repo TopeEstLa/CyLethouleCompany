@@ -12,6 +12,7 @@ typedef struct Monster {
 
 typedef struct Living_Monster {
     Monster monster;
+    int monster_id;
     int living_id;
     Entity *entity;
     int health;
@@ -25,9 +26,9 @@ typedef struct World_Monster {
 
 World_Monster *init_world_monster();
 
-Monster get_random_monster(int seed);
+int get_random_monster(int seed);
 
-Living_Monster *create_living_monster(Game_World *world, World_Monster *world_monster, Monster monster, int x, int y);
+Living_Monster *create_living_monster(Game_World *world, World_Monster *world_monster, int monster_id, int x, int y, int health);
 
 void kill_monster(World_Monster *world_monster, int monster_id);
 

@@ -31,14 +31,28 @@ World_Monster *init_world_monster() {
     return world_monster;
 }
 
-Monster get_random_monster(int seed) {
-    return monsters[random_int(seed, 0, MONSTERS_COUNT - 1)];
+int get_random_monster(int seed) {
+    return random_int(seed, 0, MONSTERS_COUNT - 1);
 }
 
-Living_Monster *create_living_monster(Game_World *world, World_Monster *world_monster, Monster monster, int x, int y) {
+Living_Monster *create_living_monster(Game_World *world, World_Monster *world_monster, int monster_id, int x, int y, int health) {
+    if (monster_id < 0 || monster_id >= MONSTERS_COUNT) {
+        return NULL;
+    }
+
+    Monster monster = monsters[monster_id];
+
+    int l_health = 0;
+    if (health == -1) {
+        l_health = monster.max_health;
+    } else {
+        l_health = health;
+    }
+
     Living_Monster *living_monster = malloc(sizeof(Living_Monster));
     living_monster->monster = monster;
-    living_monster->health = monster.max_health;
+    living_monster->monster_id = monster_id;
+    living_monster->health = l_health;
 
     Entity *placed_entity = get_entity(x, y);
     if (placed_entity != NULL) {
@@ -100,8 +114,8 @@ void spawn_monster(World_Monster *worldMonster, Game_World *world, Room *room) {
         int y = random_int(world->seed + room->x + room->y + room->height + room->width + i, room->y + 1,
                            room->y + room->height - 1);
 
-        Monster monster = get_random_monster(world->seed + room->x + room->y + room->height + room->width + i + x + y);
-        Living_Monster *liv = create_living_monster(world, worldMonster, monster, x, y);
+        int monster = get_random_monster(world->seed + room->x + room->y + room->height + room->width + i + x + y);
+        Living_Monster *liv = create_living_monster(world, worldMonster, monster, x, y, -1);
 
         if (liv == NULL) {
             return;
