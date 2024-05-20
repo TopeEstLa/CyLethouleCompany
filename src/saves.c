@@ -142,6 +142,8 @@ bool save_game(Game_Data *game, char *save_name) {
 
     cJSON_AddNumberToObject(globalJson, "format_version", FORMAT_VERSION);
 
+    cJSON_AddNumberToObject(globalJson, "frame_count", game->frame_count);
+
     cJSON *worldObj = create_world_json(game->world);
     cJSON *monsterObj = create_monster_json(game->world_monster);
     cJSON *itemObj = create_item_json(game->world_item);
@@ -307,6 +309,12 @@ Game_Data *load_game(char *save_name) {
         return NULL;
     }
 
+    cJSON *frameCount = cJSON_GetObjectItem(globalJson, "frame_count");
+    if (frameCount == NULL) {
+        cJSON_Delete(globalJson);
+        return NULL;
+    }
+
     cJSON *worldObj = cJSON_GetObjectItem(globalJson, "world");
 
     if (worldObj == NULL) {
@@ -377,6 +385,7 @@ Game_Data *load_game(char *save_name) {
 
 
     Game_Data *game = malloc(sizeof(Game_Data));
+    game->frame_count = frameCount->valueint;
     game->world = world;
     game->world_monster = worldMonster;
     game->world_item = worldItem;
