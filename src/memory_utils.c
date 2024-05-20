@@ -15,6 +15,9 @@ void free_world(Game_World *world) {
 }
 
 void free_player(Player *player) {
+    free(player->inventory->items);
+    free(player->inventory);
+    free(player->name);
     free(player);
 }
 
