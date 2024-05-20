@@ -55,8 +55,12 @@ Dropped_Item *drop_item(Game_World *world, World_Item *world_item, Item_Stack *i
     dropped_item->item = item_stack;
     dropped_item->dropped_id = world_item->dropped_items_count;
     dropped_item->entity = create_entity(ITEM, dropped_item, item_stack->texture);
-    dropped_item->x = x;
-    dropped_item->y = y;
+
+    Entity* entity = get_entity(x, y);
+    if (entity != NULL) {
+        free(dropped_item);
+        return NULL;
+    }
 
     int id = add_entity(world, dropped_item->entity, x, y);
     if (id == -1) {
@@ -70,7 +74,7 @@ Dropped_Item *drop_item(Game_World *world, World_Item *world_item, Item_Stack *i
     return dropped_item;
 }
 
-Item_Stack* pickup_item(World_Item *world_item, int dropped_id) {
+Item_Stack *pickup_item(World_Item *world_item, int dropped_id) {
     if (world_item == NULL) {
         return NULL;
     }
@@ -105,28 +109,28 @@ Item_Stack* pickup_item(World_Item *world_item, int dropped_id) {
 
 void spawn_item(World_Item *world_item, Game_World *world, Room *room) {
     int item_seed = world->seed + room->x + room->y + room->height + room->width + world_item->dropped_items_capacity +
-                    world_item->dropped_items_count;
+                    world_item->dropped_items_count + world->room_count + world->room_capacity;
     int spawn_count = random_int(
-            item_seed, 0, 2);
+            item_seed, 1, 2);
 
     for (int i = 0; i < spawn_count; i++) {
-        int x = random_int(item_seed + i, room->x,
-                           room->x + room->width);
-        int y = random_int(world->seed + room->x + room->y + room->height + room->width + i, room->y,
-                           room->y + room->height);
+        int x = random_int(item_seed + i + spawn_count, room->x + 1,
+                           room->x + room->width - 1);
+        int y = random_int(item_seed + i + x + spawn_count, room->y + 1,
+                           room->y + room->height - 1);
 
         int item_id = random_int(item_seed + i, 0, ITEM_COUNT);
 
         Item_Stack *itemStack = create_item_stack(item_id);
 
         if (itemStack == NULL) {
-            return;
+            continue;
         }
 
         Dropped_Item *dropItem = drop_item(world, world_item, itemStack, x, y);
 
         if (dropItem == NULL) {
-            return;
+            continue;
         }
 
     }

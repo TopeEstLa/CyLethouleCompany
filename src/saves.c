@@ -107,8 +107,8 @@ cJSON *create_item_json(World_Item *worldItem) {
 
         cJSON_AddItemToObject(item, "item_stack", item_stack);
 
-        cJSON_AddNumberToObject(item, "x", droppedItem->x);
-        cJSON_AddNumberToObject(item, "y", droppedItem->y);
+        cJSON_AddNumberToObject(item, "x", droppedItem->entity->x);
+        cJSON_AddNumberToObject(item, "y", droppedItem->entity->y);
         cJSON_AddItemToArray(itemsArray, item);
     }
 

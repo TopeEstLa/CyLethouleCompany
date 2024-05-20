@@ -35,7 +35,7 @@ void main_handle_input() {
                     set_current_scene(LOAD_MENU);
                     break;
                 case 1:
-                    create_game(50, "coucou", WARRIOR);
+                    create_game(6084, "coucou", WARRIOR);
                     set_current_scene(GAME);
                     break;
                 case 2:

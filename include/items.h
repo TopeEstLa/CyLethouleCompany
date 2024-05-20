@@ -20,8 +20,6 @@ typedef struct dropped_item {
     Item_Stack *item;
     int dropped_id;
     Entity *entity;
-    int x;
-    int y;
 } Dropped_Item;
 
 typedef struct World_Item {
