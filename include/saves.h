@@ -7,7 +7,7 @@
 #include <world.h>
 #include <cJSON.h>
 
-#define FORMAT_VERSION 4
+#define FORMAT_VERSION 5
 #define SAVES_FOLDER "saves/"
 
 /**
@@ -23,6 +23,13 @@ cJSON* create_world_json(Game_World* world);
  * @return the cJSON object created
  */
 cJSON* create_monster_json(World_Monster* worldMonster);
+
+/**
+ * Create a cJSON object from an item.
+ * @param worldItem the item to create the cJSON object from
+ * @return the cJSON object created
+ */
+cJSON* create_item_json(World_Item* worldItem);
 
 /**
  * Save the world in a file.
@@ -53,6 +60,13 @@ Game_World* load_world_from_json(cJSON* worldObj);
  * @return all monsters loaded or NULL if an error occurred
  */
 World_Monster* load_monster_from_json(Game_World* world, cJSON* monsterObj);
+
+/**
+ * Load all items from a cJSON object.
+ * @param itemObj the cJSON object
+ * @return all items loaded or NULL if an error occurred
+ */
+World_Item* load_item_from_json(Game_World* world, cJSON* itemObj);
 
 /**
  * Load a world from a file.

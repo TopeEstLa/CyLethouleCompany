@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include <file_utils.h>
 #include <player.h>
@@ -83,6 +84,39 @@ cJSON *create_monster_json(World_Monster *worldMonster) {
 
 }
 
+cJSON *create_item_json(World_Item *worldItem) {
+    if (worldItem == NULL) {
+        return NULL;
+    }
+
+    cJSON *itemObj = cJSON_CreateObject();
+
+    if (itemObj == NULL) {
+        return NULL;
+    }
+
+    cJSON *itemsArray = cJSON_CreateArray();
+    for (int i = 0; i < worldItem->dropped_items_count; ++i) {
+        Dropped_Item *droppedItem = worldItem->dropped_items[i];
+        cJSON *item = cJSON_CreateObject();
+
+        cJSON *item_stack = cJSON_CreateObject();
+        cJSON_AddStringToObject(item_stack, "name", droppedItem->item->name);
+        cJSON_AddStringToObject(item_stack, "texture", droppedItem->item->texture);
+        cJSON_AddNumberToObject(item_stack, "material", droppedItem->item->material);
+
+        cJSON_AddItemToObject(item, "item_stack", item_stack);
+
+        cJSON_AddNumberToObject(item, "x", droppedItem->x);
+        cJSON_AddNumberToObject(item, "y", droppedItem->y);
+        cJSON_AddItemToArray(itemsArray, item);
+    }
+
+    cJSON_AddItemToObject(itemObj, "items", itemsArray);
+
+    return itemObj;
+}
+
 bool save_world(Game_World *world, char *filename) {
     cJSON *globalJson = cJSON_CreateObject();
 
@@ -110,6 +144,7 @@ bool save_game(Game_Data *game, char *save_name) {
 
     cJSON *worldObj = create_world_json(game->world);
     cJSON *monsterObj = create_monster_json(game->world_monster);
+    cJSON *itemObj = create_item_json(game->world_item);
 
     Player *player = game->player;
     cJSON *playerObj = cJSON_CreateObject();
@@ -124,6 +159,7 @@ bool save_game(Game_Data *game, char *save_name) {
 
     cJSON_AddItemToObject(globalJson, "world", worldObj);
     cJSON_AddItemToObject(globalJson, "monster", monsterObj);
+    cJSON_AddItemToObject(globalJson, "item", itemObj);
     cJSON_AddItemToObject(globalJson, "player", playerObj);
 
     bool result = save_json(save_name, globalJson);
@@ -203,7 +239,7 @@ Game_World *load_world(char *filename) {
     return world;
 }
 
-World_Monster* load_monster_from_json(Game_World* world, cJSON* monsterObj) {
+World_Monster *load_monster_from_json(Game_World *world, cJSON *monsterObj) {
     World_Monster *worldMonster = init_world_monster();
 
     cJSON *monstersArray = cJSON_GetObjectItem(monsterObj, "monsters");
@@ -220,6 +256,39 @@ World_Monster* load_monster_from_json(Game_World* world, cJSON* monsterObj) {
     }
 
     return worldMonster;
+
+}
+
+World_Item* load_item_from_json(Game_World* world, cJSON* itemObj) {
+    World_Item *worldItem = init_world_item();
+
+    cJSON *itemsArray = cJSON_GetObjectItem(itemObj, "items");
+
+    for (int i = 0; i < cJSON_GetArraySize(itemsArray); i++) {
+        cJSON *item = cJSON_GetArrayItem(itemsArray, i);
+
+        cJSON *item_stack_json = cJSON_GetObjectItem(item, "item_stack");
+        char *name = cJSON_GetObjectItem(item_stack_json, "name")->valuestring;
+        char *texture = cJSON_GetObjectItem(item_stack_json, "texture")->valuestring;
+        int material = cJSON_GetObjectItem(item_stack_json, "material")->valueint;
+
+        Item_Stack *item_stack = malloc(sizeof(Item_Stack));
+        item_stack->name = malloc(strlen(name) + 1);
+        item_stack->texture = malloc(strlen(texture) + 1);
+        strcpy(item_stack->name, name);
+        strcpy(item_stack->texture, texture);
+        item_stack->material = material;
+
+        int x = cJSON_GetObjectItem(item, "x")->valueint;
+        int y = cJSON_GetObjectItem(item, "y")->valueint;
+
+        Dropped_Item *dropped_item = drop_item(world, worldItem, item_stack, x, y);
+        if (dropped_item == NULL) {
+            return NULL;
+        }
+    }
+
+    return worldItem;
 
 }
 
@@ -283,7 +352,6 @@ Game_Data *load_game(char *save_name) {
     }
 
     World_Monster *worldMonster = load_monster_from_json(world, monsterObj);
-
     if (worldMonster == NULL) {
         free(player);
         free_world(world);
@@ -291,9 +359,27 @@ Game_Data *load_game(char *save_name) {
         return NULL;
     }
 
+    cJSON *itemObj = cJSON_GetObjectItem(globalJson, "item");
+    if (itemObj == NULL) {
+        free_player(player);
+        free_world(world);
+        cJSON_Delete(globalJson);
+        return NULL;
+    }
+
+    World_Item *worldItem = load_item_from_json(world, itemObj);
+    if (worldItem == NULL) {
+        free(player);
+        free_world(world);
+        cJSON_Delete(globalJson);
+        return NULL;
+    }
+
+
     Game_Data *game = malloc(sizeof(Game_Data));
     game->world = world;
     game->world_monster = worldMonster;
+    game->world_item = worldItem;
     game->player = player;
 
     cJSON_Delete(globalJson);
