@@ -118,8 +118,11 @@ void move_player(int x, int y) {
             Living_Monster *monster = collided_entity->data;
             kill_monster(game_data->world_monster, monster->living_id);
         } else if (collided_entity->type == ITEM) {
-            Dropped_Item* item = collided_entity->data;
-            Item_Stack* item_stack = pickup_item(game_data->world_item, item->dropped_id);
+            if (have_space(player)) {
+                Dropped_Item *item = collided_entity->data;
+                Item_Stack *item_stack = pickup_item(game_data->world_item, item->dropped_id);
+                add_item_to_inventory(player->inventory, item_stack);
+            }
         }
     }
 

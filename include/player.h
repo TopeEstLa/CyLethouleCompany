@@ -13,28 +13,32 @@ typedef enum class {
 } Class;
 
 typedef struct inventory {
-    Item_Stack** items;
+    Item_Stack **items;
     int index;
     int capacity;
 } Inventory;
 
 typedef struct player {
-    Entity* entity;
-    char* name;
-    Inventory* inventory;
+    Entity *entity;
+    char *name;
+    Inventory *inventory;
     Class current_class;
     int health;
     int max_health;
     int exp;
 } Player;
 
-Player* create_player(Game_World* world, char* name, Class current_class);
+Player *create_player(Game_World *world, char *name, Class current_class);
 
-Player* load_player(Game_World* world, char* name, Inventory* inventory, Class current_class, int health, int max_health, int exp, int x, int y);
+Player *
+load_player(Game_World *world, char *name, Inventory *inventory, Class current_class, int health, int max_health,
+            int exp, int x, int y);
 
-Inventory* create_inventory(int capacity);
+Inventory *create_inventory(int capacity);
 
-void add_item_to_inventory(Inventory* inventory, Item_Stack* item_stack);
+void add_item_to_inventory(Inventory *inventory, Item_Stack *item_stack);
+
+bool have_space(Player *player);
 
 
 #endif //PLAYER_H

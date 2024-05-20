@@ -115,6 +115,15 @@ Move_Callback move_entity(Game_World *world, Entity *entity, int new_x, int new_
     if (existing_entity != NULL) {
         callback.collided_entity = existing_entity;
         callback.reason = ENTITY_COLLISION;
+
+
+        if (existing_entity->type == ITEM) {
+            callback.move_made = true;
+            entity->x = new_x;
+            entity->y = new_y;
+            return callback;
+        }
+
         return callback;
     }
 

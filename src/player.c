@@ -70,3 +70,12 @@ void add_item_to_inventory(Inventory *inventory, Item_Stack *item_stack) {
     inventory->items[inventory->index] = item_stack;
     inventory->index++;
 }
+
+bool have_space(Player *player) {
+    Inventory* inventory = player->inventory;
+    if (inventory->index >= inventory->capacity) {
+        return false;
+    }
+
+    return true;
+}
