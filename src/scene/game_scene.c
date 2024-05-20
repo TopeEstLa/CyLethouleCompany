@@ -71,8 +71,8 @@ void game_scene_curses() {
     int dy = 10;
     getmaxyx(stdscr, lignes, colonnes);
 
-    int colonnes_text = dx * 2;
-    int colonnes_debut = (colonnes - colonnes_text / 2) / 2;
+    int colonnes_text = dx;
+    int colonnes_debut = (colonnes - colonnes_text) /2;
     int lignes_debut = 6;
 
     for (int iy = y - dy; iy < y + dy - 1; iy++) {
