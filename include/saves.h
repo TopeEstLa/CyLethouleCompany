@@ -32,6 +32,13 @@ cJSON* create_monster_json(World_Monster* worldMonster);
 cJSON* create_item_json(World_Item* worldItem);
 
 /**
+ * Create a cJSON object from a player.
+ * @param player the player to create the cJSON object from
+ * @return the cJSON object created
+ */
+cJSON* create_player_json(Player* player);
+
+/**
  * Save the world in a file.
  * @param world the world to save
  * @param filename the name of the file
@@ -67,6 +74,14 @@ World_Monster* load_monster_from_json(Game_World* world, cJSON* monsterObj);
  * @return all items loaded or NULL if an error occurred
  */
 World_Item* load_item_from_json(Game_World* world, cJSON* itemObj);
+
+/**
+ * Load a player from a cJSON object.
+ * @param world the world
+ * @param playerObj the cJSON object
+ * @return player loaded or NULL if an error occurred
+ */
+Player* load_player_from_json(Game_World* world, cJSON* playerObj);
 
 /**
  * Load a world from a file.

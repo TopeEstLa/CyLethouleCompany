@@ -9,6 +9,7 @@ Player *create_player(Game_World *world, char *name, Class current_class) {
     player->entity = create_entity(PLAYER, player, "Ꮱ");
     player->name = malloc(strlen(name) + 1);
     strcpy(player->name, name);
+    player->inventory = create_inventory(INVENTORY_CAPACITY);
     player->current_class = current_class;
     player->health = 100;
     player->max_health = 100;
@@ -29,11 +30,14 @@ Player *create_player(Game_World *world, char *name, Class current_class) {
     return player;
 }
 
-Player *load_player(Game_World *world, char *name, Class current_class, int health, int max_health, int exp, int x, int y) {
+Player *
+load_player(Game_World *world, char *name, Inventory *inventory, Class current_class, int health, int max_health,
+            int exp, int x, int y) {
     Player *player = malloc(sizeof(Player));
     player->entity = create_entity(PLAYER, player, "Ꮱ");
     player->name = malloc(strlen(name) + 1);
     strcpy(player->name, name);
+    player->inventory = inventory;
     player->current_class = current_class;
     player->health = health;
     player->max_health = max_health;
@@ -49,3 +53,20 @@ Player *load_player(Game_World *world, char *name, Class current_class, int heal
     return player;
 }
 
+Inventory *create_inventory(int capacity) {
+    Inventory *inventory = malloc(sizeof(Inventory));
+    inventory->items = malloc(sizeof(Item_Stack *) * capacity);
+    inventory->index = 0;
+    inventory->capacity = capacity;
+
+    return inventory;
+}
+
+void add_item_to_inventory(Inventory *inventory, Item_Stack *item_stack) {
+    if (inventory->index >= inventory->capacity) {
+        return;
+    }
+
+    inventory->items[inventory->index] = item_stack;
+    inventory->index++;
+}
