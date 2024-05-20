@@ -101,14 +101,15 @@ void create_menu_curses() {
                 printw("Seed: %s\n", seed);
                 break;
             case 2:
-                printw("Class: ");
-                if (class_choice == 0) {
-                    printw("ARCHER\n");
-                } else if (class_choice == 1) {
-                    printw("WIZARD\n");
+                char* class = "ARCHER";
+                if (class_choice == 1) {
+                    class = "WIZARD";
                 } else if (class_choice == 2) {
-                    printw("WARRIOR\n");
+                    class = "WARRIOR";
                 }
+
+                printw("Class: %s USE ENTER TO CHANGE\n", class);
+
                 break;
             case 3:
                 printw("\n");
