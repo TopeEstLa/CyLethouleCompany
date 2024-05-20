@@ -5,6 +5,7 @@
 #include <items.h>
 
 #define INVENTORY_CAPACITY 3
+#define PLAYER_TEXTURE "Ꮱ"
 
 typedef enum class {
     ARCHER,
@@ -30,8 +31,7 @@ typedef struct player {
 
 Player *create_player(Game_World *world, char *name, Class current_class);
 
-Player *
-load_player(Game_World *world, char *name, Inventory *inventory, Class current_class, int health, int max_health,
+Player *load_player(Game_World *world, char *name, Inventory *inventory, Class current_class, int health, int max_health,
             int exp, int x, int y);
 
 Inventory *create_inventory(int capacity);
@@ -39,6 +39,8 @@ Inventory *create_inventory(int capacity);
 void add_item_to_inventory(Inventory *inventory, Item_Stack *item_stack);
 
 bool have_space(Player *player);
+
+void player_death(Game_World* world, Player *player);
 
 
 #endif //PLAYER_H

@@ -6,6 +6,8 @@
 #include <scene/load_menu.h>
 #include <scene/create_menu.h>
 #include <scene/pause_menu.h>
+#include <scene/time_over_menu.h>
+#include <scene/game_over_menu.h>
 
 #include <scene/game_scene.h>
 
@@ -52,6 +54,11 @@ void handle_input() {
         case GAME:
             handle_game_input();
             break;
+        case TIME_OVER:
+            time_over_input();
+        case GAME_OVER:
+            game_over_input();
+            break;
         default:
             break;
     }
@@ -74,6 +81,12 @@ void curses_scene() {
             break;
         case GAME:
             game_scene_curses();
+            break;
+        case TIME_OVER:
+            time_over_menu_curses();
+            break;
+        case GAME_OVER:
+            game_over_menu_curses();
             break;
         default:
             break;

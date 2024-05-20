@@ -52,7 +52,7 @@ void game_scene_curses() {
 
     clock_t current_time = clock();
     if (current_time >= game->end_time) {
-        printw("Game Over\n");
+        set_current_scene(TIME_OVER);
         return;
     }
 

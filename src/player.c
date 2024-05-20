@@ -2,11 +2,12 @@
 
 #include <stdlib.h>
 #include <string.h>
-
+#include <game_controller.h>
+#include <ncurses_display.h>
 
 Player *create_player(Game_World *world, char *name, Class current_class) {
     Player *player = malloc(sizeof(Player));
-    player->entity = create_entity(PLAYER, player, "Ꮱ");
+    player->entity = create_entity(PLAYER, player, PLAYER_TEXTURE);
     player->name = malloc(strlen(name) + 1);
     strcpy(player->name, name);
     player->inventory = create_inventory(INVENTORY_CAPACITY);
@@ -34,7 +35,7 @@ Player *
 load_player(Game_World *world, char *name, Inventory *inventory, Class current_class, int health, int max_health,
             int exp, int x, int y) {
     Player *player = malloc(sizeof(Player));
-    player->entity = create_entity(PLAYER, player, "Ꮱ");
+    player->entity = create_entity(PLAYER, player, PLAYER_TEXTURE);
     player->name = malloc(strlen(name) + 1);
     strcpy(player->name, name);
     player->inventory = inventory;
@@ -78,4 +79,35 @@ bool have_space(Player *player) {
     }
 
     return true;
+}
+
+void player_death(Game_World* world, Player *player) {
+    Entity *entity = player->entity;
+
+    Room* room = world->rooms[0];
+
+    int roomCenterX = room->x + room->width / 2;
+    int roomCenterY = room->y + room->height / 2;
+
+    free(player->inventory);
+    player->inventory = create_inventory(INVENTORY_CAPACITY);
+    player->health = player->max_health;
+    player->exp = player->exp / 2;
+
+    Move_Callback callback = move_entity(world, entity, roomCenterX, roomCenterY);
+
+    if (!callback.move_made) {
+        remove_entity(entity->index);
+        free(player->entity);
+        player->entity = create_entity(PLAYER, player, PLAYER_TEXTURE);
+        int id = add_entity(world, player->entity, roomCenterX, roomCenterY);
+        if (id == -1) {
+            //wtf
+            set_current_scene(MAIN_MENU);
+            unload_game();
+            return;
+        }
+    }
+
+    set_current_scene(GAME_OVER);
 }

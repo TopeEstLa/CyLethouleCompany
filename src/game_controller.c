@@ -88,6 +88,12 @@ void update_game() {
     if (get_current_scene() != GAME) return;
     if (!is_game_loaded()) return;
 
+    clock_t current_time = clock();
+    if (current_time >= get_game_data()->end_time) {
+        set_current_scene(TIME_OVER);
+        return;
+    }
+
 }
 
 int get_remaining_time() {

@@ -50,6 +50,10 @@ add_executable(CyLethouleCompany
         src/monsters.c
         include/items.h
         src/items.c
+        include/scene/time_over_menu.h
+        src/scene/time_over_menu.c
+        include/scene/game_over_menu.h
+        src/scene/game_over_menu.c
 )
 
 target_link_libraries(CyLethouleCompany PRIVATE
