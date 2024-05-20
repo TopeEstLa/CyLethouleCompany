@@ -3,9 +3,8 @@
 #include <time.h>
 #include <string.h>
 #include <unistd.h>
-//#include <ncurses.h>
+//#include <ncurse.h>
 
-#define SIZE 50
 
 typedef enum class {
     ARCHER,
@@ -46,19 +45,6 @@ Joueur *creerJoueur() {
         exit(1);
     }
     // Create first name
-
-      // A voir (permet de verifier si tout est un espace)
-    /* 
-    
-    void is_all_spaces(char str) {
-    while (str) {
-        if (!isspace((char)*str)) {
-            return 0;
-        }
-        str++;
-    }
-}
-*/
 
     char tab[51];
     int reset = 0;
@@ -424,15 +410,14 @@ void shopExp(Joueur *a, Joueur *b) {
     int C = 0;
     int ran = 0;
     int count1 = 0;
+    char E;
 
-    flush();
-    count1 = 0;
     do {
 
-        res = 0;
+
         printf("Choisissez le numero correspondant au service voulu :\n");
-        res = scanf("%d", &C);
-            if(res != 1 || sizeof(C) != 4 || C < 1 || C > 4){
+        res = scanf("%1d%c", &C, &E);
+            if(res != 2 || C < 1 || C > 4 || E != '\n'){
                 if(count1 != 5 && count1 != 4){
                 printf("Veuillez entrer un chiffre entre 1 et 4\n");
                 }
@@ -456,7 +441,7 @@ void shopExp(Joueur *a, Joueur *b) {
             }   
 
              
-    } while (res != 1 || C < 1 || C > 4 || sizeof(C) != 4 || (C == 1 && a->exp < 10) || (C == 2 && a->exp < 15) || (C == 3 && a->exp < 150));
+    } while (res != 2 ||  E != '\n' || C < 1 || C > 4 || (C == 1 && a->exp < 10) || (C == 2 && a->exp < 15) || (C == 3 && a->exp < 150));
 
 
     switch (C) {
@@ -512,7 +497,7 @@ void shopExp(Joueur *a, Joueur *b) {
                 printf("Un vrai guerrier se doit de gagner des ames de Morlok...\n");
             }
             else{
-                printf("Un vrai guerrier se doit d'utiliser ses ames de Morlok...\N");
+                printf("Un vrai guerrier se doit d'utiliser ses ames de Morlok...\n");
             }
     }
 
@@ -536,15 +521,16 @@ void combat(Joueur *a, Joueur *b, int N, Inventaire *i1) {
 
     int res = 0;
     N = 0;
+    char EX;
     do {
-        res = 0;
         printf("Quelle classe voulez-vous choisir ? : ");
-        res = scanf("%d", &N);
-            if (res != 1 || N < 1 || N > 3 || sizeof(N) != 4) {
+        res = scanf("%1d%c", &N, &EX);
+            if (res != 2 || N < 1 || N > 3 || EX != '\n') {
                 printf("Veuillez choisir un nombre entre 1 et 3\n");
                 flush();
             } 
-    } while (res != 1 || N < 1 || N > 3 || sizeof(N) != 4);
+    } while (res != 2 ||EX != '\n' || N < 1 || N > 3);
+
 
 
     switch (N) {
@@ -639,15 +625,15 @@ void combatBoss1(Joueur *a, Joueur *b, int N, Inventaire *i1) {
 
     int res = 0;
     N = 0;
+    char A;
     do {
-        res = 0;
         printf("Quelle classe voulez-vous choisir ? : ");
-        res = scanf("%d", &N);
-            if (res != 1 || N < 1 || N > 3 || sizeof(N) != 4) {
+        res = scanf("%1d%c", &N, &A);
+            if (res != 2 || N < 1 || N > 3 || A != '\n') {
                 printf("Veuillez choisir un nombre entre 1 et 3\n");
                 flush();
             } 
-    } while (res != 1 || N < 1 || N > 3 || sizeof(N) != 4);
+    } while (res != 2 || A != '\n' || N < 1 || N > 3);
 
     switch (N) {
         case 1:
@@ -739,15 +725,16 @@ void combatBoss2(Joueur *a, Joueur *b, int N, Inventaire *i1) {
 
     int res = 0;
     N = 0;
+    char G;
     do {
         res = 0;
         printf("Quelle classe voulez-vous choisir ? : ");
-        res = scanf("%d", &N);
-            if (res != 1 || N < 1 || N > 3 || sizeof(N) != 4) {
+        res = scanf("%1d%c", &N, &G);
+            if (res != 2 || N < 1 || N > 3 || G != '\n') {
                 printf("Veuillez choisir un nombre entre 1 et 3\n");
                 flush();
             } 
-    } while (res != 1 || N < 1 || N > 3 || sizeof(N) != 4);
+    } while (res != 2 || G != '\n' || N < 1 || N > 3);
 
     switch (N) {
         case 1:
@@ -836,15 +823,16 @@ void combatBoss3(Joueur *a, Joueur *b, int N, Inventaire *i1) {
 
     int res = 0;
     N = 0;
+    char U;
     do {
         res = 0;
         printf("Quelle classe voulez-vous choisir ? : ");
-        res = scanf("%d", &N);
-            if (res != 1 || N < 1 || N > 3 || sizeof(N) != 4) {
+        res = scanf("%1d%c", &N, &U);
+            if (res != 2 || N < 1 || N > 3 || U != '\n') {
                 printf("Veuillez choisir un nombre entre 1 et 3\n");
                 flush();
             } 
-    } while (res != 1 || N < 1 || N > 3 || sizeof(N) != 4);
+    } while (res != 2 || U != '\n' || N < 1 || N > 3);
 
     switch (N) {
         case 1:
@@ -948,17 +936,7 @@ int main() {
 
 
     // faire une page données sur le main menu pour retirer les stats des printf ici  et les mettre la bas
-
-
-
-    /* 
-     Problemes reglés mais à voir en groupe :
-     - gerer soucis si 2gzgzgzgz marche car première lettre 2 (pas de notre faute au final car printf(%d) affiche que le chiffre) ET AUSSI 3 espace 2 marche passe aussi (3 2)
-     - voir si c'est un soucis de mettre des espaces 
-     
-    */
-    
-
+   
     free(j1->nom);
     free(j2->nom);
     free(j3->nom);
@@ -975,4 +953,5 @@ int main() {
     return 0;
 
 }
+  
   
