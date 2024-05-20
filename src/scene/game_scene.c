@@ -8,28 +8,6 @@
 
 #include <locale.h>
 
-char** notifications = NULL;
-int notifications_size = 0;
-int notifications_capacity = 0;
-
-void add_notification(char *notification) {
-    if (notifications == NULL) {
-        notifications = malloc(sizeof(char *) * 10);
-        notifications_capacity = 10;
-    } else {
-        if (notifications_size >= notifications_capacity) {
-            notifications_capacity *= 2;
-            notifications = realloc(notifications, sizeof(char *) * notifications_capacity);
-            if (notifications == NULL) {
-                return;
-            }
-        }
-
-        notifications[notifications_size] = notification;
-        notifications_size++;
-    }
-}
-
 void handle_game_input() {
 
     Game_Data *game = get_game_data();
@@ -158,9 +136,5 @@ void game_scene_curses() {
             current_colonnes++;
         }
         lignes_debut++;
-    }
-
-    for (int i = 0; i < notifications_size; ++i) {
-        printw("%s\n", notifications[i]);
     }
 }
