@@ -142,7 +142,11 @@ bool save_game(Game_Data *game, char *save_name) {
 
     cJSON_AddNumberToObject(globalJson, "format_version", FORMAT_VERSION);
 
-    cJSON_AddNumberToObject(globalJson, "frame_count", game->frame_count);
+    int remaining_time = (int) ((game->end_time - clock()));
+
+    cJSON_AddNumberToObject(globalJson, "remaining_time", remaining_time);
+
+    //cJSON_AddNumberToObject(globalJson, "frame_count", game->frame_count);
 
     cJSON *worldObj = create_world_json(game->world);
     cJSON *monsterObj = create_monster_json(game->world_monster);
@@ -261,7 +265,7 @@ World_Monster *load_monster_from_json(Game_World *world, cJSON *monsterObj) {
 
 }
 
-World_Item* load_item_from_json(Game_World* world, cJSON* itemObj) {
+World_Item *load_item_from_json(Game_World *world, cJSON *itemObj) {
     World_Item *worldItem = init_world_item();
 
     cJSON *itemsArray = cJSON_GetObjectItem(itemObj, "items");
@@ -309,8 +313,8 @@ Game_Data *load_game(char *save_name) {
         return NULL;
     }
 
-    cJSON *frameCount = cJSON_GetObjectItem(globalJson, "frame_count");
-    if (frameCount == NULL) {
+    cJSON *remainingTime = cJSON_GetObjectItem(globalJson, "remaining_time");
+    if (remainingTime == NULL) {
         cJSON_Delete(globalJson);
         return NULL;
     }
@@ -385,7 +389,10 @@ Game_Data *load_game(char *save_name) {
 
 
     Game_Data *game = malloc(sizeof(Game_Data));
-    game->frame_count = frameCount->valueint;
+    int remaining_time = remainingTime->valueint;
+    game->start_time = clock();
+    game->end_time = game->start_time + remaining_time;
+
     game->world = world;
     game->world_monster = worldMonster;
     game->world_item = worldItem;

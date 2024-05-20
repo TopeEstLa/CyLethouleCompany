@@ -62,6 +62,8 @@ void create_game(int seed, char *name, Class current_class) {
         return;
     }
 
+    game->start_time = clock();
+    game->end_time = game->start_time + (60000 * GAME_DURATION);
     game->world = world;
     game->player = player;
     game->world_monster = world_monster;
@@ -86,7 +88,15 @@ void update_game() {
     if (get_current_scene() != GAME) return;
     if (!is_game_loaded()) return;
 
-    game_data->frame_count++;
+}
+
+int get_remaining_time() {
+    if (!is_game_loaded()) return 0;
+
+    clock_t current_time = clock();
+    Game_Data *game = get_game_data();
+    clock_t remaining_time = (game->end_time - current_time);
+    return remaining_time / 1000;
 }
 
 void move_player(int x, int y) {

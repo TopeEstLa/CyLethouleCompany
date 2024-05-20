@@ -50,6 +50,19 @@ void game_scene_curses() {
     Game_World *world = game->world;
     Entity *player = game->player->entity;
 
+    clock_t current_time = clock();
+    if (current_time >= game->end_time) {
+        printw("Game Over\n");
+        return;
+    }
+
+    int remaining_time = get_remaining_time();
+    printw("Remaining time: %ds\n", remaining_time);
+
+    if (world == NULL || player == NULL) {
+        return;
+    }
+
     int x = player->x;
     int y = player->y;
 
