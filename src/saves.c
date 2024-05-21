@@ -184,6 +184,7 @@ bool save_game(Game_Data *game, char *save_name) {
     int remaining_time = (int) ((game->end_time - clock()));
 
     cJSON_AddNumberToObject(globalJson, "remaining_time", remaining_time);
+    cJSON_AddNumberToObject(globalJson, "needed_money", game->needed_money);
 
     cJSON *worldObj = create_world_json(game->world);
     if (worldObj == NULL) {
@@ -405,6 +406,12 @@ Game_Data *load_game(char *save_name) {
         return NULL;
     }
 
+    cJSON *neededMoney = cJSON_GetObjectItem(globalJson, "needed_money");
+    if (neededMoney == NULL) {
+        cJSON_Delete(globalJson);
+        return NULL;
+    }
+
     cJSON *worldObj = cJSON_GetObjectItem(globalJson, "world");
 
     if (worldObj == NULL) {
@@ -470,7 +477,7 @@ Game_Data *load_game(char *save_name) {
     int remaining_time = remainingTime->valueint;
     game->start_time = clock();
     game->end_time = game->start_time + remaining_time;
-
+    game->needed_money = neededMoney->valueint;
     game->world = world;
     game->world_monster = worldMonster;
     game->world_item = worldItem;

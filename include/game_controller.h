@@ -15,6 +15,7 @@
 typedef struct game_data {
     clock_t start_time;
     clock_t end_time;
+    int needed_money;
     Game_World *world;
     World_Monster *world_monster;
     World_Item *world_item;

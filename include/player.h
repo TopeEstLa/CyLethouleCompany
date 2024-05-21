@@ -6,6 +6,7 @@
 
 #define INVENTORY_CAPACITY 3
 #define PLAYER_TEXTURE "Ꮱ"
+#define DEFAULT_MAX_HEALTH 100
 
 typedef enum class {
     ARCHER,

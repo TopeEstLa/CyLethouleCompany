@@ -64,6 +64,7 @@ void create_game(int seed, char *name, Class current_class) {
 
     game->start_time = clock();
     game->end_time = game->start_time + (60000 * GAME_DURATION);
+    game->needed_money = random_int(world->seed + world->room_count, 100, 500);
     game->world = world;
     game->player = player;
     game->world_monster = world_monster;

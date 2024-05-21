@@ -12,8 +12,8 @@ Player *create_player(Game_World *world, char *name, Class current_class) {
     strcpy(player->name, name);
     player->inventory = create_inventory(INVENTORY_CAPACITY);
     player->current_class = current_class;
-    player->health = 100;
-    player->max_health = 100;
+    player->health = DEFAULT_MAX_HEALTH;
+    player->max_health = DEFAULT_MAX_HEALTH;
     player->exp = 0;
     player->money = 0;
 

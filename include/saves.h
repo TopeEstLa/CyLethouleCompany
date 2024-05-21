@@ -7,7 +7,7 @@
 #include <world.h>
 #include <cJSON.h>
 
-#define FORMAT_VERSION 8
+#define FORMAT_VERSION 9
 #define SAVES_FOLDER "saves/"
 
 /**
