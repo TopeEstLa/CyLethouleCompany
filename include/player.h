@@ -39,6 +39,8 @@ Inventory *create_inventory(int capacity);
 
 void add_item_to_inventory(Inventory *inventory, Item_Stack *item_stack);
 
+bool remove_item_from_inventory(Inventory *inventory, int index);
+
 bool have_space(Player *player);
 
 void player_death(Game_World* world, Player *player);

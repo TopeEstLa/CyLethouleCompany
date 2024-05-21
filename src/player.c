@@ -74,6 +74,21 @@ void add_item_to_inventory(Inventory *inventory, Item_Stack *item_stack) {
     inventory->index++;
 }
 
+bool remove_item_from_inventory(Inventory *inventory, int index) {
+    if (index < 0 || index >= inventory->index) {
+        return false;
+    }
+
+    free(inventory->items[index]);
+    for (int i = index; i < inventory->index - 1; i++) {
+        inventory->items[i] = inventory->items[i + 1];
+    }
+
+    inventory->index--;
+
+    return true;
+}
+
 bool have_space(Player *player) {
     Inventory* inventory = player->inventory;
     if (inventory->index >= inventory->capacity) {
