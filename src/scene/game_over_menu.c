@@ -11,6 +11,10 @@ char *game_options[] = {
 };
 int pt_choice = 0;
 
+void reset_game_over_fields() {
+    pt_choice = 0;
+}
+
 void game_over_input() {
     int ch = getch();
 

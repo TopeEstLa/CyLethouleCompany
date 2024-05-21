@@ -29,6 +29,8 @@ void set_current_scene(Current_Scene scene) {
         case LOAD_MENU:
             reset_load_fields();
             break;
+        case GAME_OVER:
+            reset_game_over_fields();
     }
 
     current_scene = scene;
