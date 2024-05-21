@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <ncurses_display.h>
 #include <game_controller.h>
+#include <constant.h>
 
 bool spawn_shop(Game_World *world) {
     Room *room = world->rooms[0];

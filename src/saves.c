@@ -8,6 +8,8 @@
 #include <player.h>
 #include <memory_utils.h>
 
+#include <constant.h>
+
 cJSON *create_world_json(Game_World *world) {
     cJSON *worldObj = cJSON_CreateObject();
 
