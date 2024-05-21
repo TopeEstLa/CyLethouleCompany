@@ -49,7 +49,7 @@ Item_Stack *create_item_stack(int item_id) {
     return itemStack;
 }
 
-Item_Stack* create_formatted_item_stack(char *name, char *texture, int price, Material material) {
+Item_Stack *create_formatted_item_stack(char *name, char *texture, int price, Material material) {
     Item_Stack *itemStack = malloc(sizeof(Item_Stack));
     if (itemStack == NULL) {
         return NULL;
@@ -79,7 +79,7 @@ Dropped_Item *drop_item(Game_World *world, World_Item *world_item, Item_Stack *i
     dropped_item->dropped_id = world_item->dropped_items_count;
     dropped_item->entity = create_entity(ITEM, dropped_item, item_stack->texture);
 
-    Entity* entity = get_entity(x, y);
+    Entity *entity = get_entity(x, y);
     if (entity != NULL) {
         free(dropped_item);
         return NULL;
@@ -131,6 +131,9 @@ Item_Stack *pickup_item(World_Item *world_item, int dropped_id) {
 }
 
 void spawn_item(World_Item *world_item, Game_World *world, Room *room) {
+    if (!is_game_loaded()) return;
+    Game_Data *game = get_game_data();
+
     int item_seed = world->seed + room->x + room->y + room->height + room->width + world_item->dropped_items_capacity +
                     world_item->dropped_items_count + world->room_count + world->room_capacity;
 
@@ -138,13 +141,9 @@ void spawn_item(World_Item *world_item, Game_World *world, Room *room) {
     if (MAX_ROOM != -1) {
         spawn_count = random_int(
                 item_seed, 4, 9); //dopping item spawn to ensure that the player can get the quota
+    } else if (count_visited_rooms(world) < 7) {
+        spawn_count = random_int(item_seed, 0, 2);
     } else {
-        if (!is_game_loaded()) return;
-        Game_Data *game = get_game_data();
-
-        int prepend_room = world->prepared_rooms_count;
-        int room_count = world->room_count;
-
         int estimated_value = estimate_value_in_world(world_item);
         int start_needed_money = game->needed_money;
         int actual_money = game->player->money;
@@ -168,7 +167,7 @@ void spawn_item(World_Item *world_item, Game_World *world, Room *room) {
     int try = 0;
     int spawned = 0;
 
-    while (try < 150 && spawned < spawn_count) {
+    while (try < spawn_count+20 && spawned < spawn_count) {
         int x = random_int(item_seed + try, room->x + 1, room->x + room->width - 1);
         int y = random_int(item_seed + try + x, room->y + 1, room->y + room->height - 1);
 

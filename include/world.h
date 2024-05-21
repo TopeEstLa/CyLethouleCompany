@@ -166,5 +166,19 @@ Room *create_room(int width, int height, int x, int y);
  */
 Room *get_room(Game_World *world, int x, int y);
 
+/**
+ * Check all door of all room and return true if any door is not used.
+ * @param world The world to check.
+ * @return true if any door is not used, false otherwise.
+ */
+bool any_door_not_used(Game_World *world);
+
+/**
+ * Count the number of visited rooms in the world.
+ * @param world The world to count the visited rooms in.
+ * @return The number of visited rooms.
+ */
+int count_visited_rooms(Game_World *world);
+
 
 #endif //WORLD_H

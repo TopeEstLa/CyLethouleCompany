@@ -489,3 +489,41 @@ Room *get_room(Game_World *world, int x, int y) {
 
     return NULL;
 }
+
+bool any_door_not_used(Game_World *world) {
+    if (world == NULL) {
+        return false;
+    }
+
+    for (int i = 0; i < world->room_count; i++) {
+        Room *room = world->rooms[i];
+        for (int j = 0; j < 4; j++) {
+            Door *door = room->doors[j];
+            if (door->x == -1 && door->y == -1) {
+                continue;
+            }
+
+            if (!door->is_used) {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+int count_visited_rooms(Game_World *world) {
+    if (world == NULL) {
+        return 0;
+    }
+
+    int count = 0;
+    for (int i = 0; i < world->room_count; i++) {
+        Room *room = world->rooms[i];
+        if (room->is_visited) {
+            count++;
+        }
+    }
+
+    return count;
+}

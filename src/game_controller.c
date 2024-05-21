@@ -126,6 +126,7 @@ void unload_game() {
 void update_game() {
     if (get_current_scene() != GAME) return;
     if (!is_game_loaded()) return;
+    Game_Data *game = get_game_data();
 
     clock_t current_time = clock();
     if (current_time >= get_game_data()->end_time) {
@@ -136,6 +137,28 @@ void update_game() {
     if (is_needed_money_reached()) {
         set_current_scene(WIN);
         return;
+    }
+
+    bool door_available = any_door_not_used(game->world);
+
+    bool all_visited = count_visited_rooms(game->world) == game->world->room_count -1;
+
+    if (!door_available && all_visited) {
+        int estimated_value = estimate_value_in_world(game->world_item);
+        int start_needed_money = game->needed_money;
+        int actual_money = game->player->money;
+        int inventory_value = estimate_inventory_value(game->player);
+
+        int current_needed_money = start_needed_money - actual_money - estimated_value - inventory_value;
+
+        if (current_needed_money <= 0) {
+            return;
+        }
+
+        int random_room = random_int(game->world->seed + game->player->money + game->player->exp, 0, get_game_data()->world->room_count - 1);
+        Room *room = game->world->rooms[random_room];
+
+        spawn_item(game->world_item, game->world, room); //re spawning item
     }
 }
 
