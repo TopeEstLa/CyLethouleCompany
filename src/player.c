@@ -1,5 +1,7 @@
 #include <player.h>
 
+#include <constant.h>
+
 #include <stdlib.h>
 #include <string.h>
 #include <game_controller.h>
