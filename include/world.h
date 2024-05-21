@@ -77,6 +77,7 @@ typedef struct game_world {
     Room **rooms;
     int room_capacity;
     int room_count;
+    int prepared_rooms_count;
 } Game_World;
 
 /**

@@ -2,7 +2,6 @@
 #include <ncurses_display.h>
 
 #include <game_controller.h>
-#include <unistd.h>
 
 int main() {
     init_curses();

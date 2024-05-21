@@ -56,13 +56,16 @@ void base_generation(Game_World *world) {
 
     starting_room->is_visited = true;
 
+    world->prepared_rooms_count = 1;
     append_room(world, starting_room);
 
     generate_rooms(world, starting_room, 1);
 
-    for (int i = 1; i < 5; i++) {
-        Room *room = world->rooms[i];
-        generate_rooms(world, room, 3);
+    if (MAX_ROOM == -1) {
+        for (int i = 1; i < 5; i++) {
+            Room *room = world->rooms[i];
+            generate_rooms(world, room, 3);
+        }
     }
 }
 
@@ -190,8 +193,18 @@ void generate_room(Game_World *world, Room *starting_room, int door_face, int re
 
     new_room->start_door = putted_door_face;
 
+    int added_door = 0;
+    int max_added_door = 4;
+
+    if (MAX_ROOM != -1) {
+        int dif = MAX_ROOM - world->prepared_rooms_count;
+        if (dif < 0) dif = 0;
+        max_added_door = dif;
+    }
+
     for (int i = 0; i < 4; i++) {
         if (i == putted_door_face) continue;
+        if (added_door >= max_added_door) break;
 
         int doorSeed = roomSeed + i + putted_door_face + looked_door->x + looked_door->y;
 
@@ -226,6 +239,7 @@ void generate_room(Game_World *world, Room *starting_room, int door_face, int re
         door->y = doorY;
         door->is_used = false;
         new_room->doors[i] = door;
+        added_door++;
     }
 
     if (is_room_valid(new_room)) {
@@ -238,6 +252,7 @@ void generate_room(Game_World *world, Room *starting_room, int door_face, int re
             looked_door->x = -1;
             looked_door->y = -1;
             looked_door->is_used = false;
+            world->prepared_rooms_count--;
         }
     } else {
         world->chunk[looked_door->x][looked_door->y]->type = WALL;
@@ -245,6 +260,7 @@ void generate_room(Game_World *world, Room *starting_room, int door_face, int re
         looked_door->x = -1;
         looked_door->y = -1;
         looked_door->is_used = false;
+        world->prepared_rooms_count--;
     }
 }
 

@@ -75,6 +75,7 @@ Game_World *create_world(int seed) {
 
     world->room_capacity = 10;
     world->room_count = 0;
+    world->prepared_rooms_count = 0;
 
 //    world->monsters = init_world_monster();
 
@@ -140,6 +141,7 @@ Game_World *create_world_sized(int seed, int width, int height) {
 
     world->room_capacity = 10;
     world->room_count = 0;
+    world->prepared_rooms_count = 0;
 
  //   world->monsters = init_world_monster();
 
@@ -413,6 +415,9 @@ int append_room(Game_World *world, Room *room) {
         Door *door = room->doors[i];
         if (door->x == -1 && door->y == -1) continue;
 
+        if (!door->is_used) {
+            world->prepared_rooms_count++;
+        }
         world->chunk[door->x][door->y]->type = DOOR;
     }
 

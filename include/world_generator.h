@@ -10,6 +10,8 @@
 #define MIN_ROOM_WIDTH 5
 #define MIN_ROOM_HEIGHT 5
 
+#define MAX_ROOM 10 //MIN 5
+
 typedef enum {
     TOP = 0,
     BOTTOM = 1,
