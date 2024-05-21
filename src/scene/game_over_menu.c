@@ -60,6 +60,9 @@ void game_over_menu_curses() {
 
     printw("\n\n");
 
+    printw("Vous êtes mort \n");
+    printw("Votre mort coute chère a la company votre quota a donc été majoré\n\n");
+
     for (int i = 0; i < 2; i++) {
         char a = 'O';
         if (i == pt_choice) {

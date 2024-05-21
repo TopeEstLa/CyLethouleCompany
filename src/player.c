@@ -99,6 +99,11 @@ bool have_space(Player *player) {
 }
 
 void player_death(Game_World* world, Player *player) {
+    if (!is_game_loaded()) {
+        return;
+    }
+    Game_Data *game = get_game_data();
+
     Entity *entity = player->entity;
 
     Room* room = world->rooms[0];
@@ -110,6 +115,10 @@ void player_death(Game_World* world, Player *player) {
     player->inventory = create_inventory(INVENTORY_CAPACITY);
     player->health = player->max_health;
     player->exp = player->exp / 2;
+
+
+    int quota_add = game->needed_money * 0.1;
+    player->money += quota_add;
 
     Move_Callback callback = move_entity(world, entity, roomCenterX, roomCenterY);
 
