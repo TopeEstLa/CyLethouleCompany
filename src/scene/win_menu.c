@@ -1,22 +1,30 @@
-#include <scene/time_over_menu.h>
+#include <scene/win_menu.h>
 
 #include <curses.h>
 
-#include <ncurses_display.h>
 #include <game_controller.h>
+#include <ncurses_display.h>
 
-void time_over_input() {
+void win_handle_input() {
     int ch = getch();
 
     if (ch == ERR) return;
 
-    if (ch == 10) {
-        unload_game();
+    if (!is_game_loaded()) {
         set_current_scene(MAIN_MENU);
+        return;
+    }
+
+    switch (ch) {
+        case 10:
+            unload_game();
+            set_current_scene(MAIN_MENU);
+        default:
+            break;
     }
 }
 
-void time_over_menu_curses() {
+void win_menu_curses() {
     printw(" _             _    _                    _         _____\n"
            "| |           | |  | |                  | |       / ____|\n"
            "| |       ___ | |_ | |__    ___   _   _ | |  ___ | |       ___   _ __ ___   _ __    __ _  _ __   _   _\n"
@@ -27,10 +35,7 @@ void time_over_menu_curses() {
            "                                                                           |_|                   |___/\n");
 
     printw("\n\n");
-
-    printw("Vous êtes mort \n");
-    printw("Le quota n'a pas été remplis dans les délaie le vaisseau est donc parti sans vous\n");
-    printw("\n\n");
+    printw("Félicitation vous avez remplis le quota la company est fiert de vous\n\n");
 
     attron(A_REVERSE);
     printw("Retour au menu principal.\n");

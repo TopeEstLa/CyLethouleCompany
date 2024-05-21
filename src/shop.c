@@ -2,6 +2,7 @@
 
 #include <stdlib.h>
 #include <ncurses_display.h>
+#include <game_controller.h>
 
 bool spawn_shop(Game_World *world) {
     Room *room = world->rooms[0];
@@ -31,6 +32,10 @@ void sell_inventory(Player* player) {
     player->money += estimated_value;
     free(inventory);
     player->inventory = create_inventory(INVENTORY_CAPACITY);
+
+    if (is_needed_money_reached()) {
+        set_current_scene(WIN);
+    }
 }
 
 void sell_item(Player* player, int item_index) {
@@ -42,6 +47,10 @@ void sell_item(Player* player, int item_index) {
     Item_Stack* item_stack = inventory->items[item_index];
     player->money += item_stack->price;
     remove_item_from_inventory(inventory, item_index);
+
+    if (is_needed_money_reached()) {
+        set_current_scene(WIN);
+    }
 }
 
 int estimate_inventory_value(Player* player) {

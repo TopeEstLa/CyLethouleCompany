@@ -58,6 +58,8 @@ add_executable(CyLethouleCompany
         src/shop.c
         include/scene/shop_menu.h
         src/scene/shop_menu.c
+        include/scene/win_menu.h
+        src/scene/win_menu.c
 )
 
 target_link_libraries(CyLethouleCompany PRIVATE

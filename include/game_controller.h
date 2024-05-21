@@ -41,6 +41,8 @@ void update_game();
 
 int get_remaining_time();
 
+bool is_needed_money_reached();
+
 void move_player(int x, int y);
 
 #endif //GAME_H

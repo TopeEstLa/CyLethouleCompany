@@ -126,6 +126,10 @@ void update_game() {
         return;
     }
 
+    if (is_needed_money_reached()) {
+        set_current_scene(WIN);
+        return;
+    }
 }
 
 int get_remaining_time() {
@@ -134,6 +138,13 @@ int get_remaining_time() {
 
     int remaining_seconds = (game->end_time - clock()) / CLOCKS_PER_SEC;
     return remaining_seconds;
+}
+
+bool is_needed_money_reached() {
+    if (!is_game_loaded()) return false;
+    Game_Data *game = get_game_data();
+
+    return game->player->money >= game->needed_money;
 }
 
 void move_player(int x, int y) {
