@@ -58,6 +58,7 @@ void game_scene_curses() {
 
     int remaining_time = get_remaining_time();
     printw("Remaining time: %ds\n", remaining_time);
+    printw("Quota: %d/%d\n", game->player->money, game->needed_money);
 
     if (world == NULL || player == NULL) {
         return;

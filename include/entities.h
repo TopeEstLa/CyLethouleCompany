@@ -5,6 +5,7 @@
 #include <world.h>
 
 typedef enum entity_type {
+    TRADER,
     PLAYER,
     MONSTER,
     ITEM,

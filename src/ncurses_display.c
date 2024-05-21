@@ -8,6 +8,7 @@
 #include <scene/pause_menu.h>
 #include <scene/time_over_menu.h>
 #include <scene/game_over_menu.h>
+#include <scene/shop_menu.h>
 
 #include <scene/game_scene.h>
 
@@ -31,6 +32,9 @@ void set_current_scene(Current_Scene scene) {
             break;
         case GAME_OVER:
             reset_game_over_fields();
+        case SHOP_MENU:
+            reset_shop_fields();
+            break;
     }
 
     current_scene = scene;
@@ -77,6 +81,9 @@ void handle_input() {
         case GAME_OVER:
             game_over_input();
             break;
+        case SHOP_MENU:
+            shop_handle_input();
+            break;
         default:
             break;
     }
@@ -105,6 +112,9 @@ void curses_scene() {
             break;
         case GAME_OVER:
             game_over_menu_curses();
+            break;
+        case SHOP_MENU:
+            shop_menu_curses();
             break;
         default:
             break;

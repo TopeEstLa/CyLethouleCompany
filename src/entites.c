@@ -44,8 +44,14 @@ int add_entity(Game_World *world, Entity *entity, int x, int y) {
         return -1;
     }
 
-    if (chunk->type == WALL || chunk->type == VOID) {
-        return -1;
+    if (entity->type == PLAYER) {
+        if (chunk->type == WALL || chunk->type == VOID) {
+            return -1;
+        }
+    } else {
+        if (chunk->type == WALL || chunk->type == VOID || chunk->type == DOOR) {
+            return -1;
+        }
     }
 
     Entity *existing_entity = get_entity(x, y);

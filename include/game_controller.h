@@ -11,6 +11,7 @@
 #include <time.h>
 
 #define GAME_DURATION 10 //in minutes
+#define GAME_DURATION_SECONDS (GAME_DURATION * 60)
 
 typedef struct game_data {
     clock_t start_time;

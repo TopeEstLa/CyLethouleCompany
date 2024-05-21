@@ -16,6 +16,7 @@ typedef enum current_scene {
     CREATE_MENU,
     PAUSE_MENU,
     GAME,
+    SHOP_MENU,
     GAME_OVER,
     TIME_OVER,
     QUITTING,

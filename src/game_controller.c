@@ -7,8 +7,7 @@
 #include <memory_utils.h>
 #include <monsters.h>
 #include <ncurses_display.h>
-
-#include <curses.h>
+#include <shop.h>
 
 Game_Data *game_data = NULL;
 
@@ -30,6 +29,16 @@ void prepare_game() {
 
 void loaded_game(Game_Data *new_game_data) {
     set_game_data(new_game_data);
+
+    bool is_spawn = spawn_shop(new_game_data->world);
+
+    if (!is_spawn) {
+        unload_game();
+        set_current_scene(MAIN_MENU);
+        return;
+    }
+
+    set_current_scene(GAME);
 }
 
 void create_game(int seed, char *name, Class current_class) {
@@ -37,11 +46,13 @@ void create_game(int seed, char *name, Class current_class) {
 
     Game_Data *game = malloc(sizeof(Game_Data));
     if (game == NULL) {
+        cleanup_entities();
         return;
     }
 
     Game_World *world = create_world(seed);
     if (world == NULL) {
+        free(game);
         return;
     }
 
@@ -49,26 +60,46 @@ void create_game(int seed, char *name, Class current_class) {
 
     Player *player = create_player(world, name, current_class);
     if (player == NULL) {
+        free(game);
+        free_world(world);
         return;
     }
 
     World_Monster* world_monster = init_world_monster();
     if (world_monster == NULL) {
+        free(game);
+        free_world(world);
+        free_player(player);
         return;
     }
 
     World_Item *world_item = init_world_item();
     if (world_item == NULL) {
+        free(game);
+        free_world(world);
+        free_player(player);
+        free(world_monster);
         return;
     }
 
     game->start_time = clock();
-    game->end_time = game->start_time + (60000 * GAME_DURATION);
+    game->end_time = game->start_time + GAME_DURATION_SECONDS * CLOCKS_PER_SEC;
     game->needed_money = random_int(world->seed + world->room_count, 100, 500);
     game->world = world;
     game->player = player;
     game->world_monster = world_monster;
     game->world_item = world_item;
+
+    bool is_spawn = spawn_shop(world);
+
+    if (!is_spawn) {
+        free(game);
+        free_world(world);
+        free_player(player);
+        free(world_monster);
+        free(world_item);
+        return;
+    }
 
     set_game_data(game);
 }
@@ -99,11 +130,10 @@ void update_game() {
 
 int get_remaining_time() {
     if (!is_game_loaded()) return 0;
-
-    clock_t current_time = clock();
     Game_Data *game = get_game_data();
-    clock_t remaining_time = (game->end_time - current_time);
-    return remaining_time / 1000;
+
+    int remaining_seconds = (game->end_time - clock()) / CLOCKS_PER_SEC;
+    return remaining_seconds;
 }
 
 void move_player(int x, int y) {
@@ -130,6 +160,8 @@ void move_player(int x, int y) {
                 Item_Stack *item_stack = pickup_item(game_data->world_item, item->dropped_id);
                 add_item_to_inventory(player->inventory, item_stack);
             }
+        } else if (collided_entity->type == TRADER) {
+            open_shop(player);
         }
     }
 

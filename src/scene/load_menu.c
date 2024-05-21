@@ -46,7 +46,6 @@ void load_saves_handle_input() {
             }
 
             loaded_game(game);
-            set_current_scene(GAME);
             break;
         case 27:
             set_current_scene(MAIN_MENU);

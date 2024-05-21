@@ -54,6 +54,10 @@ add_executable(CyLethouleCompany
         src/scene/time_over_menu.c
         include/scene/game_over_menu.h
         src/scene/game_over_menu.c
+        include/shop.h
+        src/shop.c
+        include/scene/shop_menu.h
+        src/scene/shop_menu.c
 )
 
 target_link_libraries(CyLethouleCompany PRIVATE
