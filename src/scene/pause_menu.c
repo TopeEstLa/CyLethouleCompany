@@ -17,6 +17,10 @@ int pause_count = 3;
 
 int pause_choice = 0;
 
+void reset_pause_fields() {
+    pause_choice = 0;
+}
+
 void pause_handle_input() {
     int ch = getch();
 

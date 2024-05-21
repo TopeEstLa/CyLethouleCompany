@@ -12,6 +12,14 @@ char name[50];
 char seed[50];
 int class_choice = 0;
 
+void reset_create_fields() {
+    choice = 0;
+    for (int i = 0; i < 50; ++i) {
+        name[i] = '\0';
+        seed[i] = '\0';
+    }
+    class_choice = 0;
+}
 
 void create_handle_input() {
     int ch = getch();
@@ -127,8 +135,6 @@ void create_menu_curses() {
             attroff(A_REVERSE);
         }
     }
-
-
 
 
 }

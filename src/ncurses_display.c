@@ -16,7 +16,23 @@
 Current_Scene current_scene = MAIN_MENU;
 
 void set_current_scene(Current_Scene scene) {
+    switch (scene) {
+        case CREATE_MENU:
+            reset_create_fields(); //les class abstraite me manque :cccccccc
+            break;
+        case PAUSE_MENU:
+            reset_pause_fields();
+            break;
+        case MAIN_MENU:
+            reset_main_fields();
+            break;
+        case LOAD_MENU:
+            reset_load_fields();
+            break;
+    }
+
     current_scene = scene;
+
 }
 
 Current_Scene get_current_scene() {

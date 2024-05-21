@@ -5,6 +5,8 @@
 
 #include <curses.h>
 
+void reset_main_fields();
+
 void main_handle_input();
 
 void main_menu_curses();

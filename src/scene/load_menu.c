@@ -9,6 +9,10 @@ int saves_count = 0;
 
 int current_saves = 0;
 
+void reset_load_fields() {
+    current_saves = 0;
+}
+
 void load_saves_handle_input() {
     int ch = getch();
 

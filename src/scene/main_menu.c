@@ -14,6 +14,10 @@ int options_count = 4;
 
 int current_choice = 0;
 
+void reset_main_fields() {
+    current_choice = 0;
+}
+
 void main_handle_input() {
     int ch = getch();
 
