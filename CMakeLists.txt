@@ -60,6 +60,7 @@ add_executable(CyLethouleCompany
         src/scene/shop_menu.c
         include/scene/win_menu.h
         src/scene/win_menu.c
+        include/constant.h
 )
 
 target_link_libraries(CyLethouleCompany PRIVATE

@@ -8,6 +8,7 @@
 #include <monsters.h>
 #include <ncurses_display.h>
 #include <shop.h>
+#include <constant.h>
 
 Game_Data *game_data = NULL;
 
@@ -84,7 +85,13 @@ void create_game(int seed, char *name, Class current_class) {
 
     game->start_time = clock();
     game->end_time = game->start_time + GAME_DURATION_SECONDS * CLOCKS_PER_SEC;
-    game->needed_money = random_int(world->seed + world->room_count, 100, 500);
+
+    if (MAX_ROOM != -1) {
+        game->needed_money = random_int(world->seed + world->room_count, 30, 150); //nerft quota if max room is not infinite
+    } else {
+        game->needed_money = random_int(world->seed + world->room_count, 100, 500);
+    }
+
     game->world = world;
     game->player = player;
     game->world_monster = world_monster;

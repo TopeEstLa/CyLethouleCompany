@@ -4,7 +4,7 @@
 #include <maths.h>
 
 #include <world.h>
-#include <monsters.h>
+#include <constant.h>
 
 void base_generation(Game_World *world) {
     if (world == NULL) {

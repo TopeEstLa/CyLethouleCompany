@@ -41,5 +41,6 @@ Item_Stack* pickup_item(World_Item *world_item, int dropped_id);
 
 void spawn_item(World_Item *world_item, Game_World *world, Room *room);
 
+int estimate_value_in_world(World_Item *world_item);
 
 #endif //ITEMS_H

@@ -2,6 +2,9 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <constant.h>
+#include <game_controller.h>
+#include <shop.h>
 
 Item_Stack existing_item[2] = {
         {"Grand Axe", "A", 20, GRAND_AXE},
@@ -130,28 +133,70 @@ Item_Stack *pickup_item(World_Item *world_item, int dropped_id) {
 void spawn_item(World_Item *world_item, Game_World *world, Room *room) {
     int item_seed = world->seed + room->x + room->y + room->height + room->width + world_item->dropped_items_capacity +
                     world_item->dropped_items_count + world->room_count + world->room_capacity;
-    int spawn_count = random_int(
-            item_seed, 1, 2);
 
-    for (int i = 0; i < spawn_count; i++) {
-        int x = random_int(item_seed + i + spawn_count, room->x + 1,
-                           room->x + room->width - 1);
-        int y = random_int(item_seed + i + x + spawn_count, room->y + 1,
-                           room->y + room->height - 1);
+    int spawn_count = 0;
+    if (MAX_ROOM != -1) {
+        spawn_count = random_int(
+                item_seed, 4, 9); //dopping item spawn to ensure that the player can get the quota
+    } else {
+        if (!is_game_loaded()) return;
+        Game_Data *game = get_game_data();
 
-        int item_id = random_int(item_seed + i, 0, ITEM_COUNT);
+        int prepend_room = world->prepared_rooms_count;
+        int room_count = world->room_count;
+
+        int estimated_value = estimate_value_in_world(world_item);
+        int start_needed_money = game->needed_money;
+        int actual_money = game->player->money;
+        int inventory_value = estimate_inventory_value(game->player);
+
+        int needed_money = start_needed_money - actual_money - estimated_value - inventory_value;
+        if (needed_money <= 0) {
+            spawn_count = random_int(item_seed, 0, 3);
+        } else {
+            if (needed_money < 50) {
+                spawn_count = random_int(item_seed, 0, 1);
+            } else if (needed_money < 100) {
+                spawn_count = random_int(item_seed, 1, 3);
+            } else {
+                spawn_count = random_int(item_seed, 2, 5);
+            }
+        }
+    }
+
+
+    int try = 0;
+    int spawned = 0;
+
+    while (try < 150 && spawned < spawn_count) {
+        int x = random_int(item_seed + try, room->x + 1, room->x + room->width - 1);
+        int y = random_int(item_seed + try + x, room->y + 1, room->y + room->height - 1);
+
+        int item_id = random_int(item_seed + try, 0, ITEM_COUNT);
 
         Item_Stack *itemStack = create_item_stack(item_id);
 
         if (itemStack == NULL) {
+            try++;
             continue;
         }
 
         Dropped_Item *dropItem = drop_item(world, world_item, itemStack, x, y);
 
         if (dropItem == NULL) {
+            try++;
             continue;
         }
 
+        try++;
+        spawned++;
     }
+}
+
+int estimate_value_in_world(World_Item *world_item) {
+    int value = 0;
+    for (int i = 0; i < world_item->dropped_items_count; i++) {
+        value += world_item->dropped_items[i]->item->price;
+    }
+    return value;
 }
