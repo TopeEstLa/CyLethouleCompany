@@ -1,10 +1,11 @@
 #include <items.h>
 
 #include <stdlib.h>
+#include <string.h>
 
 Item_Stack existing_item[2] = {
-        {"Grand Axe", "A", GRAND_AXE},
-        {"Bolt",      "B", BOLT},
+        {"Grand Axe", "A", 20, GRAND_AXE},
+        {"Bolt",      "B", 30, BOLT},
 };
 
 World_Item *init_world_item() {
@@ -35,9 +36,28 @@ Item_Stack *create_item_stack(int item_id) {
         return NULL;
     }
 
-    itemStack->name = existing_item[item_id].name;
-    itemStack->texture = existing_item[item_id].texture;
+    itemStack->name = malloc(strlen(existing_item[item_id].name) + 1);
+    strcpy(itemStack->name, existing_item[item_id].name);
+    itemStack->texture = malloc(strlen(existing_item[item_id].texture) + 1);
+    strcpy(itemStack->texture, existing_item[item_id].texture);
     itemStack->material = existing_item[item_id].material;
+    itemStack->price = existing_item[item_id].price;
+
+    return itemStack;
+}
+
+Item_Stack* create_formatted_item_stack(char *name, char *texture, int price, Material material) {
+    Item_Stack *itemStack = malloc(sizeof(Item_Stack));
+    if (itemStack == NULL) {
+        return NULL;
+    }
+
+    itemStack->name = malloc(strlen(name) + 1);
+    strcpy(itemStack->name, name);
+    itemStack->texture = malloc(strlen(texture) + 1);
+    strcpy(itemStack->texture, texture);
+    itemStack->price = price;
+    itemStack->material = material;
 
     return itemStack;
 }

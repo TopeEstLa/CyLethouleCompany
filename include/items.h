@@ -13,6 +13,7 @@ typedef enum material {
 typedef struct item_stack {
     char *name;
     char *texture;
+    int price;
     Material material;
 } Item_Stack;
 
@@ -31,6 +32,8 @@ typedef struct World_Item {
 World_Item *init_world_item();
 
 Item_Stack *create_item_stack(int item_id);
+
+Item_Stack* create_formatted_item_stack(char *name, char *texture, int price, Material material);
 
 Dropped_Item *drop_item(Game_World *world, World_Item *world_item, Item_Stack *itemStack, int x, int y);
 

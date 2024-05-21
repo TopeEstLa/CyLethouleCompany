@@ -27,12 +27,13 @@ typedef struct player {
     int health;
     int max_health;
     int exp;
+    int money;
 } Player;
 
 Player *create_player(Game_World *world, char *name, Class current_class);
 
 Player *load_player(Game_World *world, char *name, Inventory *inventory, Class current_class, int health, int max_health,
-            int exp, int x, int y);
+            int exp, int money, int x, int y);
 
 Inventory *create_inventory(int capacity);
 

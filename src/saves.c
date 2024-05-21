@@ -103,6 +103,7 @@ cJSON *create_item_json(World_Item *worldItem) {
         cJSON *item_stack = cJSON_CreateObject();
         cJSON_AddStringToObject(item_stack, "name", droppedItem->item->name);
         cJSON_AddStringToObject(item_stack, "texture", droppedItem->item->texture);
+        cJSON_AddNumberToObject(item_stack, "price", droppedItem->item->price);
         cJSON_AddNumberToObject(item_stack, "material", droppedItem->item->material);
 
         cJSON_AddItemToObject(item, "item_stack", item_stack);
@@ -133,6 +134,7 @@ cJSON *create_player_json(Player *player) {
     cJSON_AddNumberToObject(playerObj, "health", player->health);
     cJSON_AddNumberToObject(playerObj, "max_health", player->max_health);
     cJSON_AddNumberToObject(playerObj, "exp", player->exp);
+    cJSON_AddNumberToObject(playerObj, "money", player->money);
     cJSON_AddNumberToObject(playerObj, "x", player->entity->x);
     cJSON_AddNumberToObject(playerObj, "y", player->entity->y);
 
@@ -143,6 +145,7 @@ cJSON *create_player_json(Player *player) {
         cJSON *item = cJSON_CreateObject();
         cJSON_AddStringToObject(item, "name", item_stack->name);
         cJSON_AddStringToObject(item, "texture", item_stack->texture);
+        cJSON_AddNumberToObject(item, "price", item_stack->price);
         cJSON_AddNumberToObject(item, "material", item_stack->material);
         cJSON_AddItemToArray(inventoryArray, item);
     }
@@ -181,8 +184,6 @@ bool save_game(Game_Data *game, char *save_name) {
     int remaining_time = (int) ((game->end_time - clock()));
 
     cJSON_AddNumberToObject(globalJson, "remaining_time", remaining_time);
-
-    //cJSON_AddNumberToObject(globalJson, "frame_count", game->frame_count);
 
     cJSON *worldObj = create_world_json(game->world);
     if (worldObj == NULL) {
@@ -323,20 +324,21 @@ World_Item *load_item_from_json(Game_World *world, cJSON *itemObj) {
         cJSON *item_stack_json = cJSON_GetObjectItem(item, "item_stack");
         char *name = cJSON_GetObjectItem(item_stack_json, "name")->valuestring;
         char *texture = cJSON_GetObjectItem(item_stack_json, "texture")->valuestring;
+        int price = cJSON_GetObjectItem(item_stack_json, "price")->valueint;
         int material = cJSON_GetObjectItem(item_stack_json, "material")->valueint;
 
-        Item_Stack *item_stack = malloc(sizeof(Item_Stack));
-        item_stack->name = malloc(strlen(name) + 1);
-        item_stack->texture = malloc(strlen(texture) + 1);
-        strcpy(item_stack->name, name);
-        strcpy(item_stack->texture, texture);
-        item_stack->material = material;
+        Item_Stack* item_stack = create_formatted_item_stack(name, texture, price, material);
+        if (item_stack == NULL) {
+            free(worldItem);
+            return NULL;
+        }
 
         int x = cJSON_GetObjectItem(item, "x")->valueint;
         int y = cJSON_GetObjectItem(item, "y")->valueint;
 
         Dropped_Item *dropped_item = drop_item(world, worldItem, item_stack, x, y);
         if (dropped_item == NULL) {
+            free(worldItem);
             return NULL;
         }
     }
@@ -351,6 +353,7 @@ Player* load_player_from_json(Game_World* world, cJSON* playerObj) {
     int health = cJSON_GetObjectItem(playerObj, "health")->valueint;
     int max_health = cJSON_GetObjectItem(playerObj, "max_health")->valueint;
     int exp = cJSON_GetObjectItem(playerObj, "exp")->valueint;
+    int money = cJSON_GetObjectItem(playerObj, "money")->valueint;
     int x = cJSON_GetObjectItem(playerObj, "x")->valueint;
     int y = cJSON_GetObjectItem(playerObj, "y")->valueint;
 
@@ -363,25 +366,21 @@ Player* load_player_from_json(Game_World* world, cJSON* playerObj) {
     for (int i = 0; i < cJSON_GetArraySize(inventoryArray); i++) {
         cJSON *item = cJSON_GetArrayItem(inventoryArray, i);
 
-        char *name = cJSON_GetObjectItem(item, "name")->valuestring;
+        char *item_name = cJSON_GetObjectItem(item, "name")->valuestring;
         char *texture = cJSON_GetObjectItem(item, "texture")->valuestring;
+        int price = cJSON_GetObjectItem(item, "price")->valueint;
         int material = cJSON_GetObjectItem(item, "material")->valueint;
 
-        Item_Stack *item_stack = malloc(sizeof(Item_Stack));
-        item_stack->name = malloc(strlen(name) + 1);
-        item_stack->texture = malloc(strlen(texture) + 1);
-        strcpy(item_stack->name, name);
-        strcpy(item_stack->texture, texture);
-        item_stack->material = material;
-
+        Item_Stack *item_stack = create_formatted_item_stack(item_name, texture, price, material);
         if (item_stack == NULL) {
             return NULL;
         }
 
+
         add_item_to_inventory(inventory, item_stack);
     }
 
-    Player *player = load_player(world, name, inventory, current_class, health, max_health, exp, x, y);
+    Player *player = load_player(world, name, inventory, current_class, health, max_health, exp, money, x, y);
     return player;
 }
 
