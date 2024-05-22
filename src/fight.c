@@ -13,6 +13,7 @@ int fight_log_size = 0;
 int fight_log_capacity = 20;
 bool fight_started = false;
 Living_Monster *current_monster = NULL;
+bool speedup = false;
 
 Fight_Log *get_fight_log() {
     return fight_log;
@@ -31,7 +32,7 @@ bool is_fight_started() {
 }
 
 bool is_fight_ended() {
-    Game_Data* game_data = get_game_data();
+    Game_Data *game_data = get_game_data();
     if (!is_game_loaded()) return true;
     return game_data->player->health <= 0 || current_monster->health <= 0;
 }
@@ -40,11 +41,15 @@ bool fight_win() {
     return current_monster->health <= 0;
 }
 
-Living_Monster* get_current_monster() {
+void set_fight_speedup(bool new_state) {
+    speedup = new_state;
+}
+
+Living_Monster *get_current_monster() {
     return current_monster;
 }
 
-void add_fight_log(char* attacker_name, char* defender_name, char* action, int damage) {
+void add_fight_log(char *attacker_name, char *defender_name, char *action, int damage) {
     if (fight_log_size >= fight_log_capacity) {
         fight_log_capacity *= 2;
         fight_log = realloc(fight_log, sizeof(Fight_Log) * fight_log_capacity);
@@ -119,8 +124,14 @@ void start_fight(Player *player, Living_Monster *monster) {
             break;
         }
 
-        curses_scene();
-        usleep(1000000); //in micro second (Literally steals the gameloop here)
+        if (!speedup) {
+            handle_input();
+            curses_scene();
+            usleep(1000000); //in micro second (Literally steals the gameloop here)
+        } else {
+            curses_scene();
+            usleep(100000);
+        }
 
         if (monster_attack < player_dodge) {
             add_fight_log(monster->monster.name, player->name, "%s A attaquer %s mais celui si a esquiver\n", 0);
@@ -136,8 +147,14 @@ void start_fight(Player *player, Living_Monster *monster) {
             break;
         }
 
-        curses_scene();
-        usleep(1000000); //in micro second (Literally steals the gameloop here)
+        if (!speedup) {
+            handle_input();
+            curses_scene();
+            usleep(1000000); //in micro second (Literally steals the gameloop here)
+        } else {
+            curses_scene();
+            usleep(100000);
+        }
     } while (player->health > 0 && monster->health > 0);
 
     if (player->health <= 0) {
@@ -155,8 +172,9 @@ void end_fight() {
     fight_log = NULL;
     fight_log_size = 0;
     fight_log_capacity = 0;
+    speedup = false;
 
-    Game_Data* game_data = get_game_data();
+    Game_Data *game_data = get_game_data();
 
     if (current_monster->health <= 0) {
         kill_monster(game_data->world_monster, current_monster->living_id);

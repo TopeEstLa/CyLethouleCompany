@@ -11,11 +11,14 @@ void fight_input() {
     int ch = getch();
 
     if (ch == ERR) return;
-    if (!is_fight_ended()) return;
 
     if (ch == 10) {
-        end_fight();
-        return;
+        if (is_fight_ended()) {
+            end_fight();
+            return;
+        } else {
+            set_fight_speedup(true);
+        }
     }
 }
 
@@ -32,11 +35,14 @@ void fight_menu_curses() {
            "\n"
            "");
 
-    printw("\n\n");
+    printw("\n");
+    if (!is_fight_ended()) {
+        printw("Appuyez sur Entrée pour accélérer le combat\n\n");
+    }
 
     int window_width, window_height;
     getmaxyx(stdscr, window_height, window_width);
-    int used_height = 10;
+    int used_height = 13;
 
     mvprintw(used_height, 0, "%s - %d PV", player->name, player->health);
     mvprintw(used_height, window_width / 2, "%s - %d PV", get_current_monster()->monster.name,

@@ -23,6 +23,8 @@ bool is_fight_ended();
 
 bool fight_win();
 
+void set_fight_speedup(bool speedup);
+
 Living_Monster* get_current_monster();
 
 void add_fight_log(char* attacker_name, char* defender_name, char* action, int damage);
