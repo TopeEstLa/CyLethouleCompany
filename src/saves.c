@@ -572,34 +572,28 @@ Player *load_player_from_json(Game_World *world, cJSON *playerObj) {
         char *texture;
         int price, material;
 
-        cJSON *item_stack_json = cJSON_GetObjectItem(item, "item_stack");
-        if (item_stack_json == NULL) {
-            free(inventory);
-            return NULL;
-        }
-
-        cJSON *item_nameObj = cJSON_GetObjectItem(item_stack_json, "name");
+        cJSON *item_nameObj = cJSON_GetObjectItem(item, "name");
         if (item_nameObj == NULL) {
             free(inventory);
             return NULL;
         }
         item_name = item_nameObj->valuestring;
 
-        cJSON *textureObj = cJSON_GetObjectItem(item_stack_json, "texture");
+        cJSON *textureObj = cJSON_GetObjectItem(item, "texture");
         if (textureObj == NULL) {
             free(inventory);
             return NULL;
         }
         texture = textureObj->valuestring;
 
-        cJSON *priceObj = cJSON_GetObjectItem(item_stack_json, "price");
+        cJSON *priceObj = cJSON_GetObjectItem(item, "price");
         if (priceObj == NULL) {
             free(inventory);
             return NULL;
         }
         price = priceObj->valueint;
 
-        cJSON *materialObj = cJSON_GetObjectItem(item_stack_json, "material");
+        cJSON *materialObj = cJSON_GetObjectItem(item, "material");
         if (materialObj == NULL) {
             free(inventory);
             return NULL;
