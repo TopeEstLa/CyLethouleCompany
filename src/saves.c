@@ -183,7 +183,16 @@ bool save_game(Game_Data *game, char *save_name) {
 
     cJSON_AddNumberToObject(globalJson, "format_version", FORMAT_VERSION);
 
-    int remaining_time = (int) ((game->end_time - clock()));
+    struct timeval current_time;
+    gettimeofday(&current_time, NULL);
+
+    long remaining_time = game->end_time.tv_sec - current_time.tv_sec;
+    long useconds = game->end_time.tv_usec - current_time.tv_usec;
+
+    if (useconds < 0) {
+        remaining_time--;
+        useconds += 1000000;
+    }
 
     cJSON_AddNumberToObject(globalJson, "remaining_time", remaining_time);
     cJSON_AddNumberToObject(globalJson, "max_room", MAX_ROOM);
@@ -713,8 +722,10 @@ Game_Data *load_game(char *save_name) {
 
     Game_Data *game = malloc(sizeof(Game_Data));
     int remaining_time = remainingTime->valueint;
-    game->start_time = clock();
-    game->end_time = game->start_time + remaining_time;
+
+    gettimeofday(&game->start_time, NULL);
+    game->end_time.tv_sec = game->start_time.tv_sec + remaining_time;
+
     game->needed_money = neededMoney->valueint;
     game->world = world;
     game->world_monster = worldMonster;

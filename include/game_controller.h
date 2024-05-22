@@ -7,6 +7,8 @@
 #include <player.h>
 #include <monsters.h>
 #include <items.h>
+#include <unistd.h>
+#include <sys/time.h>
 
 #include <time.h>
 
@@ -14,8 +16,8 @@
 #define GAME_DURATION_SECONDS (GAME_DURATION * 60)
 
 typedef struct game_data {
-    clock_t start_time;
-    clock_t end_time;
+    struct timeval start_time;
+    struct timeval end_time;
     int needed_money;
     Game_World *world;
     World_Monster *world_monster;

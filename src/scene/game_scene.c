@@ -51,11 +51,16 @@ void game_scene_curses() {
     Player *player = game->player;
     Entity *player_entity = player->entity;
 
-    clock_t current_time = clock();
-    if (current_time >= game->end_time) {
+    struct timeval current_time;
+    gettimeofday(&current_time, NULL);
+
+    struct timeval end = game->end_time;
+
+    if (current_time.tv_sec > end.tv_sec || (current_time.tv_sec == end.tv_sec && current_time.tv_usec >= end.tv_usec)) {
         set_current_scene(TIME_OVER);
         return;
     }
+
     int lignes, colonnes;
     int dx = 40;
     int dy = 10;

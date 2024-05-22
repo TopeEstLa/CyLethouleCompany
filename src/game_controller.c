@@ -84,8 +84,9 @@ void create_game(int seed, char *name, Class current_class) {
         return;
     }
 
-    game->start_time = clock();
-    game->end_time = game->start_time + GAME_DURATION_SECONDS * CLOCKS_PER_SEC;
+    gettimeofday(&game->start_time, NULL);
+    game->end_time.tv_sec = game->start_time.tv_sec + GAME_DURATION_SECONDS;
+    game->end_time.tv_usec = game->start_time.tv_usec;
 
     if (MAX_ROOM != -1) {
         game->needed_money = random_int(world->seed + world->room_count, 30, 150); //nerft quota if max room is not infinite
@@ -129,8 +130,12 @@ void update_game() {
     if (!is_game_loaded()) return;
     Game_Data *game = get_game_data();
 
-    clock_t current_time = clock();
-    if (current_time >= get_game_data()->end_time) {
+    struct timeval current_time;
+    gettimeofday(&current_time, NULL);
+
+    struct timeval end = game->end_time;
+
+    if (current_time.tv_sec > end.tv_sec || (current_time.tv_sec == end.tv_sec && current_time.tv_usec >= end.tv_usec)) {
         set_current_scene(TIME_OVER);
         return;
     }
@@ -167,8 +172,18 @@ int get_remaining_time() {
     if (!is_game_loaded()) return 0;
     Game_Data *game = get_game_data();
 
-    int remaining_seconds = (game->end_time - clock()) / CLOCKS_PER_SEC;
-    return remaining_seconds;
+    struct timeval current_time;
+    gettimeofday(&current_time, NULL);
+
+    long seconds = game->end_time.tv_sec - current_time.tv_sec;
+    long useconds = game->end_time.tv_usec - current_time.tv_usec;
+
+    if (useconds < 0) {
+        seconds--;
+        useconds += 1000000;
+    }
+
+    return seconds;
 }
 
 bool is_needed_money_reached() {
