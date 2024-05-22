@@ -48,7 +48,8 @@ void game_scene_curses() {
 
     Game_Data *game = get_game_data();
     Game_World *world = game->world;
-    Entity *player = game->player->entity;
+    Player *player = game->player;
+    Entity *player_entity = player->entity;
 
     clock_t current_time = clock();
     if (current_time >= game->end_time) {
@@ -60,8 +61,8 @@ void game_scene_curses() {
     int dy = 10;
     getmaxyx(stdscr, lignes, colonnes);
 
-    int x = player->x;
-    int y = player->y;
+    int x = player_entity->x;
+    int y = player_entity->y;
 
     int colonnes_text = dx;
     int colonnes_debut =  colonnes/2 - colonnes_text;
@@ -155,8 +156,10 @@ void game_scene_curses() {
         }
         lignes_debut++;
     }
-    /*for (int i = 0; i < INVENTORY_CAPACITY; ++i) {
-        Item_Stack* items = game->player->inventory->items[0];
-        mvprintw(lignes_debut+1, colonnes/2,"%s %s", items->texture, items->name);
-    }*/
+
+
+    for (int i = 0; i < player->inventory->index; ++i) {
+        Item_Stack *item_stack = player->inventory->items[i];
+        printw("%s %s\n", item_stack->texture, item_stack->name);
+    }
 }
