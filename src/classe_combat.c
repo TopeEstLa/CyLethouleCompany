@@ -5,6 +5,7 @@
 #include <unistd.h>
 //#include <ncurse.h>
 
+//Simple balancing test for the combat system, not taken into account in the project
 
 typedef enum class {
     ARCHER,
