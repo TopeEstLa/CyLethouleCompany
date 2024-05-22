@@ -22,6 +22,10 @@ int get_fight_log_size() {
     return fight_log_size;
 }
 
+bool is_fight_prepared() {
+    return current_monster != NULL;
+}
+
 bool is_fight_started() {
     return fight_started;
 }
@@ -157,6 +161,8 @@ void end_fight() {
     if (current_monster->health <= 0) {
         kill_monster(game_data->world_monster, current_monster->living_id);
     }
+
+    current_monster = NULL;
 
     if (game_data->player->health <= 0) {
         player_death(game_data->world, game_data->player);

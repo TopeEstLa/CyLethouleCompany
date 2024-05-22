@@ -15,6 +15,8 @@ Fight_Log *get_fight_log();
 
 int get_fight_log_size();
 
+bool is_fight_prepared();
+
 bool is_fight_started();
 
 bool is_fight_ended();
