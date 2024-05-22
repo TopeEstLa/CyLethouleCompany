@@ -55,10 +55,17 @@ void game_scene_curses() {
         set_current_scene(TIME_OVER);
         return;
     }
+    int lignes, colonnes;
+    int dx = 40;
+    int dy = 10;
+    getmaxyx(stdscr, lignes, colonnes);
 
+    int colonnes_text = dx;
+    int colonnes_debut = (colonnes - colonnes_text) / 2;
+    int lignes_debut = 6;
     int remaining_time = get_remaining_time();
-    printw("Remaining time: %ds\n", remaining_time);
-    printw("Quota: %d/%d\n", game->player->money, game->needed_money);
+    char res[30] = "Remaining time:";
+    mvprintw(lignes_debut-1, (colonnes - strlen(res))/2,"Remaining time: %ds\n", remaining_time);
 
     if (world == NULL || player == NULL) {
         return;
@@ -67,14 +74,7 @@ void game_scene_curses() {
     int x = player->x;
     int y = player->y;
 
-    int lignes, colonnes;
-    int dx = 40;
-    int dy = 10;
-    getmaxyx(stdscr, lignes, colonnes);
 
-    int colonnes_text = dx;
-    int colonnes_debut = (colonnes - colonnes_text) /2;
-    int lignes_debut = 6;
 
     for (int iy = y - dy; iy < y + dy - 1; iy++) {
         if (iy >= 0 && iy < world->height) {
@@ -139,6 +139,7 @@ void game_scene_curses() {
     lignes_debut = 6;
     colonnes_text = dx * 2;
     colonnes_debut = (colonnes - colonnes_text) / 2;
+
     for (int i = y - dy; i < y + dy; i++) {
         int current_colonnes = colonnes_debut;
         for (int j = x - dx; j < x + dx; j++) {
@@ -151,4 +152,8 @@ void game_scene_curses() {
         }
         lignes_debut++;
     }
+    /*for (int i = 0; i < INVENTORY_CAPACITY; ++i) {
+        Item_Stack* items = game->player->inventory->items[0];
+        mvprintw(lignes_debut+1, colonnes/2,"%s %s", items->texture, items->name);
+    }*/
 }
