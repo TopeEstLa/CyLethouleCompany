@@ -157,9 +157,14 @@ void game_scene_curses() {
         lignes_debut++;
     }
 
-
+    int colonne_inv = (colonnes+colonnes/3)/3;
     for (int i = 0; i < player->inventory->index; ++i) {
         Item_Stack *item_stack = player->inventory->items[i];
-        printw("%s %s\n", item_stack->texture, item_stack->name);
+        if (i == 0){
+            mvprintw(lignes_debut+1, colonne_inv - strlen("INVENTORY : "),"INVENTORY : |%s %s|", item_stack->texture, item_stack->name);
+        } else {
+            colonne_inv = colonne_inv + strlen(player->inventory->items[i-1]->name) + strlen(player->inventory->items[i-1]->texture) + 2;
+            mvprintw(lignes_debut+1, colonne_inv,"|%s %s|", item_stack->texture, item_stack->name);
+        }
     }
 }
