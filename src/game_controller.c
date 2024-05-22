@@ -9,6 +9,7 @@
 #include <ncurses_display.h>
 #include <shop.h>
 #include <constant.h>
+#include <fight.h>
 
 Game_Data *game_data = NULL;
 
@@ -194,7 +195,11 @@ void move_player(int x, int y) {
         if (collided_entity->type == MONSTER) {
             //TODO fight
             Living_Monster *monster = collided_entity->data;
-            kill_monster(game_data->world_monster, monster->living_id);
+            set_current_scene(FIGHT_MENU);
+
+            prepare_fight(monster);
+            start_fight(player, monster);
+            //kill_monster(game_data->world_monster, monster->living_id);
         } else if (collided_entity->type == ITEM) {
             if (have_space(player)) {
                 Dropped_Item *item = collided_entity->data;

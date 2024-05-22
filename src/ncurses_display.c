@@ -9,6 +9,7 @@
 #include <scene/time_over_menu.h>
 #include <scene/game_over_menu.h>
 #include <scene/win_menu.h>
+#include <scene/fight_menu.h>
 
 #include <scene/game_scene.h>
 #include <scene/shop_menu.h>
@@ -82,6 +83,9 @@ void handle_input() {
         case SHOP_MENU:
             shop_handle_input();
             break;
+        case FIGHT_MENU:
+            fight_input();
+            break;
         case TIME_OVER:
             time_over_input();
         case GAME_OVER:
@@ -115,6 +119,9 @@ void curses_scene() {
             break;
         case SHOP_MENU:
             shop_menu_curses();
+            break;
+        case FIGHT_MENU:
+            fight_menu_curses();
             break;
         case TIME_OVER:
             time_over_menu_curses();

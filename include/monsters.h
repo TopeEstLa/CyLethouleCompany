@@ -2,12 +2,14 @@
 #define MONSTERS_H
 
 #include <entities.h>
+#include <player.h>
 #include <world.h>
 
 typedef struct Monster {
     char name[20];
     char *texture;
     int max_health;
+    Class class;
 } Monster;
 
 typedef struct Living_Monster {
