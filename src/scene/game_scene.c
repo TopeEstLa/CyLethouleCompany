@@ -64,8 +64,9 @@ void game_scene_curses() {
     int colonnes_debut = (colonnes - colonnes_text) / 2;
     int lignes_debut = 6;
     int remaining_time = get_remaining_time();
-    char res[30] = "Remaining time:";
-    mvprintw(lignes_debut-1, (colonnes - strlen(res))/2,"Remaining time: %ds\n", remaining_time);
+    char res[30] = "Remaining time: %ds";
+    mvprintw(lignes_debut-1,(colonnes - strlen("Quota: %d %d"))/2, "Quota: %d/%d\n", game->player->money, game->needed_money);
+    mvprintw(lignes_debut-2, (colonnes - strlen(res))/2,"Remaining time: %ds\n", remaining_time);
 
     if (world == NULL || player == NULL) {
         return;
