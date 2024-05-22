@@ -9,7 +9,7 @@
 #include <scene/time_over_menu.h>
 #include <scene/game_over_menu.h>
 #include <scene/win_menu.h>
-
+#include <scene/tutorial_menu.h>
 
 #include <scene/game_scene.h>
 #include <scene/shop_menu.h>
@@ -82,6 +82,9 @@ void handle_input() {
         case PAUSE_MENU:
             pause_handle_input();
             break;
+        case TUTORIAL_MENU:
+            tutorial_handle_input();
+            break;
         case GAME:
             handle_game_input();
             break;
@@ -121,6 +124,9 @@ void curses_scene() {
             break;
         case PAUSE_MENU:
             pause_menu_curses();
+            break;
+        case TUTORIAL_MENU:
+            tutorial_menu_curses();
             break;
         case GAME:
             game_scene_curses();

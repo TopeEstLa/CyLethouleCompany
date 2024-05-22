@@ -42,6 +42,7 @@ void main_handle_input() {
                     set_current_scene(CREATE_MENU);
                     break;
                 case 2:
+                    set_current_scene(TUTORIAL_MENU);
                     break;
                 case 3:
                     set_current_scene(QUITTING);

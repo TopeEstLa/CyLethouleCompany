@@ -67,6 +67,8 @@ add_executable(CyLethouleCompany
         src/scene/fight_menu.c
         include/scene/fight_shop.h
         src/scene/fight_shop.c
+        include/scene/tutorial_menu.h
+        src/scene/tutorial_menu.c
 )
 
 target_link_libraries(CyLethouleCompany PRIVATE
