@@ -4,6 +4,7 @@
 #include <world.h>
 #include <entities.h>
 #include <maths.h>
+#include <constant.h>
 
 Chunk *create_empty_chunk() {
     Chunk *chunk = malloc(sizeof(Chunk));
@@ -61,7 +62,11 @@ Game_World *create_world(int seed) {
         }
     }
 
-    world->rooms = calloc(10, sizeof(Room));
+    if (MAX_ROOM == -1) {
+        world->rooms = calloc(10, sizeof(Room));
+    } else {
+        world->rooms = calloc(MAX_ROOM, sizeof(Room));
+    }
     if (world->rooms == NULL) {
         printf("Failed to allocate memory for rooms\n");
         for (int i = 0; i < DEFAULT_WORLD_WIDTH; i++) {
@@ -73,11 +78,14 @@ Game_World *create_world(int seed) {
         return NULL;
     }
 
-    world->room_capacity = 10;
+    if (MAX_ROOM == -1) {
+        world->room_capacity = 10;
+    } else {
+        world->room_capacity = MAX_ROOM;
+    }
+
     world->room_count = 0;
     world->prepared_rooms_count = 0;
-
-//    world->monsters = init_world_monster();
 
     return world;
 }
