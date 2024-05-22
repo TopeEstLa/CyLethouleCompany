@@ -163,7 +163,7 @@ void start_fight(Player *player, Living_Monster *monster) {
     if (player->health <= 0) {
         add_fight_log(monster->monster.name, player->name, "%s a tué %s\n", 0);
     } else {
-        add_fight_log(player->name, monster->monster.name, "%s a tué %s Vous avez donc gagner %d Exp\n", 10);
+        add_fight_log(player->name, monster->monster.name, "%s a tué %s Vous avez donc gagner %d ame(s) de Morlok\n", 10);
         player->exp += 10;
     }
 

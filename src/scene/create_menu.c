@@ -27,6 +27,9 @@ void create_handle_input() {
     if (ch == ERR) return;
 
     switch (ch) {
+        case 27:
+            set_current_scene(MAIN_MENU);
+            break;
         case KEY_UP:
             if (choice > 0) choice--;
             break;
