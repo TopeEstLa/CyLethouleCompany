@@ -33,6 +33,7 @@ void create_handle_input() {
         case KEY_DOWN:
             if (choice < 3) choice++;
             break;
+        case KEY_BACKSPACE:
         case KEY_DC:
             if (choice == 0) {
                 if (strlen(name) > 0) {
