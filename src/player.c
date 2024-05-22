@@ -120,7 +120,8 @@ void player_death(Game_World* world, Player *player) {
 
 
     int quota_add = game->needed_money * 0.1;
-    player->money += quota_add;
+    game->needed_money += quota_add;
+    player->exp = player->exp / 2;
 
     Move_Callback callback = move_entity(world, entity, roomCenterX, roomCenterY);
 
