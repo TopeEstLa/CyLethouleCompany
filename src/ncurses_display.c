@@ -9,10 +9,12 @@
 #include <scene/time_over_menu.h>
 #include <scene/game_over_menu.h>
 #include <scene/win_menu.h>
-#include <scene/fight_menu.h>
+
 
 #include <scene/game_scene.h>
 #include <scene/shop_menu.h>
+#include <scene/fight_shop.h>
+#include <scene/fight_menu.h>
 
 #include <locale.h>
 
@@ -36,6 +38,9 @@ void set_current_scene(Current_Scene scene) {
             reset_game_over_fields();
         case SHOP_MENU:
             reset_shop_fields();
+            break;
+        case FIGHT_SHOP:
+            reset_fight_shop_fields();
             break;
         default:
             break;
@@ -83,6 +88,9 @@ void handle_input() {
         case SHOP_MENU:
             shop_handle_input();
             break;
+        case FIGHT_SHOP:
+            fight_shop_handle_input();
+            break;
         case FIGHT_MENU:
             fight_input();
             break;
@@ -119,6 +127,9 @@ void curses_scene() {
             break;
         case SHOP_MENU:
             shop_menu_curses();
+            break;
+        case FIGHT_SHOP:
+            fight_shop_menu_curses();
             break;
         case FIGHT_MENU:
             fight_menu_curses();

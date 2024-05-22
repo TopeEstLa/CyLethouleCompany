@@ -90,13 +90,16 @@ void calculate_stats(Class aClass, int *attack, int *defense, int *dodge) {
 
 void prepare_fight(Living_Monster *monster) {
     fight_log = malloc(sizeof(Fight_Log) * 20);
+    if (fight_log == NULL) return;
     fight_log_size = 0;
     fight_log_capacity = 20;
     fight_started = false;
     current_monster = monster;
+    set_current_scene(FIGHT_SHOP);
 }
 
 void start_fight(Player *player, Living_Monster *monster) {
+    set_current_scene(FIGHT_MENU);
     fight_started = true;
     int player_attack = 0;
     int player_defense = 0;

@@ -193,13 +193,8 @@ void move_player(int x, int y) {
         if (collided_entity == NULL) return;
 
         if (collided_entity->type == MONSTER) {
-            //TODO fight
             Living_Monster *monster = collided_entity->data;
-            set_current_scene(FIGHT_MENU);
-
             prepare_fight(monster);
-            start_fight(player, monster);
-            //kill_monster(game_data->world_monster, monster->living_id);
         } else if (collided_entity->type == ITEM) {
             if (have_space(player)) {
                 Dropped_Item *item = collided_entity->data;
