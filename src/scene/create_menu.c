@@ -8,13 +8,13 @@
 #include <game_controller.h>
 
 int choice = 0;
-char name[50];
-char seed[50];
+char name[20];
+char seed[20];
 int class_choice = 0;
 
 void reset_create_fields() {
     choice = 0;
-    for (int i = 0; i < 50; ++i) {
+    for (int i = 0; i < 20; ++i) {
         name[i] = '\0';
         seed[i] = '\0';
     }
@@ -57,7 +57,7 @@ void create_handle_input() {
                 if (is_game_loaded()) break;
 
                 char *endptr;
-                int seed_int = strtol(seed, &endptr, 10);
+                int seed_int = strtol(seed, &endptr, 10); //convert seed to int "endptr" first non-numeric character
 
                 if (*endptr != '\0') break;
 
@@ -73,14 +73,14 @@ void create_handle_input() {
         case 0:
             if (ch < 'a' || ch > 'z') break;
 
-            if (strlen(name) < 50) {
+            if (strlen(name) < 20) {
                 name[strlen(name)] = ch;
                 name[strlen(name) + 1] = '\0';
             }
             break;
         case 1:
             if (ch < '0' || ch > '9') break;
-            if (strlen(seed) < 50) {
+            if (strlen(seed) < 20) {
                 seed[strlen(seed)] = ch;
                 seed[strlen(seed) + 1] = '\0';
             }
