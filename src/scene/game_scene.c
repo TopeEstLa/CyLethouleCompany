@@ -162,14 +162,16 @@ void game_scene_curses() {
         lignes_debut++;
     }
 
+    mvprintw(lignes_debut+1, colonnes/2 - strlen(player->name) - strlen("The player has"), "The player %s has : %4D exp", player->name, player->exp);
+    mvprintw(lignes_debut+2, colonnes/2 - strlen(player->name) - strlen("Money :"), "Money : %4D$", player->money);
     int colonne_inv = (colonnes+colonnes/3)/3;
     for (int i = 0; i < player->inventory->index; ++i) {
         Item_Stack *item_stack = player->inventory->items[i];
         if (i == 0){
-            mvprintw(lignes_debut+1, colonne_inv - strlen("INVENTORY : "),"INVENTORY : |%s %s|", item_stack->texture, item_stack->name);
+            mvprintw(lignes_debut+3, colonne_inv - strlen("INVENTORY : "),"INVENTORY : |%s %s|", item_stack->texture, item_stack->name);
         } else {
             colonne_inv = colonne_inv + strlen(player->inventory->items[i-1]->name) + strlen(player->inventory->items[i-1]->texture) + 2;
-            mvprintw(lignes_debut+1, colonne_inv,"|%s %s|", item_stack->texture, item_stack->name);
+            mvprintw(lignes_debut+3, colonne_inv,"|%s %s|", item_stack->texture, item_stack->name);
         }
     }
 }
