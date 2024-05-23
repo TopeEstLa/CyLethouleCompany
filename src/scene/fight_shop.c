@@ -59,10 +59,8 @@ void fight_shop_handle_input() {
 
                     player->exp -= 10;
 
-                    if (player->health + 100 > player->health) {
-                        player->health = player->health;
-                    } else {
-                        player->health += 100;
+                    for (int i = 0; player->health < 100; ++i) {
+                        player->health++;
                     }
 
                     start_fight(game->player, get_current_monster());
@@ -76,7 +74,7 @@ void fight_shop_handle_input() {
 
                     srand(time(NULL));
                     if (rand() % 2 == 0) {
-                        player->exp *= 30;
+                        player->exp += 30;
                     }
 
                     start_fight(game->player, get_current_monster());
