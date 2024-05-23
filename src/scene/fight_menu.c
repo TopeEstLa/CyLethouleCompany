@@ -4,8 +4,6 @@
 #include <fight.h>
 #include <string.h>
 #include <game_controller.h>
-#include <math.h>
-#include <stdlib.h>
 
 void fight_input() {
     int ch = getch();
@@ -17,7 +15,9 @@ void fight_input() {
             end_fight();
             return;
         } else {
-            set_fight_speedup(true);
+            if (!get_fight_speedup()) {
+                set_fight_speedup(true);
+            }
         }
     }
 }

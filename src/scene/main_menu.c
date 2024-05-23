@@ -1,8 +1,10 @@
 #include <scene/main_menu.h>
 
-#include <ncurses_display.h>
+#include <curses.h>
 
+#include <ncurses_display.h>
 #include <game_controller.h>
+
 
 char *menu_options[] = {
         "Charger une partie",

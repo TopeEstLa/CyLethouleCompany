@@ -1,5 +1,7 @@
 #include <scene/load_menu.h>
 
+#include <curses.h>
+
 #include <ncurses_display.h>
 #include <file_utils.h>
 #include <saves.h>

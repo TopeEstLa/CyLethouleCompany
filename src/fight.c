@@ -14,6 +14,7 @@ int fight_log_capacity = 20;
 bool fight_started = false;
 Living_Monster *current_monster = NULL;
 bool speedup = false;
+bool fight_end = false;
 
 Fight_Log *get_fight_log() {
     return fight_log;
@@ -32,9 +33,7 @@ bool is_fight_started() {
 }
 
 bool is_fight_ended() {
-    Game_Data *game_data = get_game_data();
-    if (!is_game_loaded()) return true;
-    return game_data->player->health <= 0 || current_monster->health <= 0;
+    return fight_end;
 }
 
 bool fight_win() {
@@ -98,6 +97,7 @@ void prepare_fight(Living_Monster *monster) {
     fight_log_size = 0;
     fight_log_capacity = 20;
     fight_started = false;
+    fight_end = false;
     current_monster = monster;
     set_current_scene(FIGHT_SHOP);
 }
@@ -164,6 +164,10 @@ void start_fight(Player *player, Living_Monster *monster) {
         }
     } while (player->health > 0 && monster->health > 0);
 
+    handle_input();
+
+    fight_end = true;
+
     if (player->health <= 0) {
         add_fight_log(monster->monster.name, player->name, "%s a tué %s\n", 0);
     } else {
@@ -175,6 +179,7 @@ void start_fight(Player *player, Living_Monster *monster) {
 
 void end_fight() {
     fight_started = false;
+    fight_end = false;
     free(fight_log);
     fight_log = NULL;
     fight_log_size = 0;
