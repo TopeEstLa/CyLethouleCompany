@@ -161,9 +161,9 @@ void game_scene_curses() {
         }
         lignes_debut++;
     }
-    mvprintw(lignes_debut, colonnes/2 - strlen(player->name) - strlen("The player has"), "The player %s has : %4D pv", player->name, player->health);
-    mvprintw(lignes_debut+1, colonnes/2 - strlen(player->name) - strlen("The player has"), "The player %s has : %4D exp", player->name, player->exp);
-    mvprintw(lignes_debut+2, colonnes/2 - strlen(player->name) - strlen("Money :"), "Money : %4D$", player->money);
+    mvprintw(lignes_debut, colonnes/2 - strlen(player->name) - strlen("The player has"), "The player %s has : %4d pv", player->name, player->health);
+    mvprintw(lignes_debut+1, colonnes/2 - strlen(player->name) - strlen("The player has"), "The player %s has : %4d exp", player->name, player->exp);
+    mvprintw(lignes_debut+2, colonnes/2 - strlen(player->name) - strlen("Money :"), "Money : %4d$", player->money);
     int colonne_inv = (colonnes+colonnes/3)/3;
     for (int i = 0; i < player->inventory->index; ++i) {
         Item_Stack *item_stack = player->inventory->items[i];
