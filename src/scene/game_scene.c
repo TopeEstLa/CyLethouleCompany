@@ -61,119 +61,115 @@ void game_scene_curses() {
         return;
     }
 
-    int lignes, colonnes;
+    int lines, cols;
     int dx = 40;
     int dy = 10;
-    getmaxyx(stdscr, lignes, colonnes);
+    getmaxyx(stdscr, lines, cols);
 
     int x = player_entity->x;
     int y = player_entity->y;
 
-    int colonnes_text = dx;
-    int colonnes_debut =  colonnes/2 - colonnes_text;
-    int lignes_debut = 6;
+    int cols_txt = dx;
+    int col_start = cols / 2 - cols_txt;
+    int lines_start = 6;
     int remaining_time = get_remaining_time();
 
-    mvprintw(lignes_debut-1,(colonnes - strlen("Remaining time: %ds   "))/2, "|     Quota : %3d/%3d    |", game->player->money, game->needed_money);
-    mvprintw(lignes_debut-2, (colonnes - strlen("Remaining time: %ds   "))/2,"| Remaining time: %3ds   |", remaining_time);
-    mvprintw(lignes_debut-3, (colonnes - strlen("Remaining time: %ds   "))/2,"__________________________", remaining_time);
+    mvprintw(lines_start-1, (cols - strlen("Remaining time: %ds   ")) / 2, "|     Quota : %3d/%3d    |", game->player->money, game->needed_money);
+    mvprintw(lines_start-2, (cols - strlen("Remaining time: %ds   ")) / 2, "| Remaining time: %3ds   |", remaining_time);
+    mvprintw(lines_start-3, (cols - strlen("Remaining time: %ds   ")) / 2, "__________________________", remaining_time);
 
     if (world == NULL || player == NULL) {
         return;
     }
-
-
-
-
-
+    
     for (int iy = y - dy; iy < y + dy - 1; iy++) {
         if (iy >= 0 && iy < world->height) {
-            int current_colonnes = colonnes_debut;
+            int current_cols = col_start;
             for (int ix = x - dx; ix < x + dx - 1; ix++) {
                 if (ix >= 0 && ix < world->width) {
                     Room *room = get_room(world, ix, iy);
 
                     if (room == NULL || !room->is_visited) {
-                        mvprintw(lignes_debut, current_colonnes, " ");
-                        current_colonnes++;
+                        mvprintw(lines_start, current_cols, " ");
+                        current_cols++;
                         continue;
                     }
 
                     Entity *entity = get_entity(ix, iy);
                     if (entity != NULL) {
-                        mvprintw(lignes_debut, current_colonnes, "%s", entity->texture);
+                        mvprintw(lines_start, current_cols, "%s", entity->texture);
                     } else {
                         Chunk *chunk = get_chunk(world, ix, iy);
 
                         if (chunk == NULL) {
-                            mvprintw(lignes_debut, current_colonnes, " ");
-                            current_colonnes++;
+                            mvprintw(lines_start, current_cols, " ");
+                            current_cols++;
                             continue;
                         }
 
                         switch (chunk->type) {
                             case DOOR:
-                                mvprintw(lignes_debut, current_colonnes, "۩");
+                                mvprintw(lines_start, current_cols, "۩");
                                 break;
                             case WALL:
                                 if (chunk->direction == EAST || chunk->direction == WEST) {
-                                    mvprintw(lignes_debut, current_colonnes, "║");
+                                    mvprintw(lines_start, current_cols, "║");
                                 } else if (chunk->direction == NORTH || chunk->direction == SOUTH) {
-                                    mvprintw(lignes_debut, current_colonnes, "═");
+                                    mvprintw(lines_start, current_cols, "═");
                                 } else if (chunk->direction == NORTH_WEST) {
-                                    mvprintw(lignes_debut, current_colonnes, "╔");
+                                    mvprintw(lines_start, current_cols, "╔");
                                 } else if (chunk->direction == NORTH_EAST) {
-                                    mvprintw(lignes_debut, current_colonnes, "╗");
+                                    mvprintw(lines_start, current_cols, "╗");
                                 } else if (chunk->direction == SOUTH_WEST) {
-                                    mvprintw(lignes_debut, current_colonnes, "╚");
+                                    mvprintw(lines_start, current_cols, "╚");
                                 } else if (chunk->direction == SOUTH_EAST) {
-                                    mvprintw(lignes_debut, current_colonnes, "╝");
+                                    mvprintw(lines_start, current_cols, "╝");
                                 }
                                 break;
                             case VOID:
                             case EMPTY:
-                                mvprintw(lignes_debut, current_colonnes, " ");
+                                mvprintw(lines_start, current_cols, " ");
                                 break;
                             default:
-                                mvprintw(lignes_debut, current_colonnes, "?");
+                                mvprintw(lines_start, current_cols, "?");
                                 break;
                         }
                     }
-                    current_colonnes++;
+                    current_cols++;
                 }
             }
-            lignes_debut++;
+            lines_start++;
         }
     }
 
-    lignes_debut = 6;
-    colonnes_text = dx * 2;
-    colonnes_debut = (colonnes - colonnes_text) / 2;
+    lines_start = 6;
+    cols_txt = dx * 2;
+    col_start = (cols - cols_txt) / 2;
     int colStartInventory = 0;
     for (int i = y - dy; i < y + dy; i++) {
-        int current_colonnes = colonnes_debut;
+        int current_cols = col_start;
         for (int j = x - dx; j < x + dx; j++) {
             if (j == x - dx || j == x + dx - 1) {
-                mvprintw(lignes_debut, current_colonnes, "|");
+                mvprintw(lines_start, current_cols, "|");
             } else if (i == y - dy || i == y + dy - 1) {
-                mvprintw(lignes_debut, current_colonnes, "-");
+                mvprintw(lines_start, current_cols, "-");
             }
-            current_colonnes++;
+            current_cols++;
         }
-        colStartInventory = current_colonnes;
-        lignes_debut++;
+        colStartInventory = current_cols;
+        lines_start++;
     }
-    mvprintw(lignes_debut - 10, colStartInventory, "%s", player->name);
-    mvprintw(lignes_debut - 9, colStartInventory, "%3d pv", player->health);
-    mvprintw(lignes_debut - 8, colStartInventory, "%3d exp", player->exp);
-    mvprintw(lignes_debut - 7, colStartInventory, "Money : %4d$", player->money);
-    mvprintw(lignes_debut-5, colStartInventory,"INVENTORY");
+    mvprintw(lines_start - 10, colStartInventory, "%s", player->name);
+    mvprintw(lines_start - 9, colStartInventory, "%3d pv", player->health);
+    mvprintw(lines_start - 8, colStartInventory, "%3d exp", player->exp);
+    mvprintw(lines_start - 7, colStartInventory, "Money : %4d$", player->money);
+    mvprintw(lines_start-5, colStartInventory,"INVENTORY");
     int lenghtA = 0;
     int lenghtB = 0;
 
     for (int i = 0; i < player->inventory->index; ++i) {
         Item_Stack *item_stack = player->inventory->items[i];
-            mvprintw(lignes_debut-4+i, colStartInventory,"%s %s", item_stack->texture, item_stack->name);
+            mvprintw(lines_start-4+i, colStartInventory,"%s %s", item_stack->texture, item_stack->name);
         if (strcmp(item_stack->name, "Grand Axe") == 0){
             lenghtA =  strlen(item_stack->texture)+ strlen(item_stack->name);
         } else if (strcmp(item_stack->name, "Bold") == 0){
@@ -181,31 +177,23 @@ void game_scene_curses() {
         }
     }
 
-    /*for (int i = lignes_debut - 6; i < lignes_debut; i++){
-        for (int j = colStartInventory+1; j < max2(strlen("INVENTORY"), max2 (lenghtA, lenghtB)); j++){
-            if (j == (max2(strlen("INVENTORY"), max2 (lenghtA, lenghtB)))-1){
-                mvprintw(i, j+1 , "|");
-            } else if (i == lignes_debut-6 || i == lignes_debut){
-                mvprintw(i, j + 1 , "_");
-            }
-        }
-    }*/
+    
     max2(max2(max2(max2(max2(strlen("INVENTORY"), max2 (lenghtA, lenghtB)), strlen(player->name)), strlen("pv")+4), strlen("exp")+4),
          strlen("Money :")+5);
     for (int i = 0; i < 11; i++){
-        mvprintw(lignes_debut-i-1, colStartInventory+1+max2(max2(max2(max2(max2(strlen("INVENTORY"), max2 (lenghtA, lenghtB)), strlen(player->name)), strlen("pv")+4), strlen("exp")+4),
+        mvprintw(lines_start-i-1, colStartInventory+1+max2(max2(max2(max2(max2(strlen("INVENTORY"), max2 (lenghtA, lenghtB)), strlen(player->name)), strlen("pv")+4), strlen("exp")+4),
                                                             strlen("Money :")+5),"|");
     }
     for (int i = 0; i <= max2(max2(max2(max2(max2(strlen("INVENTORY"), max2 (lenghtA, lenghtB)), strlen(player->name)), strlen("pv")+4), strlen("exp")+4),
                               strlen("Money :")+5); i++){
-        mvprintw(lignes_debut-6, colStartInventory+i,"-");
+        mvprintw(lines_start-6, colStartInventory+i,"-");
     }
     for (int i = 0; i <= max2(max2(max2(max2(max2(strlen("INVENTORY"), max2 (lenghtA, lenghtB)), strlen(player->name)), strlen("pv")+4), strlen("exp")+4),
                               strlen("Money :")+5); i++){
-        mvprintw(lignes_debut-1, colStartInventory+i,"-");
+        mvprintw(lines_start-1, colStartInventory+i,"-");
     }
     for (int i = 0; i <= max2(max2(max2(max2(max2(strlen("INVENTORY"), max2 (lenghtA, lenghtB)), strlen(player->name)), strlen("pv")+4), strlen("exp")+4),
                               strlen("Money :")+5); i++){
-        mvprintw(lignes_debut-11, colStartInventory+i,"-");
+        mvprintw(lines_start-11, colStartInventory+i,"-");
     }
 }
