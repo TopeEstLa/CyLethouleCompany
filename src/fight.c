@@ -87,6 +87,11 @@ void calculate_stats(Class aClass, int *attack, int *defense, int *dodge) {
             *defense = random_int(time(NULL), 4, 7);
             *dodge = random_int(time(NULL), 4, 12);
             break;
+        case MONSTER_CLASS:
+            *attack = random_int(time(NULL), 1, 5);
+            *defense = random_int(time(NULL), 1, 3);
+            *dodge = 0;
+            break;
     }
 
 }

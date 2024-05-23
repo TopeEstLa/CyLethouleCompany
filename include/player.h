@@ -6,12 +6,12 @@
 
 /**
  * The class of the player.
-
  */
 typedef enum class {
     ARCHER,
     WIZARD,
     WARRIOR,
+    MONSTER_CLASS,
 } Class;
 
 /**
