@@ -73,7 +73,7 @@ void fight_menu_curses() {
 
             attron(A_REVERSE);
 
-            int print_width = (window_width / 2) - strlen(log.action);
+            int print_width = (window_width / 2) - (strlen(log.action) / 2);
 
             if (print_width < 0) print_width = window_width / 2;
 
