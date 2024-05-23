@@ -46,42 +46,52 @@ void game_scene_curses() {
         return;
     }
 
+
     Game_Data *game = get_game_data();
     Game_World *world = game->world;
     Player *player = game->player;
     Entity *player_entity = player->entity;
 
+
     struct timeval current_time;
     gettimeofday(&current_time, NULL);
 
+
     struct timeval end = game->end_time;
+
 
     if (current_time.tv_sec > end.tv_sec || (current_time.tv_sec == end.tv_sec && current_time.tv_usec >= end.tv_usec)) {
         set_current_scene(TIME_OVER);
         return;
     }
 
+
     int lines, cols;
     int dx = 40;
     int dy = 10;
     getmaxyx(stdscr, lines, cols);
 
+
     int x = player_entity->x;
     int y = player_entity->y;
+
 
     int cols_txt = dx;
     int col_start = cols / 2 - cols_txt;
     int lines_start = 6;
     int remaining_time = get_remaining_time();
 
+
     mvprintw(lines_start-1, (cols - strlen("Remaining time: %ds   ")) / 2, "|     Quota : %3d/%3d    |", game->player->money, game->needed_money);
     mvprintw(lines_start-2, (cols - strlen("Remaining time: %ds   ")) / 2, "| Remaining time: %3ds   |", remaining_time);
     mvprintw(lines_start-3, (cols - strlen("Remaining time: %ds   ")) / 2, "__________________________", remaining_time);
 
+
     if (world == NULL || player == NULL) {
         return;
     }
-    
+
+
     for (int iy = y - dy; iy < y + dy - 1; iy++) {
         if (iy >= 0 && iy < world->height) {
             int current_cols = col_start;
@@ -142,6 +152,7 @@ void game_scene_curses() {
         }
     }
 
+
     lines_start = 6;
     cols_txt = dx * 2;
     col_start = (cols - cols_txt) / 2;
@@ -159,11 +170,15 @@ void game_scene_curses() {
         colStartInventory = current_cols;
         lines_start++;
     }
+
+
     mvprintw(lines_start - 10, colStartInventory, "%s", player->name);
     mvprintw(lines_start - 9, colStartInventory, "%3d pv", player->health);
     mvprintw(lines_start - 8, colStartInventory, "%3d exp", player->exp);
     mvprintw(lines_start - 7, colStartInventory, "Money : %4d$", player->money);
     mvprintw(lines_start-5, colStartInventory,"INVENTORY");
+
+
     int lenghtA = 0;
     int lenghtB = 0;
 
