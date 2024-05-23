@@ -35,7 +35,7 @@ void win_menu_curses() {
            "");
 
     printw("\n\n");
-    printw("Félicitation vous avez rempli le quota la company est fiert de vous\n\n");
+    printw("Félicitation vous avez rempli le quota la company est fier de vous\n\n");
 
     attron(A_REVERSE);
     printw("Retour au menu principal.\n");
