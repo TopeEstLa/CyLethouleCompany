@@ -74,8 +74,9 @@ void game_scene_curses() {
     int lignes_debut = 6;
     int remaining_time = get_remaining_time();
 
-    mvprintw(lignes_debut-1,(colonnes - strlen("Quota: %d %d"))/2, "Quota: %d/%d\n", game->player->money, game->needed_money);
-    mvprintw(lignes_debut-2, (colonnes - strlen("Remaining time: %ds"))/2,"Remaining time: %ds\n", remaining_time);
+    mvprintw(lignes_debut-1,(colonnes - strlen("Remaining time: %ds   "))/2, "|     Quota : %3d/%3d    |", game->player->money, game->needed_money);
+    mvprintw(lignes_debut-2, (colonnes - strlen("Remaining time: %ds   "))/2,"| Remaining time: %3ds   |", remaining_time);
+    mvprintw(lignes_debut-3, (colonnes - strlen("Remaining time: %ds   "))/2,"__________________________", remaining_time);
 
     if (world == NULL || player == NULL) {
         return;
@@ -148,7 +149,7 @@ void game_scene_curses() {
     lignes_debut = 6;
     colonnes_text = dx * 2;
     colonnes_debut = (colonnes - colonnes_text) / 2;
-
+    int colStartInventory = 0;
     for (int i = y - dy; i < y + dy; i++) {
         int current_colonnes = colonnes_debut;
         for (int j = x - dx; j < x + dx; j++) {
@@ -159,19 +160,41 @@ void game_scene_curses() {
             }
             current_colonnes++;
         }
+        colStartInventory = current_colonnes;
         lignes_debut++;
     }
     mvprintw(lignes_debut, colonnes/2 - strlen(player->name) - strlen("The player has"), "The player %s has : %4d pv", player->name, player->health);
     mvprintw(lignes_debut+1, colonnes/2 - strlen(player->name) - strlen("The player has"), "The player %s has : %4d exp", player->name, player->exp);
     mvprintw(lignes_debut+2, colonnes/2 - strlen(player->name) - strlen("Money :"), "Money : %4d$", player->money);
-    int colonne_inv = (colonnes+colonnes/3)/3;
+    mvprintw(lignes_debut-5, colStartInventory+1,"INVENTORY");
+    int lenghtA = 0;
+    int lenghtB = 0;
     for (int i = 0; i < player->inventory->index; ++i) {
         Item_Stack *item_stack = player->inventory->items[i];
-        if (i == 0){
-            mvprintw(lignes_debut+3, colonne_inv - strlen("INVENTORY : "),"INVENTORY : |%s %s|", item_stack->texture, item_stack->name);
-        } else {
-            colonne_inv = colonne_inv + strlen(player->inventory->items[i-1]->name) + strlen(player->inventory->items[i-1]->texture) + 2;
-            mvprintw(lignes_debut+3, colonne_inv,"|%s %s|", item_stack->texture, item_stack->name);
+            mvprintw(lignes_debut-i-2, colStartInventory+1,"%s %s", item_stack->texture, item_stack->name);
+        if (strcmp(item_stack->name, "Grand Axe") == 0){
+            lenghtA =  strlen(item_stack->texture)+ strlen(item_stack->name);
+        } else if (strcmp(item_stack->name, "Bold") == 0){
+            lenghtB =  strlen(item_stack->texture)+ strlen(item_stack->name);
         }
+    }
+
+    /*for (int i = lignes_debut - 6; i < lignes_debut; i++){
+        for (int j = colStartInventory+1; j < max2(strlen("INVENTORY"), max2 (lenghtA, lenghtB)); j++){
+            if (j == (max2(strlen("INVENTORY"), max2 (lenghtA, lenghtB)))-1){
+                mvprintw(i, j+1 , "|");
+            } else if (i == lignes_debut-6 || i == lignes_debut){
+                mvprintw(i, j + 1 , "_");
+            }
+        }
+    }*/
+    for (int i = 0; i < 6; i++){
+        mvprintw(lignes_debut-i-1, colStartInventory+1+max2(strlen("INVENTORY"), max2 (lenghtA, lenghtB)),"|");
+    }
+    for (int i = 0; i <= max2(strlen("INVENTORY"), max2 (lenghtA, lenghtB)) ; i++){
+        mvprintw(lignes_debut-6, colStartInventory+i,"-");
+    }
+    for (int i = 0; i <= max2(strlen("INVENTORY"), max2 (lenghtA, lenghtB)) ; i++){
+        mvprintw(lignes_debut-1, colStartInventory+i,"-");
     }
 }

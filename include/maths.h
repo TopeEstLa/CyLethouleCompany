@@ -57,4 +57,7 @@ int max(int a, int b);
 int min(int a, int b);
 
 
+unsigned int max2(unsigned int a, unsigned int b);
+
+
 #endif //MATHS_H
