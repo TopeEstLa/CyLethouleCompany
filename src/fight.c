@@ -113,6 +113,8 @@ void start_fight(Player *player, Living_Monster *monster) {
     int monster_defense = 0;
     int monster_dodge = 0;
 
+    int exp_winable = monster->health * 0.2;
+
     do {
         calculate_stats(player->current_class, &player_attack, &player_defense, &player_dodge);
         calculate_stats(monster->monster.class, &monster_attack, &monster_defense, &monster_dodge);
@@ -164,15 +166,15 @@ void start_fight(Player *player, Living_Monster *monster) {
         }
     } while (player->health > 0 && monster->health > 0);
 
-    handle_input();
+    handle_input(); //reset key on speedup mode
 
     fight_end = true;
 
     if (player->health <= 0) {
         add_fight_log(monster->monster.name, player->name, "%s a tué %s\n", 0);
     } else {
-        add_fight_log(player->name, monster->monster.name, "%s a tué %s Vous avez donc gagné %d âme(s) de Morlok\n", 10);
-        player->exp += 10;
+        add_fight_log(player->name, monster->monster.name, "%s a tué %s Vous avez donc gagné %d âme(s) de Morlok\n", exp_winable);
+        player->exp += exp_winable;
     }
 
 }

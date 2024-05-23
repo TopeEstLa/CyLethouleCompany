@@ -16,9 +16,24 @@ char *pause_options[] = {
 int pause_count = 3;
 
 int pause_choice = 0;
+struct timeval pause_start;
+
+int calc_pause_time(struct timeval start, struct timeval end) {
+    long seconds = end.tv_sec - start.tv_sec;
+    long useconds = end.tv_usec - start.tv_usec;
+
+    if (useconds < 0) {
+        seconds -= 1;
+        useconds += 1000000;
+    }
+
+    return seconds;
+}
+
 
 void reset_pause_fields() {
     pause_choice = 0;
+    gettimeofday(&pause_start, NULL);
 }
 
 void pause_handle_input() {
@@ -27,8 +42,17 @@ void pause_handle_input() {
     if (ch == ERR)
         return;
 
+    if (!is_game_loaded()) return;
+    Game_Data *game_data = get_game_data();
+
+    struct timeval end;
+    gettimeofday(&end, NULL);
+
+    int duration = calc_pause_time(pause_start, end);
+
     switch (ch) {
         case 27:
+            game_data->end_time.tv_sec += duration;
             set_current_scene(GAME);
             break;
         case KEY_UP:
@@ -42,14 +66,12 @@ void pause_handle_input() {
         case 10:
             switch (pause_choice) {
                 case 0:
+                    game_data->end_time.tv_sec += duration;
                     set_current_scene(GAME);
                     break;
                 case 1:
-                    if (!is_game_loaded())
-                        break;
-
+                    game_data->end_time.tv_sec += duration;
                     char *filename = get_file_path(SAVES_FOLDER, get_game_data()->player->name, ".sav");
-
                     save_game(get_game_data(), filename);
                     break;
                 case 2:
