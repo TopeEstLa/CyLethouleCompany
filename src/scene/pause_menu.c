@@ -70,6 +70,7 @@ void pause_handle_input() {
                     set_current_scene(GAME);
                     break;
                 case 1:
+                    gettimeofday(&pause_start, NULL);
                     game_data->end_time.tv_sec += duration;
                     char *filename = get_file_path(SAVES_FOLDER, get_game_data()->player->name, ".sav");
                     save_game(get_game_data(), filename);
