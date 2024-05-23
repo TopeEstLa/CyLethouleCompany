@@ -31,6 +31,12 @@ typedef struct chunk {
     Direction direction;
 } Chunk;
 
+/**
+ * A struct representing a door.
+ * @param x The x position of the door.
+ * @param y The y position of the door.
+ * @param is_used If the door is used for generating a room.
+ */
 typedef struct door {
     int x, y;
     bool is_used;
@@ -43,12 +49,12 @@ typedef struct door {
  * @param height The height of the room.
  * @param x The x position of the room.
  * @param y The y position of the room.
- * @param cuboid The cuboid representing the room.
+ * @param start_door The index of the door where the room was generated.
+ * @param is_visited If the room was visited by the player.
  * @param doors An array of pairs representing the doors locations.
  */
 typedef struct room {
     int width, height, x, y;
-    Cuboid cuboid;
     int start_door;
     bool is_visited;
     Door **doors; //Max 4 door by room (N, E, S, W)
@@ -63,6 +69,7 @@ typedef struct room {
  * @param rooms An ArrayList like of rooms in the world.
  * @param room_capacity The current capacity of the rooms array.
  * @param room_count The current number of rooms in the world.
+ * @param prepared_rooms_count The number of rooms prepared to be appended to the world.
  */
 typedef struct game_world {
     int seed;

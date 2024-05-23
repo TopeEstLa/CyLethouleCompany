@@ -260,9 +260,6 @@ void prepend_world(Game_World *world, int width_to_add, int height_to_add) {
         Room *room = world->rooms[i];
         room->x += width_to_add;
         room->y += height_to_add;
-        room->cuboid.x1 += width_to_add;
-        room->cuboid.y1 += height_to_add;
-        room->cuboid.x2 += width_to_add;
         world->rooms[i] = room;
     }
 
@@ -415,11 +412,6 @@ Room *create_room(int width, int height, int x, int y) {
     room->height = height;
     room->x = x;
     room->y = y;
-
-    Cuboid cuboid = {x, y,
-                     x + width, y + height};
-
-    room->cuboid = cuboid;
 
     room->doors = malloc(4 * sizeof(Door *));
     if (room->doors == NULL) {

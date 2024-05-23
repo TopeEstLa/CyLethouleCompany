@@ -3,12 +3,19 @@
 
 //Les class abstraite me manque :cccccccccc
 
-#include <curses.h>
-
+/**
+ * Reset all field from the main menu
+ */
 void reset_main_fields();
 
+/**
+ * Manage the input from the user
+ */
 void main_handle_input();
 
+/**
+ * Display the main menu using ncurses
+ */
 void main_menu_curses();
 
 #endif //MAIN_MENU_H

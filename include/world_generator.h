@@ -10,7 +10,9 @@
 #define MIN_ROOM_WIDTH 5
 #define MIN_ROOM_HEIGHT 5
 
-
+/**
+ * Enum to represent the face of a door.
+ */
 typedef enum {
     TOP = 0,
     BOTTOM = 1,

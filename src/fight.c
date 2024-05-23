@@ -45,6 +45,10 @@ void set_fight_speedup(bool new_state) {
     speedup = new_state;
 }
 
+bool get_fight_speedup() {
+    return speedup;
+}
+
 Living_Monster *get_current_monster() {
     return current_monster;
 }

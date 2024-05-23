@@ -35,6 +35,13 @@ cJSON* load_json(char *filename);
  */
 char** list_files(char *directory, int *count);
 
+/**
+ * Concatenate a directory, file name and extension to create a file path
+ * @param directory
+ * @param file_name
+ * @param extension
+ * @return concatenated file path : directory / file_name . extension
+ */
 char* get_file_path(char* directory, char* file_name, char* extension);
 
 #endif //FILE_UTILS_H
