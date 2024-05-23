@@ -109,7 +109,7 @@ void create_menu_curses() {
 
         switch (i) {
             case 0:
-                printw("Name: %s\n", name);
+                printw("Nom: %s\n", name);
                 break;
             case 1:
                 printw("Seed: %s\n", seed);
@@ -122,18 +122,18 @@ void create_menu_curses() {
                         printw("ARCHER ");
                         break;
                     case 1:
-                        printw("WIZARD ");
+                        printw("SORCIER ");
                         break;
                     case 2:
-                        printw("WARRIOR ");
+                        printw("GUERRIER ");
                         break;
                 }
 
-                printw("USE ENTER TO CHANGE\n");
+                printw("UTILISEZ ENTREE POUR CHANGER\n");
                 break;
             case 3:
                 printw("\n");
-                printw("Start\n");
+                printw("Commencer\n");
                 break;
         }
 

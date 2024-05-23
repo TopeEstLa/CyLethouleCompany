@@ -7,7 +7,7 @@
 #include <sys/stat.h>
 
 bool create_folder(char *folder) {
-    int result = mkdir("/home/me/test.txt", 0777);
+    int result = mkdir(folder, 0777);
     return result == 0;
 }
 

@@ -304,6 +304,11 @@ Game_World *load_world_from_json(cJSON *worldObj) {
         is_visited = isVisitedObj->valueint;
 
         Room *room = create_room(room_width, room_height, x, y);
+        if (room == NULL) {
+            free(world);
+            return NULL;
+        }
+
         room->is_visited = is_visited;
 
         cJSON *doorsArray = cJSON_GetObjectItem(roomObj, "doors");

@@ -2,9 +2,11 @@
 #include <ncurses_display.h>
 
 #include <game_controller.h>
+#include <file_utils.h>
 
 int main() {
     init_curses();
+    create_folder("saves");
 
     while (get_current_scene() != QUITTING) {
         handle_input();

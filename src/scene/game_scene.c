@@ -174,8 +174,8 @@ void game_scene_curses() {
 
     mvprintw(lines_start - 10, colStartInventory, "%s", player->name);
     mvprintw(lines_start - 9, colStartInventory, "%3d pv", player->health);
-    mvprintw(lines_start - 8, colStartInventory, "%3d xp", player->exp);
-    mvprintw(lines_start - 7, colStartInventory, "Money : %4d$", player->money);
+    mvprintw(lines_start - 8, colStartInventory, "%3d âme(s)", player->exp);
+    mvprintw(lines_start - 7, colStartInventory, "Argent : %4d$", player->money);
     mvprintw(lines_start-5, colStartInventory,"INVENTAIRE :");
 
 
@@ -193,22 +193,22 @@ void game_scene_curses() {
     }
 
     
-    max2(max2(max2(max2(max2(strlen("INVENTAIRE :"), max2 (lenghtA, lenghtB)), strlen(player->name)), strlen("pv")+4), strlen("xp")+4),
+    max2(max2(max2(max2(max2(strlen("INVENTAIRE :"), max2 (lenghtA, lenghtB)), strlen(player->name)), strlen("pv")+4), strlen("âme(s)")+4),
          strlen("Argent :")+5);
     for (int i = 0; i < 11; i++){
-        mvprintw(lines_start-i-1, colStartInventory+1+max2(max2(max2(max2(max2(strlen("INVENTAIRE :"), max2 (lenghtA, lenghtB)), strlen(player->name)), strlen("pv")+4), strlen("xp")+4),
-                                                            strlen("Money :")+5),"|");
+        mvprintw(lines_start-i-1, colStartInventory+1+max2(max2(max2(max2(max2(strlen("INVENTAIRE :"), max2 (lenghtA, lenghtB)), strlen(player->name)), strlen("pv")+4), strlen("âme(s)")+4),
+                                                            strlen("Argent :")+5),"|");
     }
-    for (int i = 0; i <= max2(max2(max2(max2(max2(strlen("INVENTAIRE :"), max2 (lenghtA, lenghtB)), strlen(player->name)), strlen("pv")+4), strlen("xp")+4),
-                              strlen("Money :")+5); i++){
+    for (int i = 0; i <= max2(max2(max2(max2(max2(strlen("INVENTAIRE :"), max2 (lenghtA, lenghtB)), strlen(player->name)), strlen("pv")+4), strlen("âme(s)")+4),
+                              strlen("Argent :")+5); i++){
         mvprintw(lines_start-6, colStartInventory+i,"-");
     }
-    for (int i = 0; i <= max2(max2(max2(max2(max2(strlen("INVENTAIRE :"), max2 (lenghtA, lenghtB)), strlen(player->name)), strlen("pv")+4), strlen("xp")+4),
-                              strlen("Money :")+5); i++){
+    for (int i = 0; i <= max2(max2(max2(max2(max2(strlen("INVENTAIRE :"), max2 (lenghtA, lenghtB)), strlen(player->name)), strlen("pv")+4), strlen("âme(s)")+4),
+                              strlen("Argent :")+5); i++){
         mvprintw(lines_start-1, colStartInventory+i,"-");
     }
-    for (int i = 0; i <= max2(max2(max2(max2(max2(strlen("INVENTAIRE :"), max2 (lenghtA, lenghtB)), strlen(player->name)), strlen("pv")+4), strlen("xp")+4),
-                              strlen("Money :")+5); i++){
+    for (int i = 0; i <= max2(max2(max2(max2(max2(strlen("INVENTAIRE :"), max2 (lenghtA, lenghtB)), strlen(player->name)), strlen("pv")+4), strlen("âme(s)")+4),
+                              strlen("Argent :")+5); i++){
         mvprintw(lines_start-11, colStartInventory+i,"-");
     }
 }

@@ -1,6 +1,7 @@
 #include <world_generator.h>
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <maths.h>
 
 #include <world.h>
@@ -37,6 +38,9 @@ void base_generation(Game_World *world) {
     rightDoorY = random_int(roomSeed + 3, baseY + 4, baseY + height - 4);
 
     Room *starting_room = create_room(width, height, baseX, baseY);
+    if (starting_room == NULL) {
+        exit(100); //Can do nothing for this issue so we exit (exit code 100 = FAILED TO CREATE DEFAULT ROOM)
+    }
 
     Door *topDoor = starting_room->doors[TOP];
     topDoor->x = topDoorX;
@@ -137,6 +141,15 @@ void generate_room(Game_World *world, Room *starting_room, int door_face, int re
     }
 
     Room *new_room = create_room(width, height, startX, startY);
+    if (new_room == NULL) {
+        world->chunk[looked_door->x][looked_door->y]->type = WALL;
+
+        looked_door->x = -1;
+        looked_door->y = -1;
+        looked_door->is_used = false;
+        world->prepared_rooms_count--;
+        return;
+    }
 
     int conflict_id = can_append_room(world, new_room);
 
@@ -145,6 +158,17 @@ void generate_room(Game_World *world, Room *starting_room, int door_face, int re
         Room *conflict_room = world->rooms[conflict_id];
 
         new_room = resize_room(new_room, conflict_room, door_face, looked_door);
+
+        if (new_room == NULL) {
+            world->chunk[looked_door->x][looked_door->y]->type = WALL;
+
+            looked_door->x = -1;
+            looked_door->y = -1;
+            looked_door->is_used = false;
+            world->prepared_rooms_count--;
+            return;
+        }
+
         conflict_id = can_append_room(world, new_room);
         fail++;
     }
@@ -230,7 +254,7 @@ void generate_room(Game_World *world, Room *starting_room, int door_face, int re
                 doorY = random_int(doorSeed + RIGHT, new_room->y + 1, new_room->y + new_room->height - 2);
                 break;
             default:
-                printf("Invalid door face\n");
+                //printf("Invalid door face\n");
                 return;
         }
 
@@ -304,7 +328,7 @@ Room *resize_room(Room *room, Room *conflictRoom, int door_face, Door *door) {
                 new_y = door->y - new_height / 2 - 1;
                 break;
             default:
-                printf("Invalid door face\n");
+                //printf("Invalid door face\n");
         }
 
         return create_room(new_width, new_height, new_x, new_y);

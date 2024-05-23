@@ -10,7 +10,7 @@
 
 char *pause_options[] = {
         "Reprendre la partie",
-        "Savegarder la partie",
+        "Sauvegarder la partie",
         "Retourner au menu principal",
 };
 int pause_count = 3;

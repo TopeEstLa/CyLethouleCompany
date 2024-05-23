@@ -114,12 +114,12 @@ void start_fight(Player *player, Living_Monster *monster) {
         calculate_stats(monster->monster.class, &monster_attack, &monster_defense, &monster_dodge);
 
         if (player_attack < monster_dodge) {
-            add_fight_log(player->name, monster->monster.name, "%s A attaquer %s mais celui si a esquiver\n", 0);
+            add_fight_log(player->name, monster->monster.name, "%s a attaqué %s mais celui-ci a esquivé\n", 0);
         } else {
             int degats = player_attack - monster_defense;
             if (degats < 0) degats = 0;
             monster->health -= degats;
-            add_fight_log(player->name, monster->monster.name, "%s a attaqué %s et lui a infligé %d dégats\n", degats);
+            add_fight_log(player->name, monster->monster.name, "%s a attaqué %s et lui a infligé %d dégâts\n", degats);
         }
 
         if (monster->health <= 0) {
@@ -137,12 +137,12 @@ void start_fight(Player *player, Living_Monster *monster) {
         }
 
         if (monster_attack < player_dodge) {
-            add_fight_log(monster->monster.name, player->name, "%s A attaquer %s mais celui si a esquiver\n", 0);
+            add_fight_log(monster->monster.name, player->name, "%s a attaqué %s mais celui-ci a esquivé\n", 0);
         } else {
             int degats = monster_attack - player_defense;
             if (degats < 0) degats = 0;
             player->health -= degats;
-            add_fight_log(monster->monster.name, player->name, "%s a attaqué %s et lui a infligé %d dégats\n", degats);
+            add_fight_log(monster->monster.name, player->name, "%s a attaqué %s et lui a infligé %d dégâts\n", degats);
         }
 
         if (player->health <= 0) {
@@ -163,7 +163,7 @@ void start_fight(Player *player, Living_Monster *monster) {
     if (player->health <= 0) {
         add_fight_log(monster->monster.name, player->name, "%s a tué %s\n", 0);
     } else {
-        add_fight_log(player->name, monster->monster.name, "%s a tué %s Vous avez donc gagner %d ame(s) de Morlok\n", 10);
+        add_fight_log(player->name, monster->monster.name, "%s a tué %s Vous avez donc gagné %d âme(s) de Morlok\n", 10);
         player->exp += 10;
     }
 
