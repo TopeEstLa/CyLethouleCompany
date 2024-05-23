@@ -7,14 +7,16 @@
 #include <ncurses_display.h>
 #include <game_controller.h>
 
+#define MAX_SIZE 20
+
 int choice = 0;
-char name[20];
-char seed[20];
+char name[MAX_SIZE];
+char seed[MAX_SIZE];
 int class_choice = 0;
 
 void reset_create_fields() {
     choice = 0;
-    for (int i = 0; i < 20; ++i) {
+    for (int i = 0; i < MAX_SIZE; ++i) {
         name[i] = '\0';
         seed[i] = '\0';
     }
@@ -73,14 +75,14 @@ void create_handle_input() {
         case 0:
             if (ch < 'a' || ch > 'z') break;
 
-            if (strlen(name) < 20) {
+            if (strlen(name) < MAX_SIZE-1) {
                 name[strlen(name)] = ch;
                 name[strlen(name) + 1] = '\0';
             }
             break;
         case 1:
             if (ch < '0' || ch > '9') break;
-            if (strlen(seed) < 20) {
+            if (strlen(seed) < MAX_SIZE-1) {
                 seed[strlen(seed)] = ch;
                 seed[strlen(seed) + 1] = '\0';
             }
