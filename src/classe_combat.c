@@ -954,5 +954,36 @@ int main() {
     return 0;
 
 }
+
+/*
+Données :
+
+La Company : Missionée par Garedon, la Company a pour objectif d'empêcher Morlok à récuperer l'anneau de ces ancestres à des fins dévastatrices.
+
+
+Les fondations : Type de bâtiment multiples cachés dans les tréfonds de la Terre, une fondation est un bâtiment détenu par Morlok pour créer des ames.
+
+
+Morlok : Dernier monstre des enfers, Morlok ne veut pas que la Company faillit à son projet final : Récuperer l'anneau des Morlok.
+
+
+Garedon: Garde de l'anneau des Morlok, Garedon n'hésitera pas à apparaitre avant chaque combat pour vous aider à faillir au plan de Morlok.
+
+
+Archer : Classe polyvalente, l'archer est l'archétype du soldat fidèle : Attaque : 5 à 7, Defense : 2 à 5, Esquive : 2 à 7 
+
+	
+Sorcier : Adepte de la magie noir, le sorcier n'hésitera pas à user de sa magie pour esquiver : Attaque : 3 à 5, Defense : 4 à 7, Esquive : 4 à 12
+
+
+Guerrier : Imposant, le guerrier n'usera que de l'attaque pour exterminer son adversaire : Attaque : 7 à 11
+
+
+Monstres : Ces obstacles, envoyés par Morlok, n'hésiteront pas à vous affaiblir pour empêcher la réussite de la mission Company : Attaque : 1 à 5, Défense : 1 à 3
+
+
+Trader : Individu vivant dans les fondations, le trader acceptera d'acheter vos items pour son projet secret !
+
+*/
   
   
