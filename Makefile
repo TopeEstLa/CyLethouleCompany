@@ -9,7 +9,7 @@ SRC = libs/src/cJSON.c \
 	src/ncurses_display.c src/player.c src/monsters.c src/items.c src/game_controller.c src/shop.c src/fight.c \
 	src/scene/create_menu.c src/scene/fight_menu.c src/scene/fight_shop.c src/scene/game_over_menu.c src/scene/game_scene.c \
 	src/scene/load_menu.c src/scene/main_menu.c src/scene/pause_menu.c src/scene/shop_menu.c src/scene/time_over_menu.c \
-	src/scene/tutorial_menu.c src/scene/win_menu.c
+	src/scene/tutorial_menu.c src/scene/win_menu.c src/scene/fight_shop_callback_menu.c
 
 OBJ = $(SRC:.c=.o)
 
