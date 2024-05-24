@@ -13,10 +13,11 @@
 
 #include <scene/game_scene.h>
 #include <scene/shop_menu.h>
-#include <scene/fight_shop.h>
+#include <scene/fight_shop_menu.h>
 #include <scene/fight_menu.h>
 
 #include <locale.h>
+#include "scene/fight_shop_callback_menu.h"
 
 Current_Scene current_scene = MAIN_MENU;
 
@@ -94,6 +95,9 @@ void handle_input() {
         case FIGHT_SHOP:
             fight_shop_handle_input();
             break;
+        case FIGHT_SHOP_CALLBACK:
+            fight_shop_callback_input();
+            break;
         case FIGHT_MENU:
             fight_input();
             break;
@@ -136,6 +140,9 @@ void curses_scene() {
             break;
         case FIGHT_SHOP:
             fight_shop_menu_curses();
+            break;
+        case FIGHT_SHOP_CALLBACK:
+            fight_shop_callback_menu_curses();
             break;
         case FIGHT_MENU:
             fight_menu_curses();

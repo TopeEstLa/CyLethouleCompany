@@ -1,10 +1,11 @@
-#include <scene/fight_shop.h>
+#include <scene/fight_shop_menu.h>
 
 #include <curses.h>
 #include <stdlib.h>
 
 #include <game_controller.h>
 #include <ncurses_display.h>
+#include <scene/fight_shop_callback_menu.h>
 #include <fight.h>
 
 char *fight_shop_choices[] = {
@@ -54,6 +55,8 @@ void fight_shop_handle_input() {
             switch (fight_shop_choice) {
                 case 0:
                     if (player->exp < 10) {
+                        set_callback("Vous n'avez pas assez d'âmes pour acheter se service !");
+                        set_current_scene(FIGHT_SHOP_CALLBACK);
                         break;
                     }
 
@@ -63,10 +66,14 @@ void fight_shop_handle_input() {
                         player->health++;
                     }
 
-                    start_fight(game->player, get_current_monster());
+                    set_callback("Vous avez récupéré 100 points de vie");
+                    set_current_scene(FIGHT_SHOP_CALLBACK);
+                    //start_fight(game->player, get_current_monster());
                     break;
                 case 1:
                     if (player->exp < 15) {
+                        set_callback("Vous n'avez pas assez d'âmes pour acheter se service !");
+                        set_current_scene(FIGHT_SHOP_CALLBACK);
                         break;
                     }
 
@@ -75,12 +82,18 @@ void fight_shop_handle_input() {
                     srand(time(NULL));
                     if (rand() % 2 == 0) {
                         player->exp += 30;
+                        set_callback("Vous avez gagné le pari ! Vous gagnez 30 âmes de Morlok");
+                    } else {
+                        set_callback("Vous avez perdu le pari ! Vous avez perdu 15 âmes !");
                     }
 
-                    start_fight(game->player, get_current_monster());
+                    set_current_scene(FIGHT_SHOP_CALLBACK);
+                    //start_fight(game->player, get_current_monster());
                     break;
                 case 2:
                     if (player->exp < 150) {
+                        set_callback("Vous n'avez pas assez d'âmes pour acheter se service !");
+                        set_current_scene(FIGHT_SHOP_CALLBACK);
                         break;
                     }
 
@@ -98,7 +111,7 @@ void fight_shop_handle_input() {
             }
             break;
         case 27:
-            set_current_scene(GAME);
+            //set_current_scene(GAME);
             break;
     }
 }

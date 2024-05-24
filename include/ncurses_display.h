@@ -19,6 +19,7 @@ typedef enum current_scene {
     GAME,
     SHOP_MENU,
     FIGHT_SHOP,
+    FIGHT_SHOP_CALLBACK,
     FIGHT_MENU,
     WIN,
     GAME_OVER,
