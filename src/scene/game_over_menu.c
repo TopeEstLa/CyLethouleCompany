@@ -61,7 +61,7 @@ void game_over_menu_curses() {
     printw("\n\n");
 
     printw("Vous êtes mort \n");
-    printw("Votre mort coute chère à la company votre quota a donc été majoré\n\n");
+    printw("Des agents de la Company ont du intervenir pour vous sauver. Votre quota s'est vu augmenté pour rembourser leur déplacement.\n\n");
 
     for (int i = 0; i < 2; i++) {
         char a = 'O';
