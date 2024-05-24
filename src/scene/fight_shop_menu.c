@@ -51,7 +51,6 @@ void fight_shop_handle_input() {
             }
             break;
         case 10:
-
             switch (fight_shop_choice) {
                 case 0:
                     if (player->exp < 10) {
@@ -107,6 +106,12 @@ void fight_shop_handle_input() {
                     break;
                 default:
                     break;
+            }
+            break;
+        case 27:
+            if (ENABLE_PAUSE_IN_FIGHT) {
+                cancel_fight();
+                set_current_scene(PAUSE_MENU);
             }
             break;
         default:

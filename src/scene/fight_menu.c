@@ -4,6 +4,7 @@
 #include <fight.h>
 #include <string.h>
 #include <game_controller.h>
+#include <ncurses_display.h>
 
 void fight_input() {
     int ch = getch();
@@ -18,6 +19,11 @@ void fight_input() {
             if (!get_fight_speedup()) {
                 set_fight_speedup(true);
             }
+        }
+    } else if (ch == 27) {
+        if (ENABLE_PAUSE_IN_FIGHT) {
+            cancel_fight();
+            set_current_scene(PAUSE_MENU);
         }
     }
 }

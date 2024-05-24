@@ -127,6 +127,8 @@ void start_fight(Player *player, Living_Monster *monster) {
     int exp_winable = monster->health * 0.2;
 
     do {
+        if (!fight_started) return;
+
         calculate_stats(player->current_class, &player_attack, &player_defense, &player_dodge);
         calculate_stats(monster->monster.class, &monster_attack, &monster_defense, &monster_dodge);
 
@@ -218,4 +220,13 @@ void end_fight() {
     set_current_scene(GAME);
 }
 
-
+void cancel_fight() {
+    fight_started = false;
+    fight_end = false;
+    free(fight_log);
+    fight_log = NULL;
+    fight_log_size = 0;
+    fight_log_capacity = 0;
+    speedup = false;
+    current_monster = NULL;
+}

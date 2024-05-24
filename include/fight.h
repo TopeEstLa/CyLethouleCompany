@@ -109,4 +109,9 @@ void start_fight(Player *player, Living_Monster *monster);
  */
 void end_fight();
 
+/**
+ * Cancel the fight
+ */
+void cancel_fight();
+
 #endif //FIGHT_H

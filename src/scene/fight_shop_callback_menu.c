@@ -5,6 +5,7 @@
 #include <curses.h>
 #include <fight.h>
 #include <game_controller.h>
+#include <ncurses_display.h>
 
 char* callback = NULL;
 
@@ -28,6 +29,11 @@ void fight_shop_callback_input() {
 
     if (ch == 10) {
         start_fight(game->player, get_current_monster());
+    } else if (ch == 27) {
+        if (ENABLE_PAUSE_IN_FIGHT) {
+            cancel_fight();
+            set_current_scene(PAUSE_MENU);
+        }
     }
 }
 
