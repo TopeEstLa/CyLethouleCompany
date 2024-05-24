@@ -55,13 +55,19 @@ void create_handle_input() {
                 class_choice++;
                 if (class_choice > 2) class_choice = 0;
             } else if (choice == 3) {
-                if (strlen(name) == 0 || strlen(seed) == 0) break;
+                if (strlen(name) == 0) break; //|| strlen(seed) == 0) break;
                 if (is_game_loaded()) break;
+                int seed_int;
 
-                char *endptr;
-                int seed_int = strtol(seed, &endptr, 10); //convert seed to int "endptr" first non-numeric character
+                if (strlen(seed) != 0) {
+                    char *endptr;
+                    seed_int = strtol(seed, &endptr, 10); //convert seed to int "endptr" first non-numeric character
 
-                if (*endptr != '\0') break;
+                    if (*endptr != '\0') break;
+                } else {
+                    srand(time(NULL));
+                    seed_int = rand();
+                }
 
                 create_game(seed_int, name, class_choice);
                 set_current_scene(GAME);

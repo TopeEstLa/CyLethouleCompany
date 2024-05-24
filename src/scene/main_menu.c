@@ -9,7 +9,7 @@
 char *menu_options[] = {
         "Charger une partie",
         "Commencer une nouvelle partie",
-        "Tutoriel",
+        "Données",
         "Quitter le jeu",
 };
 int options_count = 4;
