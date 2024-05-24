@@ -30,7 +30,7 @@ void shop_handle_input() {
             }
             break;
         case KEY_DOWN:
-            if (shop_choice < item_count + 2) {
+            if (shop_choice < item_count + 1) {
                 shop_choice++;
             }
             break;

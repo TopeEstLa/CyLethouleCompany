@@ -40,6 +40,70 @@ void handle_game_input() {
     }
 }
 
+char *format_time(int seconds) {
+    char *result = (char *) malloc(12 * sizeof(char));
+    if (result == NULL) {
+        return NULL;
+    }
+
+    int minutes = seconds / 60;
+    seconds = seconds % 60;
+
+    if (minutes > 0) {
+        snprintf(result, 12, "%dm %ds", minutes, seconds); //format a char* like printf("%d", ...)
+    } else {
+        snprintf(result, 12, "%ds", seconds);
+    }
+
+    return result;
+}
+
+char *concat_string(char *a, char *b, char *c) {
+    char *result = (char *) malloc((strlen(a) + strlen(b) + strlen(c) + 1) * sizeof(char));
+    if (result == NULL) {
+        return NULL;
+    }
+
+    strcpy(result, a);
+    strcat(result, b);
+    strcat(result, c);
+
+    return result;
+}
+
+char *format_timer(int remain_time) {
+    char *formatted_time = format_time(remain_time);
+
+    char *time_end_display = "";
+
+    int formatted_time_size = strlen(formatted_time);
+
+    if (formatted_time_size == 6) {
+        time_end_display = malloc(3 * sizeof(char));
+        if (time_end_display == NULL) {
+            return "";
+        }
+
+        time_end_display[0] = ' ';
+        time_end_display[1] = '|';
+        time_end_display[2] = '\0';
+    } else {
+        time_end_display = malloc((6 - formatted_time_size) + 2 * sizeof(char));
+        if (time_end_display == NULL) {
+            return "";
+        }
+
+        for (int i = 0; i < 6 - formatted_time_size + 1; i++) {
+            time_end_display[i] = ' ';
+        }
+
+        time_end_display[6 - formatted_time_size + 1] = '|';
+        time_end_display[6 - formatted_time_size + 2] = '\0';
+    }
+
+    return concat_string("Temps restant: ", formatted_time, time_end_display);
+}
+
 void game_scene_curses() {
     if (!is_game_loaded()) {
         set_current_scene(MAIN_MENU);
@@ -60,7 +124,8 @@ void game_scene_curses() {
     struct timeval end = game->end_time;
 
 
-    if (current_time.tv_sec > end.tv_sec || (current_time.tv_sec == end.tv_sec && current_time.tv_usec >= end.tv_usec)) {
+    if (current_time.tv_sec > end.tv_sec ||
+        (current_time.tv_sec == end.tv_sec && current_time.tv_usec >= end.tv_usec)) {
         set_current_scene(TIME_OVER);
         return;
     }
@@ -80,11 +145,12 @@ void game_scene_curses() {
     int col_start = cols / 2 - cols_txt;
     int lines_start = 6;
     int remaining_time = get_remaining_time();
+    char *timer = format_timer(remaining_time);
 
-
-    mvprintw(lines_start-1, (cols - strlen("Temps restant: %ds   ")) / 2, "|     Quota : %3d/%3d    |", game->player->money, game->needed_money);
-    mvprintw(lines_start-2, (cols - strlen("Temps restant: %ds   ")) / 2, "|  Temps restant: %3ds   |", remaining_time);
-    mvprintw(lines_start-3, (cols - strlen("Temps restant: %ds   ")) / 2, "__________________________", remaining_time);
+    mvprintw(lines_start - 1, (cols - strlen(timer)) / 2, "|     Quota : %3d/%3d    |", game->player->money,
+             game->needed_money);
+    mvprintw(lines_start - 2, (cols - strlen(timer)) / 2, "|  %s", timer);
+    mvprintw(lines_start - 3, (cols - strlen(timer)) / 2, "__________________________");
 
 
     if (world == NULL || player == NULL) {
@@ -176,7 +242,7 @@ void game_scene_curses() {
     mvprintw(lines_start - 9, colStartInventory, "%3d pv", player->health);
     mvprintw(lines_start - 8, colStartInventory, "%3d âme(s)", player->exp);
     mvprintw(lines_start - 7, colStartInventory, "Argent : %4d$", player->money);
-    mvprintw(lines_start-5, colStartInventory,"INVENTAIRE :");
+    mvprintw(lines_start - 5, colStartInventory, "INVENTAIRE :");
 
 
     int lenghtA = 0;
@@ -184,31 +250,40 @@ void game_scene_curses() {
 
     for (int i = 0; i < player->inventory->index; ++i) {
         Item_Stack *item_stack = player->inventory->items[i];
-            mvprintw(lines_start-4+i, colStartInventory,"%s %s", item_stack->texture, item_stack->name);
-        if (strcmp(item_stack->name, "Grand Axe") == 0){
-            lenghtA =  strlen(item_stack->texture)+ strlen(item_stack->name);
-        } else if (strcmp(item_stack->name, "Bold") == 0){
-            lenghtB =  strlen(item_stack->texture)+ strlen(item_stack->name);
+        mvprintw(lines_start - 4 + i, colStartInventory, "%s %s", item_stack->texture, item_stack->name);
+        if (strcmp(item_stack->name, "Grand Axe") == 0) {
+            lenghtA = strlen(item_stack->texture) + strlen(item_stack->name);
+        } else if (strcmp(item_stack->name, "Bold") == 0) {
+            lenghtB = strlen(item_stack->texture) + strlen(item_stack->name);
         }
     }
 
-    
-    max2(max2(max2(max2(max2(strlen("INVENTAIRE :"), max2 (lenghtA, lenghtB)), strlen(player->name)), strlen("pv")+4), strlen("âme(s)")+4),
-         strlen("Argent :")+5);
-    for (int i = 0; i < 11; i++){
-        mvprintw(lines_start-i-1, colStartInventory+1+max2(max2(max2(max2(max2(strlen("INVENTAIRE :"), max2 (lenghtA, lenghtB)), strlen(player->name)), strlen("pv")+4), strlen("âme(s)")+4),
-                                                            strlen("Argent :")+5),"|");
+
+    max2(max2(max2(max2(max2(strlen("INVENTAIRE :"), max2(lenghtA, lenghtB)), strlen(player->name)), strlen("pv") + 4),
+              strlen("âme(s)") + 4),
+         strlen("Argent :") + 5);
+    for (int i = 0; i < 11; i++) {
+        mvprintw(lines_start - i - 1, colStartInventory + 1 + max2(max2(
+                                                                           max2(max2(max2(strlen("INVENTAIRE :"), max2(lenghtA, lenghtB)), strlen(player->name)),
+                                                                                strlen("pv") + 4), strlen("âme(s)") + 4),
+                                                                   strlen("Argent :") + 5), "|");
     }
-    for (int i = 0; i <= max2(max2(max2(max2(max2(strlen("INVENTAIRE :"), max2 (lenghtA, lenghtB)), strlen(player->name)), strlen("pv")+4), strlen("âme(s)")+4),
-                              strlen("Argent :")+5); i++){
-        mvprintw(lines_start-6, colStartInventory+i,"-");
+    for (int i = 0; i <= max2(max2(
+                                      max2(max2(max2(strlen("INVENTAIRE :"), max2(lenghtA, lenghtB)), strlen(player->name)), strlen("pv") + 4),
+                                      strlen("âme(s)") + 4),
+                              strlen("Argent :") + 5); i++) {
+        mvprintw(lines_start - 6, colStartInventory + i, "-");
     }
-    for (int i = 0; i <= max2(max2(max2(max2(max2(strlen("INVENTAIRE :"), max2 (lenghtA, lenghtB)), strlen(player->name)), strlen("pv")+4), strlen("âme(s)")+4),
-                              strlen("Argent :")+5); i++){
-        mvprintw(lines_start-1, colStartInventory+i,"-");
+    for (int i = 0; i <= max2(max2(
+                                      max2(max2(max2(strlen("INVENTAIRE :"), max2(lenghtA, lenghtB)), strlen(player->name)), strlen("pv") + 4),
+                                      strlen("âme(s)") + 4),
+                              strlen("Argent :") + 5); i++) {
+        mvprintw(lines_start - 1, colStartInventory + i, "-");
     }
-    for (int i = 0; i <= max2(max2(max2(max2(max2(strlen("INVENTAIRE :"), max2 (lenghtA, lenghtB)), strlen(player->name)), strlen("pv")+4), strlen("âme(s)")+4),
-                              strlen("Argent :")+5); i++){
-        mvprintw(lines_start-11, colStartInventory+i,"-");
+    for (int i = 0; i <= max2(max2(
+                                      max2(max2(max2(strlen("INVENTAIRE :"), max2(lenghtA, lenghtB)), strlen(player->name)), strlen("pv") + 4),
+                                      strlen("âme(s)") + 4),
+                              strlen("Argent :") + 5); i++) {
+        mvprintw(lines_start - 11, colStartInventory + i, "-");
     }
 }
