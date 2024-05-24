@@ -199,6 +199,8 @@ void end_fight() {
     fight_log_capacity = 0;
     speedup = false;
 
+    if (!is_game_loaded()) return;
+
     Game_Data *game_data = get_game_data();
 
     if (current_monster->health <= 0) {

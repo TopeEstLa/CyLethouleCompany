@@ -62,13 +62,12 @@ void fight_shop_handle_input() {
 
                     player->exp -= 10;
 
-                    for (int i = 0; player->health < 100; ++i) {
+                    for (int i = 0; player->health < player->max_health &&  i < 100; ++i) {
                         player->health++;
                     }
 
                     set_callback("Vous avez récupéré 100 points de vie");
                     set_current_scene(FIGHT_SHOP_CALLBACK);
-                    //start_fight(game->player, get_current_monster());
                     break;
                 case 1:
                     if (player->exp < 15) {
@@ -110,8 +109,7 @@ void fight_shop_handle_input() {
                     break;
             }
             break;
-        case 27:
-            //set_current_scene(GAME);
+        default:
             break;
     }
 }

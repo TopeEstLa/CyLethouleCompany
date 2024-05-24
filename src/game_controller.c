@@ -241,7 +241,6 @@ void move_player(int x, int y) {
         room->is_visited = true;
         spawn_monster(game_data->world_monster, game_data->world, room);
         spawn_item(game_data->world_item, game_data->world, room);
-        game_data->player->exp += 10;
     }
 
 }
