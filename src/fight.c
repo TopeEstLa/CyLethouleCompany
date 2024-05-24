@@ -7,6 +7,7 @@
 #include <ncurses_display.h>
 #include <unistd.h>
 #include <game_controller.h>
+#include <curses.h>
 
 Fight_Log *fight_log = NULL;
 int fight_log_size = 0;
@@ -107,6 +108,11 @@ void prepare_fight(Living_Monster *monster) {
     set_current_scene(FIGHT_SHOP);
 }
 
+void flush_input() {
+    int c;
+    while ((c = getch()) != ERR);
+}
+
 void start_fight(Player *player, Living_Monster *monster) {
     set_current_scene(FIGHT_MENU);
     fight_started = true;
@@ -171,8 +177,8 @@ void start_fight(Player *player, Living_Monster *monster) {
         }
     } while (player->health > 0 && monster->health > 0);
 
-    handle_input(); //reset key on speedup mode
 
+    flush_input();
     fight_end = true;
 
     if (player->health <= 0) {
