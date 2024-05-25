@@ -21,6 +21,10 @@ Chunk *create_empty_chunk() {
 
 Game_World *create_world(int seed) {
     Game_World *world = malloc(sizeof(Game_World));
+    if (world == NULL) {
+        return NULL;
+    }
+
     world->seed = seed;
 
     world->width = DEFAULT_WORLD_WIDTH;
@@ -87,6 +91,10 @@ Game_World *create_world(int seed) {
 
 Game_World *create_world_sized(int seed, int width, int height) {
     Game_World *world = malloc(sizeof(Game_World));
+    if (world == NULL) {
+        return NULL;
+    }
+
     world->seed = seed;
 
     world->width = width;
@@ -407,6 +415,9 @@ int append_room(Game_World *world, Room *room) {
 
 Room *create_room(int width, int height, int x, int y) {
     Room *room = malloc(sizeof(Room));
+    if (room == NULL) {
+        return NULL;
+    }
 
     room->width = width;
     room->height = height;

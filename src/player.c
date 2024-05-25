@@ -9,10 +9,34 @@
 
 Player *create_player(Game_World *world, char *name, Class current_class) {
     Player *player = malloc(sizeof(Player));
+
+    if (player == NULL) {
+        return NULL;
+    }
+
     player->entity = create_entity(PLAYER, player, PLAYER_TEXTURE);
+
+    if (player->entity == NULL) {
+        free(player);
+        return NULL;
+    }
+
     player->name = malloc(strlen(name) + 1);
+    if (player->name == NULL) {
+        free(player->entity);
+        free(player);
+        return NULL;
+    }
+
     strcpy(player->name, name);
     player->inventory = create_inventory(INVENTORY_CAPACITY);
+    if (player->inventory == NULL) {
+        free(player->name);
+        free(player->entity);
+        free(player);
+        return NULL;
+    }
+
     player->current_class = current_class;
     player->health = DEFAULT_MAX_HEALTH;
     player->max_health = DEFAULT_MAX_HEALTH;
@@ -20,6 +44,13 @@ Player *create_player(Game_World *world, char *name, Class current_class) {
     player->money = 0;
 
     Room *room = world->rooms[0];
+    if (room == NULL) {
+        free(player->inventory);
+        free(player->name);
+        free(player->entity);
+        free(player);
+        return NULL;
+    }
 
     int roomCenterX = room->x + room->width / 2;
     int roomCenterY = room->y + room->height / 2;
@@ -27,6 +58,9 @@ Player *create_player(Game_World *world, char *name, Class current_class) {
     int id = add_entity(world, player->entity, roomCenterX, roomCenterY);
 
     if (id == -1) {
+        free(player->inventory);
+        free(player->name);
+        free(player->entity);
         free(player);
         return NULL;
     }
@@ -38,8 +72,23 @@ Player *
 load_player(Game_World *world, char *name, Inventory *inventory, Class current_class, int health, int max_health,
             int exp, int money, int x, int y) {
     Player *player = malloc(sizeof(Player));
+    if (player == NULL) {
+        return NULL;
+    }
+
     player->entity = create_entity(PLAYER, player, PLAYER_TEXTURE);
+    if (player->entity == NULL) {
+        free(player);
+        return NULL;
+    }
+
     player->name = malloc(strlen(name) + 1);
+    if (player->name == NULL) {
+        free(player->entity);
+        free(player);
+        return NULL;
+    }
+
     strcpy(player->name, name);
     player->inventory = inventory;
     player->current_class = current_class;
@@ -60,7 +109,16 @@ load_player(Game_World *world, char *name, Inventory *inventory, Class current_c
 
 Inventory *create_inventory(int capacity) {
     Inventory *inventory = malloc(sizeof(Inventory));
+    if (inventory == NULL) {
+        return NULL;
+    }
+
     inventory->items = malloc(sizeof(Item_Stack *) * capacity);
+    if (inventory->items == NULL) {
+        free(inventory);
+        return NULL;
+    }
+
     inventory->index = 0;
     inventory->capacity = capacity;
 
@@ -115,6 +173,11 @@ void player_death(Game_World* world, Player *player) {
 
     free(player->inventory);
     player->inventory = create_inventory(INVENTORY_CAPACITY);
+    if (player->inventory == NULL) {
+        set_current_scene(MAIN_MENU);
+        unload_game();
+        return;
+    }
     player->health = player->max_health;
     player->exp = player->exp / 2;
 

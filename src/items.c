@@ -40,8 +40,19 @@ Item_Stack *create_item_stack(int item_id) {
     }
 
     itemStack->name = malloc(strlen(existing_item[item_id].name) + 1);
+    if (itemStack->name == NULL) {
+        free(itemStack);
+        return NULL;
+    }
+
     strcpy(itemStack->name, existing_item[item_id].name);
     itemStack->texture = malloc(strlen(existing_item[item_id].texture) + 1);
+    if (itemStack->texture == NULL) {
+        free(itemStack->name);
+        free(itemStack);
+        return NULL;
+    }
+
     strcpy(itemStack->texture, existing_item[item_id].texture);
     itemStack->material = existing_item[item_id].material;
     itemStack->price = existing_item[item_id].price;
@@ -56,8 +67,19 @@ Item_Stack *create_formatted_item_stack(char *name, char *texture, int price, Ma
     }
 
     itemStack->name = malloc(strlen(name) + 1);
+    if (itemStack->name == NULL) {
+        free(itemStack);
+        return NULL;
+    }
+
     strcpy(itemStack->name, name);
     itemStack->texture = malloc(strlen(texture) + 1);
+    if (itemStack->texture == NULL) {
+        free(itemStack->name);
+        free(itemStack);
+        return NULL;
+    }
+
     strcpy(itemStack->texture, texture);
     itemStack->price = price;
     itemStack->material = material;

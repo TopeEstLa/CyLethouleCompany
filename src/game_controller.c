@@ -30,6 +30,10 @@ void prepare_game() {
 }
 
 void loaded_game(Game_Data *new_game_data) {
+    if (new_game_data == NULL) {
+        return;
+    }
+
     set_game_data(new_game_data);
 
     bool is_spawn = spawn_shop(new_game_data->world);

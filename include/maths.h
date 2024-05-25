@@ -26,7 +26,12 @@ int max(int a, int b);
  */
 int min(int a, int b);
 
-// ???
+/**
+ * Get the maximum of two unsigned integers. by paul
+ * @param a
+ * @param b
+ * @return
+ */
 unsigned int max2(unsigned int a, unsigned int b);
 
 

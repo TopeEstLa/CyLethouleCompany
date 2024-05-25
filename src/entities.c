@@ -153,7 +153,7 @@ Move_Callback move_entity(Game_World *world, Entity *entity, int new_x, int new_
     return callback;
 }
 
-void prepend_entity(int width_to_add, int height_to_add) {
+void prepend_entity(int width_to_add, int height_to_add) { //used on world.c "prepend_world" its for changing the position of the entities when the world is resized
     for (int i = entities_count - 1; i >= 0; i--) {
         Entity *entity = entities[i];
         entity->x += width_to_add;

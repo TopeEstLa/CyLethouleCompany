@@ -38,7 +38,8 @@ int get_random_monster(int seed) {
     return random_int(seed, 0, MONSTERS_COUNT - 1);
 }
 
-Living_Monster *create_living_monster(Game_World *world, World_Monster *world_monster, int monster_id, int x, int y, int health) {
+Living_Monster *
+create_living_monster(Game_World *world, World_Monster *world_monster, int monster_id, int x, int y, int health) {
     if (monster_id < 0 || monster_id >= MONSTERS_COUNT) {
         return NULL;
     }
@@ -53,6 +54,10 @@ Living_Monster *create_living_monster(Game_World *world, World_Monster *world_mo
     }
 
     Living_Monster *living_monster = malloc(sizeof(Living_Monster));
+    if (living_monster == NULL) {
+        return NULL;
+    }
+
     living_monster->monster = monster;
     living_monster->monster_id = monster_id;
     living_monster->health = l_health;
@@ -64,6 +69,11 @@ Living_Monster *create_living_monster(Game_World *world, World_Monster *world_mo
     }
 
     Entity *entity = create_entity(MONSTER, living_monster, monster.texture);
+    if (entity == NULL) {
+        free(living_monster);
+        return NULL;
+    }
+
     int entity_id = add_entity(world, entity, x, y);
 
     if (entity_id == -1) {
@@ -93,6 +103,10 @@ Living_Monster *create_living_monster(Game_World *world, World_Monster *world_mo
 
 void kill_monster(World_Monster *world_monster, int monster_id) {
     Living_Monster *living_monster = world_monster->living_monsters[monster_id];
+    if (living_monster == NULL) {
+        return;
+    }
+
     Entity *living_entity = living_monster->entity;
 
     if (living_entity == NULL) {

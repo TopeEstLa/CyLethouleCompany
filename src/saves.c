@@ -259,6 +259,9 @@ Game_World *load_world_from_json(cJSON *worldObj) {
     height = heightObj->valueint;
 
     Game_World *world = create_world_sized(seed, width, height);
+    if (world == NULL) {
+        return NULL;
+    }
 
     cJSON *roomsArray = cJSON_GetObjectItem(worldObj, "rooms");
 
