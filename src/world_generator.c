@@ -121,20 +121,40 @@ void generate_room(Game_World *world, Room *starting_room, int door_face, int re
 
     switch (door_face) {
         case TOP:
-            startX = looked_door->x - width / 2;
-            startY = looked_door->y - height;
+            if (width != 3) {
+                startX = looked_door->x - width / 2;
+                startY = looked_door->y - height;
+            } else {
+                startX = looked_door->x - 1;
+                startY = looked_door->y - height;
+            }
             break;
         case BOTTOM:
-            startX = looked_door->x - width / 2;
-            startY = looked_door->y + 1;
+            if (width != 3) {
+                startX = looked_door->x - width / 2;
+                startY = looked_door->y + 1;
+            } else {
+                startX = looked_door->x - 1;
+                startY = looked_door->y + 1;
+            }
             break;
         case LEFT:
-            startX = looked_door->x - width;
-            startY = looked_door->y - height / 2;
+            if (height != 3) {
+                startX = looked_door->x - width;
+                startY = looked_door->y - height / 2;
+            } else {
+                startX = looked_door->x - width;
+                startY = looked_door->y - 1;
+            }
             break;
         case RIGHT:
-            startX = looked_door->x + 1;
-            startY = looked_door->y - height / 2; //- 1;
+            if (height != 3) {
+                startX = looked_door->x + 1;
+                startY = looked_door->y - height / 2;
+            } else {
+                startX = looked_door->x + 1;
+                startY = looked_door->y - 1;
+            }
             break;
         default:
             return;
