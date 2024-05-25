@@ -68,7 +68,7 @@ void base_generation(Game_World *world) {
     if (MAX_ROOM == -1) {
         for (int i = 1; i < 5; i++) {
             Room *room = world->rooms[i];
-            generate_rooms(world, room, 3);
+            generate_rooms(world, room, PREGENERATION_DEPTH);
         }
     }
 }
@@ -134,7 +134,7 @@ void generate_room(Game_World *world, Room *starting_room, int door_face, int re
             break;
         case RIGHT:
             startX = looked_door->x + 1;
-            startY = looked_door->y - height / 2 - 1;
+            startY = looked_door->y - height / 2; //- 1;
             break;
         default:
             return;

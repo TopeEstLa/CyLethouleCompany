@@ -2,6 +2,7 @@
 #define CONSTANT_H
 
 #define MAX_ROOM -1 //MIN 5 -1 for infinite (created to be played with -1)
+#define PREGENERATION_DEPTH 3 //How many rooms are generated in advance (min 0)
 #define INVENTORY_CAPACITY 3
 #define PLAYER_TEXTURE "Ꮱ"
 #define DEFAULT_MAX_HEALTH 100

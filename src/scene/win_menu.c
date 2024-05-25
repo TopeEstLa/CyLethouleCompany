@@ -36,7 +36,7 @@ void win_menu_curses() {
 
     printw("\n\n");
     printw("Félicitations, la Company vient de faire un grand pas pour empêcher Morlok d'obtenir l'anneau.\n"
-           "Cependant nous n'avons pas de temps, une nouvelle mission est disponible dans une autre fondation,\n"
+           "Cependant nous n'avons pas de temps, une nouvelle mission est disponible dans une autre station,\n"
            "la Company vous attend !\n\n");
 
     attron(A_REVERSE);

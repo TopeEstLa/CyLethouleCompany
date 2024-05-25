@@ -28,9 +28,8 @@ void time_over_menu_curses() {
 
     printw("\n\n");
 
-    printw("Vous êtes mort \n");
-    printw("Le fin du monde ne peut pas attendre. Malheureusement vous êtes mort brulé dans d'atroces souffrances.\n"
-           "Malgré votre courage, vos cendres ne pourront pas être récuperé par la Company...\n");
+    printw("Vous êtes mort asphyxié\n");
+    printw("Malheuresement, le vaisseau est parti sans vous car nous n'avez pas rempli le quota\n");
     printw("\n\n");
 
     attron(A_REVERSE);
