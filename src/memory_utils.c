@@ -26,7 +26,6 @@ void free_world(Game_World *world) {
 
 void free_monster(World_Monster *monster) {
     for (int i = 0; i < monster->living_monsters_count; ++i) {
-        free(monster->living_monsters[i]->entity);
         free(monster->living_monsters[i]);
     }
 
@@ -36,7 +35,6 @@ void free_monster(World_Monster *monster) {
 
 void free_item(World_Item *item) {
     for (int i = 0; i < item->dropped_items_count; ++i) {
-        free(item->dropped_items[i]->item);
         free(item->dropped_items[i]);
     }
 

@@ -153,7 +153,7 @@ void update_game() {
 
     bool all_visited = count_visited_rooms(game->world) == game->world->room_count -1;
 
-    if (!door_available && all_visited) {
+    if (!door_available) {
         int estimated_value = estimate_value_in_world(game->world_item);
         int start_needed_money = game->needed_money;
         int actual_money = game->player->money;
