@@ -2,7 +2,7 @@
 
 Pre-Ing-1 IT project <br>
 Subject Cosmic Yonder ([subject.pdf](subject.pdf)) <br>
-Project report [report.pdf](report.pdf) <br>
+Project report [report.pdf](RapportProjetInformatique.pdf) <br>
 Inspired by the game 🙇‍♂️[LethalCompany](https://store.steampowered.com/app/1966720/Lethal_Company/)
 
 ### Dependencies
