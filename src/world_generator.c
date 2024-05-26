@@ -150,7 +150,7 @@ void generate_room(Game_World *world, Room *starting_room, int door_face, int re
         case RIGHT:
             if (height != 3) {
                 startX = looked_door->x + 1;
-                startY = looked_door->y - height / 2;
+                startY = looked_door->y - height / 2; //+ 1; //- 1;
             } else {
                 startX = looked_door->x + 1;
                 startY = looked_door->y - 1;
@@ -331,20 +331,40 @@ Room *resize_room(Room *room, Room *conflictRoom, int door_face, Door *door) {
 
         switch (door_face) {
             case TOP:
-                new_x = door->x - new_width / 2;
-                new_y = door->y - new_height;
+                if (new_width != 3) {
+                    new_x = door->x - new_width / 2;
+                    new_y = door->y - new_height;
+                } else {
+                    new_x = door->x - 1;
+                    new_y = door->y - new_height;
+                }
                 break;
             case BOTTOM:
-                new_x = door->x - new_width / 2;
-                new_y = door->y + 1;
+                if (new_width != 3) {
+                    new_x = door->x - new_width / 2;
+                    new_y = door->y + 1;
+                } else {
+                    new_x = door->x - 1;
+                    new_y = door->y + 1;
+                }
                 break;
             case LEFT:
-                new_x = door->x - new_width;
-                new_y = door->y - new_height / 2;
+                if (new_height != 3) {
+                    new_x = door->x - new_width;
+                    new_y = door->y - new_height / 2;
+                } else {
+                    new_x = door->x - new_width;
+                    new_y = door->y - 1;
+                }
                 break;
             case RIGHT:
-                new_x = door->x + 1;
-                new_y = door->y - new_height / 2 - 1;
+                if (new_height != 3) {
+                    new_x = door->x + 1;
+                    new_y = door->y - new_height / 2; //+ 1; //- 1;
+                } else {
+                    new_x = door->x + 1;
+                    new_y = door->y - 1;
+                }
                 break;
             default:
                 return NULL;

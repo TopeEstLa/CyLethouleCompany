@@ -7,8 +7,8 @@
 #define MAX_ROOM_WIDTH 10
 #define MAX_ROOM_HEIGHT 10
 
-#define MIN_ROOM_WIDTH 5 //Can be change to 3 but its not good for the game
-#define MIN_ROOM_HEIGHT 5
+#define MIN_ROOM_WIDTH 3 //Can be change to 5 its better for the game
+#define MIN_ROOM_HEIGHT 3
 
 /**
  * Enum to represent the face of a door.
