@@ -15,6 +15,18 @@
 void free_world(Game_World *world);
 
 /**
+ * Clean the memory of a monster struct
+ * @param monster The monster to free
+ */
+void free_monster(World_Monster *monster);
+
+/**
+ * Clean the memory of an item struct
+ * @param item
+ */
+void free_item(World_Item *item);
+
+/**
  * Clean the memory of a player struct
  * @param player The player to free
  */
