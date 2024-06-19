@@ -7,13 +7,19 @@
 #define DEFAULT_WORLD_WIDTH 30
 #define DEFAULT_WORLD_HEIGHT 30
 
+/**
+ * Different states of a chunk. (
+ */
 typedef enum chunk_type {
-    VOID,
-    EMPTY,
+    VOID, //PLAYER CAN'T GO THERE
+    EMPTY, //PLACE WHERE PLAYER CAN WALK
     DOOR,
     WALL
 } Chunk_Type;
 
+/**
+ * Enum to represent the direction of a chunk.
+ */
 typedef enum Direction {
     NORTH,
     EAST,
@@ -26,6 +32,9 @@ typedef enum Direction {
     NONE
 } Direction;
 
+/**
+ * A struct representing a chunk, chunk is a section in the world
+ */
 typedef struct chunk {
     Chunk_Type type;
     Direction direction;
