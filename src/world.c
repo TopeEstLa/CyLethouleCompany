@@ -300,7 +300,7 @@ void prepend_world(Game_World *world, int width_to_add, int height_to_add) {
 }
 
 int can_append_room(Game_World *world, Room *room) {
-    if (world == NULL) {
+    if (world == NULL || room == NULL) {
         return -2;
     }
 
@@ -342,7 +342,7 @@ int can_append_room(Game_World *world, Room *room) {
 }
 
 int append_room(Game_World *world, Room *room) {
-    if (world == NULL) {
+    if (world == NULL || room == NULL) {
         return -1;
     }
 
@@ -452,6 +452,10 @@ Room *create_room(int width, int height, int x, int y) {
 }
 
 bool in_room(Room *room, int x, int y) {
+    if (room == NULL) {
+        return false;
+    }
+
     return x >= room->x && x < room->x + room->width && y >= room->y && y < room->y + room->height;
 }
 
